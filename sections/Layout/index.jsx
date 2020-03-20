@@ -2,10 +2,12 @@ import { Header, Main } from "../";
 
 const Layout = ({ children }) => {
   return (
-    <React.Fragment>
+    <div className="min-h-screen">
       <Header />
-      <Main>{children}</Main>
-    </React.Fragment>
+      <div className="pt-16">
+        <Main>{children}</Main>
+      </div>
+    </div>
   );
 };
 
