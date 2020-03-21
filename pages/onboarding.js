@@ -8,7 +8,7 @@ const reducer = (state, action) => {
         ...state,
         email: {
           value: action.payload,
-          error: validator("EMAIL", action.payload)
+          error: null
         }
       };
     case "PASSWORD":
@@ -16,7 +16,7 @@ const reducer = (state, action) => {
         ...state,
         password: {
           value: action.payload,
-          error: validator("PASSWORD", action.payload)
+          error: null
         }
       };
     default:
@@ -36,6 +36,11 @@ const Home = () => {
     }
   });
 
+  const nextStage = e => {
+    e.preventDefault();
+    console.log("yes");
+  };
+
   return (
     <div className="flex h-screen">
       <div className="flex-1 bg-black"></div>
@@ -47,27 +52,33 @@ const Home = () => {
         <h1 className="text-gray text-4xl font-bold mb-16">Sign Up</h1>
         {/* Stage 1 */}
         <div className="w-3/4">
-          <div className="mb-4">
-            <Input
-              type="text"
-              placeholder="email"
-              value={state.email.value}
-              error={state.email.error}
-              onChange={e =>
-                dispatch({ type: "EMAIL", payload: e.target.value })
-              }
-            />
-            <Input
-              type="password"
-              placeholder="password"
-              value={state.password.value}
-              error={state.password.error}
-              onChange={e =>
-                dispatch({ type: "PASSWORD", payload: e.target.value })
-              }
-            />
-          </div>
-          <Button>Get Started</Button>
+          <form onSubmit={nextStage}>
+            <div className="mb-4">
+              <Input
+                type="email"
+                placeholder="email"
+                value={state.email.value}
+                onChange={e =>
+                  dispatch({ type: "EMAIL", payload: e.target.value })
+                }
+                required
+                validate={true}
+              />
+              <Input
+                type="password"
+                placeholder="password"
+                value={state.password.value}
+                onChange={e =>
+                  dispatch({ type: "PASSWORD", payload: e.target.value })
+                }
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters."
+                required
+                validate={true}
+              />
+            </div>
+            <Button>Get Started</Button>
+          </form>
         </div>
         {/* Stage 2 */}
       </div>

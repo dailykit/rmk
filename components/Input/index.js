@@ -1,10 +1,7 @@
 const Input = ({ ...props }) => {
   return (
     <React.Fragment>
-      <div className="mb-16">
-        <input {...props} className="w-full py-2 outline-none mb-1" />
-        {props.error && <small>{props.error}</small>}
-      </div>
+      <input {...props} className="w-full py-2 outline-none mb-16" />
       <style jsx>
         {`
           input {
