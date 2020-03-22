@@ -1,8 +1,20 @@
-import { Layout } from "../sections";
+import Router from "next/router";
+
+import { UserContext } from "../context/User";
+import { Button } from "../components";
 
 const Home = () => {
+  const { dispatch } = React.useContext(UserContext);
+  const [zip, setZip] = React.useState("");
+
+  const submit = e => {
+    e.preventDefault();
+    dispatch({ type: "ZIP", payload: { value: zip } });
+    Router.push("/menu");
+  };
+
   return (
-    <Layout>
+    <React.Fragment>
       <div className="hero h-screen bg-bottom bg-cover p-40">
         <div className="w-6/12 flex flex-col">
           <p className="text-white text-lg font-semibold">
@@ -17,9 +29,22 @@ const Home = () => {
           <p className="bg-black text-xl text-white font-semibold p-2 text-right mb-8">
             Restaurants near you have got you back.
           </p>
-          <button className="text-white bg-blue px-6 py-2 self-end relative">
-            GET STARTED
-          </button>
+          <form onSubmit={submit}>
+            <div className="flex">
+              <input
+                type="text"
+                placeholder="Enter your zip code"
+                name="zip"
+                className="p-2"
+                value={zip}
+                onChange={e => setZip(e.target.value)}
+                pattern="(\d{5}([\-]\d{4})?)"
+                title="Format: nnnnn or nnnnn-nnnn"
+                required
+              />
+              <Button>GET STARTED</Button>
+            </div>
+          </form>
         </div>
       </div>
       <style jsx>
@@ -41,7 +66,7 @@ const Home = () => {
           }
         `}
       </style>
-    </Layout>
+    </React.Fragment>
   );
 };
 

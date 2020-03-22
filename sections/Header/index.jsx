@@ -1,6 +1,9 @@
 import Link from "next/link";
 
+import { UserContext } from "../../context/User";
+
 const Header = () => {
+  const { state } = React.useContext(UserContext);
   const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
 
   return (
@@ -22,7 +25,7 @@ const Header = () => {
       </ul>
       <ul className="list-none h-full flex">
         <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-blue">
-          Location
+          {state.zip.length > 0 ? state.zip : "Location"}
         </li>
         <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray hover:text-blue">
           Cart
