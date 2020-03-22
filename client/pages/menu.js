@@ -6,19 +6,19 @@ const Section = ({ type, count }) => {
    const [recipes] = React.useState([
       {
          title: 'Chicken Salad',
-         url: '#',
+         url: 'menu/chicken',
          thumb:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
       },
       {
          title: 'Chicken Salad',
-         url: '#',
+         url: 'menu/salad',
          thumb:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
       },
       {
          title: 'Chicken Salad',
-         url: '#',
+         url: 'menu/curry',
          thumb:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
       },
