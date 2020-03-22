@@ -22,7 +22,7 @@ const Home = () => {
                </p>
                <p className="text-white text-lg font-semibold mb-12">
                   are now serving
-                  <span className="text-6xl text-blue">Meal Kits</span>
+                  <span className="text-6xl text-blue-500">Meal Kits</span>
                </p>
                <p className="bg-white text-xl text-black font-semibold p-2 mb-2">
                   Groceries Sold Out? Staring at a Lock Down? Don't fret.

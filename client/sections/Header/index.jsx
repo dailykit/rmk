@@ -13,21 +13,21 @@ const Header = () => {
          </div>
          <ul className="mx-16 list-none h-full flex flex-1">
             <Link href="/">
-               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-blue">
+               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-500 hover:text-blue-500">
                   Home
                </li>
             </Link>
             <Link href="/menu">
-               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-blue">
+               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-500 hover:text-blue-500">
                   Menu
                </li>
             </Link>
          </ul>
          <ul className="list-none h-full flex">
-            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-blue">
+            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-blue-500">
                {state.zip.length > 0 ? state.zip : 'Location'}
             </li>
-            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-blue">
+            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-500 hover:text-blue-500">
                Cart
             </li>
             <li
@@ -43,7 +43,7 @@ const Header = () => {
                   className="dropdown absolute list-none bg-white z-40 shadow w-56 rounded-lg"
                   hidden={!isDropdownVisible}
                >
-                  <li className="p-4 text-lg text-gray-dark"> Alex Pinto </li>
+                  <li className="p-4 text-lg text-gray-500"> Alex Pinto </li>
                   <li className="py-2 px-4 cursor-pointer">
                      <Link href="/user/account">Account</Link>
                   </li>

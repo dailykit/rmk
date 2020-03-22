@@ -36,6 +36,7 @@ const reducer = (state, action) => {
 }
 
 const Home = () => {
+   const [loading, setLoading] = React.useState(false)
    const [stage, setStage] = React.useState(1)
    const [state, dispatch] = React.useReducer(reducer, {
       email: '',
@@ -54,25 +55,29 @@ const Home = () => {
       },
    })
 
-   const nextStage = e => {
-      e.preventDefault()
-      if (stage !== 3) {
-         setStage(stage + 1)
-      } else {
-         console.log(state)
-         Router.push('/menu')
+   const nextStage = async e => {
+      try {
+         e.preventDefault()
+         if (stage !== 3) {
+            setStage(stage + 1)
+         } else {
+            Router.push('/menu')
+         }
+      } catch (err) {
+         console.log(err)
       }
    }
 
    return (
       <div className="flex h-screen">
-         <div className="flex-1 bg-black"></div>
+         <div className="bg-onboarding bg-cover flex-1"></div>
          <div className="flex-1 relative p-8">
-            <div className="h-2 bg-blue absolute inset-x-0 top-0"></div>
+            <div className="progress transition-all duration-200 ease-linear h-2 bg-blue-500 absolute top-0 left-0"></div>
             <div className="text-right mb-8">
-               Already have an account? <span className="text-blue">LOGIN</span>
+               Already have an account?{' '}
+               <span className="text-blue-500">LOGIN</span>
             </div>
-            <h1 className="text-gray text-4xl font-bold mb-16">Sign Up</h1>
+            <h1 className="text-gray-700 text-4xl font-bold mb-16">Sign Up</h1>
             <div className="w-3/4">
                {/* Stage 1 */}
                <form onSubmit={nextStage} hidden={stage !== 1}>
@@ -280,6 +285,14 @@ const Home = () => {
                </form>
             </div>
          </div>
+         <style jsx>{`
+            .bg-onboarding {
+               background-image: url('/img/index-hero.jpg');
+            }
+            .progress {
+               width: ${(stage / 3) * 100}%;
+            }
+         `}</style>
       </div>
    )
 }
