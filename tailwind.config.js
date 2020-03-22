@@ -2,9 +2,13 @@ module.exports = {
   theme: {
     colors: {
       blue: "#3FA4FF",
-      gray: "rgba(0, 0, 0, 0.6)",
+      gray: {
+        light: "#F3F3F3",
+        dark: "rgba(0,0,0,0.7)"
+      },
       white: "#fff",
-      black: "#000"
+      black: "#000",
+      red: "#EA001B"
     }
   }
 };
