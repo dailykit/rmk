@@ -13,14 +13,18 @@ const Header = () => {
          </div>
          <ul className="mx-16 list-none h-full flex flex-1">
             <Link href="/">
-               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-500 hover:text-blue-500">
-                  Home
-               </li>
+               <a>
+                  <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-blue">
+                     Home
+                  </li>
+               </a>
             </Link>
             <Link href="/menu">
-               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-500 hover:text-blue-500">
-                  Menu
-               </li>
+               <a>
+                  <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-blue">
+                     Menu
+                  </li>
+               </a>
             </Link>
          </ul>
          <ul className="list-none h-full flex">
@@ -45,19 +49,29 @@ const Header = () => {
                >
                   <li className="p-4 text-lg text-gray-500"> Alex Pinto </li>
                   <li className="py-2 px-4 cursor-pointer">
-                     <Link href="/user/account">Account</Link>
+                     <Link href="/user/account">
+                        <a>Account</a>
+                     </Link>
                   </li>
                   <li className="py-2 px-4 cursor-pointer">
-                     <Link href="/user/orders">Orders</Link>
+                     <Link href="/user/orders">
+                        <a>Orders</a>
+                     </Link>
                   </li>
                   <li className="py-2 px-4 cursor-pointer">
-                     <Link href="/user/addresses">Delivery Addresses</Link>
+                     <Link href="/user/addresses">
+                        <a>Delivery Addresses</a>
+                     </Link>
                   </li>
                   <li className="py-2 px-4 cursor-pointer">
-                     <Link href="/user/payment">Payment</Link>
+                     <Link href="/user/payment">
+                        <a>Payment</a>
+                     </Link>
                   </li>
                   <li className="py-2 px-4 cursor-pointer">
-                     <Link href="/user/settings">Settings</Link>
+                     <Link href="/user/settings">
+                        <a>Settings</a>
+                     </Link>
                   </li>
                </ul>
             </li>

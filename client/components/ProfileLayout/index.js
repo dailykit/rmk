@@ -4,21 +4,31 @@ const ProfileLayout = ({ children }) => {
    return (
       <div className="relative">
          <aside className="fixed">
-            <ul className="w-64 bg-gray-300 p-8">
-               <li className="py-8 font-semibold text-gray-700 hover:text-blue-500 cursor-pointer">
-                  <Link href="/user/account">Account</Link>
+            <ul className="w-64 bg-gray-light p-8">
+               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
+                  <Link href="/user/account">
+                     <a>Account</a>
+                  </Link>
                </li>
-               <li className="py-8 font-semibold text-gray-700 hover:text-blue-500 cursor-pointer">
-                  <Link href="/user/orders">Orders</Link>
+               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
+                  <Link href="/user/orders">
+                     <a>Orders</a>
+                  </Link>
                </li>
-               <li className="py-8 font-semibold text-gray-700 hover:text-blue-500 cursor-pointer">
-                  <Link href="/user/addresses">Delivery Addresses</Link>
+               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
+                  <Link href="/user/addresses">
+                     <a>Delivery Addresses</a>
+                  </Link>
                </li>
-               <li className="py-8 font-semibold text-gray-700 hover:text-blue-500 cursor-pointer">
-                  <Link href="/user/payment">Payment Info</Link>
+               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
+                  <Link href="/user/payment">
+                     <a>Payment Info</a>
+                  </Link>
                </li>
-               <li className="py-8 font-semibold text-gray-700 hover:text-blue-500 cursor-pointer">
-                  <Link href="/user/settings">Settings</Link>
+               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
+                  <Link href="/user/settings">
+                     <a>Settings</a>
+                  </Link>
                </li>
             </ul>
          </aside>
