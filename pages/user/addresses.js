@@ -1,7 +1,9 @@
 import { Layout } from "../../sections";
-import { ProfileLayout } from "../../components";
+import { ProfileLayout, Modal } from "../../components";
 
 const Addresses = () => {
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+
   return (
     <Layout>
       <ProfileLayout>
@@ -10,7 +12,12 @@ const Addresses = () => {
         </h4>
         <div className="flex justify-between items-center text-md mb-4">
           <h3 className="text-lg">Saved Addresses</h3>
-          <span className="text-blue cursor-pointer">Add Address</span>
+          <span
+            className="text-blue cursor-pointer"
+            onClick={() => setIsModalVisible(true)}
+          >
+            Add Address
+          </span>
         </div>
         <div className="flex flex-row">
           <div className="bg-gray-light flex-col flex-1  p-8 mr-16">
@@ -57,6 +64,7 @@ const Addresses = () => {
           </div>
         </div>
       </ProfileLayout>
+      <Modal show={isModalVisible}>Hello</Modal>
     </Layout>
   );
 };

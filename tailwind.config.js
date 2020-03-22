@@ -8,7 +8,8 @@ module.exports = {
       },
       white: "#fff",
       black: "#000",
-      red: "#EA001B"
+      red: "#EA001B",
+      modal: "rgba(0,0,0,0.5)"
     }
   }
 };
