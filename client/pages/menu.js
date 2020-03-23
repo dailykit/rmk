@@ -91,31 +91,107 @@ const Restaurant = () => {
    )
 }
 
+let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+let months = [
+   'Jan',
+   'Feb',
+   'Mar',
+   'Apr',
+   'May',
+   'Jun',
+   'Jul',
+   'Aug',
+   'Sep',
+   'Oct',
+   'Nov',
+   'Dev',
+]
+
+const DateItem = ({ date, day, onClick }) => {
+   return (
+      <li
+         className={`h-full rounded-lg flex flex-grow flex-col justify-center items center font-medium cursor-pointer text-center  ${
+            new Date().getDate() === date
+               ? 'bg-blue-500 text-white'
+               : 'bg-white text-gray-600 hover:bg-gray-200'
+         } `}
+         onClick={onClick}
+      >
+         <span className="">{date}</span>
+         <span className=" text-sm">{days[day]}</span>
+      </li>
+   )
+}
+
 const DatePicker = () => {
+   const [month, setMonth] = React.useState(
+      months[new Date().getMonth()].toLowerCase()
+   )
+
+   const days = () => {
+      const days_count = new Date(
+         new Date().getFullYear(),
+         new Date().getMonth() + 1,
+         0
+      ).getDate()
+
+      const todays_date = new Date().getDate()
+
+      return [...Array(days_count - todays_date + 1).keys()]
+         .map(i => i + todays_date)
+         .slice(0, 7)
+   }
    return (
       <React.Fragment>
-         <div className="flex border h-16 mb-8">
-            <div className="w-16 h-16 flex justify-center items-center">
-               <span className="text-blue-500 font-semibold cursor-pointer">
-                  Mar
-               </span>
+         <div className="flex border-t border-b h-16 mb-8">
+            <div className="flex justify-center items-center px-4">
+               {/* <select
+                  name="months"
+                  id="months"
+                  className="py-1"
+                  value={month}
+                  onChange={e => setMonth(e.target.value)}
+               >
+                  <option value="jan">Jan</option>
+                  <option value="feb">Feb</option>
+                  <option value="mar">Mar</option>
+                  <option value="apr">Apr</option>
+                  <option value="may">May</option>
+                  <option value="jun">Jun</option>
+                  <option value="jul">Jul</option>
+                  <option value="aug">Aug</option>
+                  <option value="sep">Sep</option>
+                  <option value="oct">Oct</option>
+                  <option value="nov">Nov</option>
+                  <option value="dec">Dec</option>
+               </select> */}
+               <span>{months[new Date().getMonth()]}</span>
             </div>
-            <ul className="list-none flex h-full">
-               <li className="h-full w-16 bg-blue-500 rounded-lg flex flex-col justify-center items center font-medium cursor-pointer">
-                  <span className="text-center text-white">1</span>
-                  <span className="text-center text-white text-xs">Mon</span>
-               </li>
-               <li className="h-full w-16 rounded-lg flex flex-col justify-center items center font-medium cursor-pointer">
-                  <span className="text-center">2</span>
-                  <span className="text-center text-gray-500 text-xs">Tue</span>
-               </li>
-               <li className="h-full w-16 rounded-lg flex flex-col justify-center items center font-medium cursor-pointer">
-                  <span className="text-center">3</span>
-                  <span className="text-center text-gray-500 text-xs">Wed</span>
-               </li>
-            </ul>
+            <div className="date-selector">
+               {/* <button className="px-1 bg-gray-200">
+                  <ChevronLeft />
+               </button> */}
+               <ul className="list-none flex w-full h-full">
+                  {days().map(date => (
+                     <DateItem
+                        date={date}
+                        key={date}
+                        onClick={() => selectDay(date)}
+                     />
+                  ))}
+               </ul>
+               {/* <button className="px-1 bg-gray-200">
+                  <ChevronRight />
+               </button> */}
+            </div>
          </div>
-         <style jsx>{``}</style>
+         <style jsx>{`
+            .date-selector {
+               width: 100%;
+               display: grid;
+               grid-template-columns: 1fr;
+            }
+         `}</style>
       </React.Fragment>
    )
 }
@@ -185,7 +261,7 @@ const Home = () => {
                Your local restaurants are now serving Meal Kits
             </h1>
          </div>
-         <h2 className="font-semibold p-4">Hungerboard</h2>
+         <h2 className="font-medium p-4 text-lg">Hungerboard</h2>
          <DatePicker />
          <div className="wrapper p-6">
             <div>
@@ -212,3 +288,35 @@ const Home = () => {
 }
 
 export default Home
+
+const ChevronLeft = ({ size = 24, color = '#000' }) => (
+   <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+   >
+      <path d="M15 18l-6-6 6-6" />
+   </svg>
+)
+
+const ChevronRight = ({ size = 24, color = '#000' }) => (
+   <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+   >
+      <path d="M9 18l6-6-6-6" />
+   </svg>
+)
