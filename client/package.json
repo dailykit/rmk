@@ -3,21 +3,37 @@
    "version": "0.1.0",
    "private": true,
    "scripts": {
-      "dev": "next dev",
-      "build": "next build",
-      "start": "next start",
-      "export": "next export",
-      "deploy": "npm run build && npm run export"
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject",
+      "build:styles": "postcss src/tailwind.css -o src/styles.css",
+      "prebuild": "yarn build:styles",
+      "prestart": "yarn build:styles"
    },
    "dependencies": {
-      "@zeit/next-css": "^1.0.1",
       "axios": "^0.19.2",
-      "next": "9.3.1",
-      "react": "16.13.1",
-      "react-dom": "16.13.1"
+      "react": "^16.13.0",
+      "react-dom": "^16.13.0",
+      "react-router-dom": "5.1.2",
+      "react-scripts": "3.4.0"
+   },
+   "browserslist": {
+      "production": [
+         ">0.2%",
+         "not dead",
+         "not op_mini all"
+      ],
+      "development": [
+         "last 1 chrome version",
+         "last 1 firefox version",
+         "last 1 safari version"
+      ]
    },
    "devDependencies": {
+      "@fullhuman/postcss-purgecss": "^2.1.0",
       "autoprefixer": "^9.7.4",
+      "postcss-cli": "^7.1.0",
       "tailwindcss": "^1.2.0"
    }
 }
