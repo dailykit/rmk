@@ -18,12 +18,14 @@
       "apollo-link": "^1.2.13",
       "apollo-link-http": "^1.5.16",
       "axios": "^0.19.2",
+      "date-fns": "^2.11.0",
       "graphql": "^14.6.0",
       "keycloak-js": "^9.0.0",
       "react": "^16.13.0",
       "react-dom": "^16.13.0",
       "react-router-dom": "5.1.2",
-      "react-scripts": "3.4.0"
+      "react-scripts": "3.4.0",
+      "react-waypoint": "^9.0.2"
    },
    "browserslist": {
       "production": [
