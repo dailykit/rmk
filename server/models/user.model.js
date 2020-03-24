@@ -2,6 +2,17 @@ const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema(
    {
+      firstname: {
+         type: String,
+         required: ['Firstname is required'],
+      },
+      lastname: {
+         type: String,
+      },
+      phone: {
+         type: String,
+         required: ['Phone number is required'],
+      },
       email: {
          type: String,
          required: ['Email is required'],
@@ -11,6 +22,9 @@ const UserSchema = new mongoose.Schema(
          required: ['Password is required'],
       },
       stripe_id: {
+         type: String,
+      },
+      payment_method: {
          type: String,
       },
       addresses: [

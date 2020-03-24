@@ -52,6 +52,7 @@ const Home = () => {
    const [loading, setLoading] = React.useState(false)
    const [stage, setStage] = React.useState(1)
    const [secret, setSecret] = React.useState('')
+   const [id, setId] = React.useState('')
    const [state, dispatch] = React.useReducer(reducer, {
       email: '',
       password: '',
@@ -72,7 +73,7 @@ const Home = () => {
          if (stage == 1) {
             setStage(2)
          } else if (stage == 2) {
-            const response = fetch('/api/users/register', {
+            const response = await fetch('/users', {
                method: 'POST',
                headers: {
                   'Content-Type': 'application/json',
@@ -83,6 +84,7 @@ const Home = () => {
             if (res.success) {
                toast.success('Account created')
                setSecret(res.data.client_secret)
+               setId(res.data.id)
                setStage(3)
             } else {
                throw Error(res.message)
@@ -106,8 +108,9 @@ const Home = () => {
             } else {
                const data = {
                   payment_method: result.setupIntent.payment_method,
+                  id,
                }
-               const response = await fetch('/api/users/save-card', {
+               const response = await fetch('/users/save-card', {
                   method: 'POST',
                   headers: {
                      'Content-Type': 'application/json',
@@ -172,6 +175,20 @@ const Home = () => {
                            validate={true}
                         />
                      </div>
+                     <Input
+                        type="text"
+                        placeholder="phone"
+                        name="phone"
+                        value={state.phone}
+                        onChange={e =>
+                           dispatch({
+                              type: 'PHONE',
+                              payload: { value: e.target.value },
+                           })
+                        }
+                        required
+                        validate={true}
+                     />
                      <Input
                         type="email"
                         placeholder="email"

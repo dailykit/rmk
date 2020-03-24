@@ -4,8 +4,15 @@ const stripe = require('stripe')('sk_test_S1pO735bBnkUXiFwiXyr7jff00LoCNokAT')
 
 const createUser = async (req, res) => {
    try {
-      const { email, password, address: userAddress } = req.body
-      const user = new User({ email, password })
+      const {
+         email,
+         password,
+         firstname,
+         lastname,
+         phone,
+         address: userAddress,
+      } = req.body
+      const user = new User({ email, password, firstname, lastname, phone })
       const address = new Address(userAddress)
       await address.save()
       user.addresses = [address]
@@ -20,6 +27,7 @@ const createUser = async (req, res) => {
          message: 'Intent created',
          data: {
             client_secret: intent.client_secret,
+            id: user._id,
          },
       })
    } catch (err) {
@@ -52,6 +60,5 @@ const saveCard = async (req, res) => {
 
 module.exports = {
    createUser,
-   createIntent,
    saveCard,
 }
