@@ -3,5 +3,6 @@ import Button from './Button'
 import ProfileLayout from './ProfileLayout'
 import Modal from './Modal'
 import DatePicker from './DatePicker'
+import RecipeCard from './RecipeCard'
 
-export { Input, Button, ProfileLayout, Modal, DatePicker }
+export { Input, Button, ProfileLayout, Modal, DatePicker, RecipeCard }
