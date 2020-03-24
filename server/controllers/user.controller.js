@@ -10,29 +10,10 @@ const createUser = async (req, res) => {
       await address.save()
       user.addresses = [address]
       const customer = await stripe.customers.create({ email })
-      console.log(customer)
       user.stripe_id = customer.id
       await user.save()
-      return res.json({
-         success: true,
-         message: 'User created',
-         data: null,
-      })
-   } catch (err) {
-      return res.json({
-         success: false,
-         message: err.message,
-         data: null,
-      })
-   }
-}
-
-const createIntent = async (req, res) => {
-   try {
-      const { id } = req.body
-      const user = User.findOne({ _id: id })
       const intent = await stripe.setupIntents.create({
-         customer: user.stripe_id,
+         customer: customer.id,
       })
       return res.json({
          success: true,
@@ -50,7 +31,27 @@ const createIntent = async (req, res) => {
    }
 }
 
+const saveCard = async (req, res) => {
+   try {
+      const user = await User.findOne({ _id: req.body.id })
+      user.payment_method = req.body.payment_method
+      await user.save()
+      return res.json({
+         success: true,
+         message: 'Card saved',
+         data: null,
+      })
+   } catch (err) {
+      return res.json({
+         success: false,
+         message: err.message,
+         data: null,
+      })
+   }
+}
+
 module.exports = {
    createUser,
    createIntent,
+   saveCard,
 }
