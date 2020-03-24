@@ -2,7 +2,7 @@ import React from 'react'
 
 import { RecipeCard } from '../../components'
 
-const Section = ({ type, count, recipes: rec, toggleTunnel }) => {
+const Section = ({ type, count, toggleTunnel }) => {
    const [recipes] = React.useState([
       {
          title: 'Chicken Salad',

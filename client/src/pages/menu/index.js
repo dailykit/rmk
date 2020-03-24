@@ -60,10 +60,7 @@ const GET_MENU = gql`
 `
 
 const Home = () => {
-   const { loading, error, data } = useQuery(GET_MENU)
    const [tunnel, toggleTunnel] = React.useState(false)
-   if (loading) return <div>loading...</div>
-   if (error) return console.log(error.message)
    return (
       <Layout>
          <div className="jumbotron bg-center bg-no-repeat bg-cover h-64 flex items-center pl-16">
@@ -77,7 +74,7 @@ const Home = () => {
          <DatePicker getSelectedDay={day => console.log(day)} />
          <div className="wrapper p-6">
             <div>
-               <Restaurant menus={data.menus} toggleTunnel={toggleTunnel} />
+               <Restaurant toggleTunnel={toggleTunnel} />
             </div>
             <div>
                <Cart />

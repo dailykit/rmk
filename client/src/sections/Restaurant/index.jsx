@@ -2,17 +2,12 @@ import React from 'react'
 
 import Section from '../Section'
 
-const Restaurant = ({ menus, toggleTunnel }) => {
-   const [menu] = menus
-   const [
-      lunch,
-      dinner,
-   ] = menu.menuCollections[0].menuCollection[0].categories[0].products[0].items
+const Restaurant = ({ toggleTunnel }) => {
    return (
       <div className="border border-gray-300 p-4">
          <header className="flex items-center justify-between">
             <div>
-               <h1 className="text-2xl">{menu.name}</h1>
+               <h1 className="text-2xl">Little Italy</h1>
                <p className="text-gray-600">
                   Select your preferred recipes for Lunch and Dinner
                </p>
@@ -21,22 +16,8 @@ const Restaurant = ({ menus, toggleTunnel }) => {
                Select Plan
             </button>
          </header>
-         {lunch && (
-            <Section
-               type="Lunch"
-               toggleTunnel={toggleTunnel}
-               count={lunch.recipes.length}
-               recipes={lunch.recipes}
-            />
-         )}
-         {dinner && (
-            <Section
-               type="Dinner"
-               toggleTunnel={toggleTunnel}
-               count={dinner.recipes.length}
-               recipes={dinner.recipes}
-            />
-         )}
+         <Section type="Lunch" toggleTunnel={toggleTunnel} count={2} />
+         <Section type="Dinner" toggleTunnel={toggleTunnel} count={4} />
       </div>
    )
 }
