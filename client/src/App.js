@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { UserContext, state as initialState, reducers } from './context/User'
 
 import Home from './pages'
+import Onboarding from './pages/onboarding'
 import Menu from './pages/menu'
 import RecipeDetails from './pages/menu/menu'
 import Account from './pages/user/account'
@@ -18,6 +19,7 @@ const App = () => {
       <UserContext.Provider value={{ state, dispatch }}>
          <Router>
             <Route path="/" exact component={Home} />
+            <Route path="/onboarding" exact component={Onboarding} />
             <Route path="/menu" exact component={Menu} />
             <Route path="/menu/:id" exact component={RecipeDetails} />
             <Route path="/user/account" exact component={Account} />

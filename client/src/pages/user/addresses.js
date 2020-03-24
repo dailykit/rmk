@@ -15,7 +15,7 @@ const Addresses = () => {
             <div className="flex justify-between items-center text-md mb-4">
                <h3 className="text-lg">Saved Addresses</h3>
                <span
-                  className="text-blue-500 cursor-pointer"
+                  className="text-primary cursor-pointer"
                   onClick={() => setIsModalVisible(true)}
                >
                   Add Address
@@ -35,13 +35,13 @@ const Addresses = () => {
                   </div>
                   <div className="text-md font-semibold h-8 flex items-center mt-4">
                      <div>
-                        <span className="text-white bg-blue-500 border border-blue p-1">
+                        <span className="text-white bg-primary border border-blue p-1">
                            Default
                         </span>
-                        <span className="text-blue-500 ml-8 cursor-pointer">
+                        <span className="text-gray-500 ml-8 cursor-pointer">
                            Edit
                         </span>
-                        <span className="text-red-500 ml-8 cursor-pointer">
+                        <span className="text-gray-500 ml-8 cursor-pointer hover:text-red-500">
                            Remove
                         </span>
                      </div>
@@ -60,13 +60,13 @@ const Addresses = () => {
                   </div>
                   <div className="text-md font-semibold h-8 flex items-center mt-4">
                      <div>
-                        <span className="text-blue-500 cursor-pointer border-blue">
+                        <span className="text-primary cursor-pointer border-blue">
                            Make Default
                         </span>
-                        <span className="text-blue-500 ml-8 cursor-pointer">
+                        <span className="text-gray-500 ml-8 cursor-pointer">
                            Edit
                         </span>
-                        <span className="text-red-500 ml-8 cursor-pointer">
+                        <span className="text-gray-500 ml-8 cursor-pointer hover:text-red-500">
                            Remove
                         </span>
                      </div>

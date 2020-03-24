@@ -79,7 +79,7 @@ const Restaurant = () => {
                   Select your preferred recipes for Lunch and Dinner
                </p>
             </div>
-            <button className="w-auto h-12 px-3 bg-indigo-400 text-white">
+            <button className="w-auto h-12 px-3 bg-primary text-white">
                Select Plan
             </button>
          </header>
@@ -110,7 +110,7 @@ const DateItem = ({ date, day, onClick }) => {
       <li
          className={`h-full rounded-lg flex flex-grow flex-col justify-center items center font-medium cursor-pointer text-center  ${
             new Date().getDate() === date
-               ? 'bg-blue-500 text-white'
+               ? 'bg-primary text-white'
                : 'bg-white text-gray-600 hover:bg-gray-200'
          } `}
          onClick={onClick}

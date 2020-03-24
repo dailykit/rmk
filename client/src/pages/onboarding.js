@@ -1,4 +1,5 @@
-import Router from 'next/router'
+import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { Input, Button } from '../components'
 
@@ -36,6 +37,7 @@ const reducer = (state, action) => {
 }
 
 const Home = () => {
+   const history = useHistory()
    const [loading, setLoading] = React.useState(false)
    const [stage, setStage] = React.useState(1)
    const [state, dispatch] = React.useReducer(reducer, {
@@ -61,7 +63,7 @@ const Home = () => {
          if (stage !== 3) {
             setStage(stage + 1)
          } else {
-            Router.push('/menu')
+            history.push('/menu')
          }
       } catch (err) {
          console.log(err)
@@ -72,10 +74,10 @@ const Home = () => {
       <div className="flex h-screen">
          <div className="bg-onboarding bg-cover flex-1"></div>
          <div className="flex-1 relative p-8">
-            <div className="progress transition-all duration-200 ease-linear h-2 bg-blue-500 absolute top-0 left-0"></div>
+            <div className="progress transition-all duration-200 ease-linear h-2 bg-primary absolute top-0 left-0"></div>
             <div className="text-right mb-8">
                Already have an account?{' '}
-               <span className="text-blue-500">LOGIN</span>
+               <span className="text-primary">LOGIN</span>
             </div>
             <h1 className="text-gray-700 text-4xl font-bold mb-16">Sign Up</h1>
             <div className="w-3/4">

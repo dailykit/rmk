@@ -14,21 +14,21 @@ const Header = () => {
          </div>
          <ul className="mx-16 list-none h-full flex flex-1">
             <Link to="/">
-               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-blue">
+               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-primary">
                   Home
                </li>
             </Link>
             <Link to="/menu">
-               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-blue">
+               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-primary">
                   Menu
                </li>
             </Link>
          </ul>
          <ul className="list-none h-full flex">
-            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-blue-500">
+            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-primary">
                {state.zip.length > 0 ? state.zip : 'Location'}
             </li>
-            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-500 hover:text-blue-500">
+            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-500 hover:text-primary">
                Cart
             </li>
             <li
