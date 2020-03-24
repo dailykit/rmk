@@ -10,6 +10,9 @@ const UserSchema = new mongoose.Schema(
          type: String,
          required: ['Password is required'],
       },
+      stripe_id: {
+         type: String,
+      },
       addresses: [
          {
             type: mongoose.Schema.Types.ObjectId,
