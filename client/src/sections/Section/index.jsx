@@ -36,7 +36,7 @@ const Section = ({ type, count, recipes: rec, toggleTunnel }) => {
       },
    ])
    return (
-      <div className="mt-4 bg-gray-200 px-4 pb-3">
+      <div className="mt-4 bg-gray-200 px-4 pb-4">
          <span
             className={`inline-block mb-2 ${
                type.toLowerCase() === 'dinner' ? 'bg-blue-900' : 'bg-orange-400'
@@ -47,7 +47,7 @@ const Section = ({ type, count, recipes: rec, toggleTunnel }) => {
          <header className="mb-2 flex items-center ">
             <span className="text-gray-600">{count} recipes available:</span>
          </header>
-         <ul className="grid grid-cols-3 col-gap-3 overflow-x-auto">
+         <ul className="grid grid-cols-3 gap-4 overflow-x-auto">
             {recipes.slice(0, 4).map((recipe, index) => (
                <RecipeCard
                   key={index}
