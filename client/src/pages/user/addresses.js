@@ -74,7 +74,12 @@ const Addresses = () => {
                </div>
             </div>
          </ProfileLayout>
-         <Modal show={isModalVisible}>Hello</Modal>
+         <Modal
+            show={isModalVisible}
+            closeHandler={() => setIsModalVisible(false)}
+         >
+            Hello
+         </Modal>
       </Layout>
    )
 }
