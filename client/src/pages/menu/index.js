@@ -66,8 +66,8 @@ const Home = () => {
    if (error) return console.log(error.message)
    return (
       <Layout>
-         <div className="jumbotron bg-bottom bg-cover h-64 p-16 flex">
-            <h1 className="text-2xl text-white font-semibold self-end">
+         <div className="jumbotron bg-center bg-no-repeat bg-cover h-64 flex items-center pl-16">
+            <h1 className="text-white text-4xl font-light">
                Your local restaurants are now serving Meal Kits
             </h1>
          </div>
