@@ -5,7 +5,7 @@ const keycloak = new Keycloak({
    realm: process.env.REACT_APP_KEYCLOAK_REALM,
    url: process.env.REACT_APP_KEYCLOAK_URL,
    clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
-   'ssl-required': 'none',
+   'ssl-required': 'external',
    'public-client': true,
    'bearer-only': false,
    'verify-token-audience': true,
@@ -32,6 +32,10 @@ export const AuthProvider = ({ children }) => {
          setUser(profile)
       }
    }
+
+   // React.useEffect(() => {
+   //    initialize()
+   // }, [])
 
    const login = () => keycloak.login()
    const logout = () => keycloak.logout()
