@@ -120,7 +120,7 @@ export default function DatePicker(props) {
             props.getSelectedDay(new Date())
          }
       }
-   }, [])
+   }, [props, selectDate])
 
    useEffect(() => {
       if (selectDate) {
@@ -138,7 +138,7 @@ export default function DatePicker(props) {
             }, 20)
          }
       }
-   }, [selectDate])
+   }, [selectDate, selectedDate])
 
    let e = document.getElementById('container')
    let width = e ? e.getBoundingClientRect().width : null
