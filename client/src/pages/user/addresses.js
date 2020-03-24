@@ -1,10 +1,30 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 
 import { Layout } from '../../sections'
-import { ProfileLayout, Modal } from '../../components'
+import { ProfileLayout, Modal, Input, Button } from '../../components'
 
 const Addresses = () => {
    const [isModalVisible, setIsModalVisible] = React.useState(false)
+   const [address, setAddress] = React.useState({
+      line1: '',
+      line2: '',
+      zip: '',
+      city: '',
+   })
+
+   const submit = e => {
+      e.preventDefault()
+      console.log(address)
+      toast.success('Address saved!')
+      setIsModalVisible(false)
+      setAddress({
+         line1: '',
+         line2: '',
+         zip: '',
+         city: '',
+      })
+   }
 
    return (
       <Layout>
@@ -78,7 +98,73 @@ const Addresses = () => {
             show={isModalVisible}
             closeHandler={() => setIsModalVisible(false)}
          >
-            Hello
+            <form onSubmit={submit}>
+               <div className="mb-4">
+                  <Input
+                     type="text"
+                     placeholder="address line 1"
+                     name="line1"
+                     value={address.line1}
+                     onChange={e =>
+                        setAddress({
+                           ...address,
+                           [e.target.name]: e.target.value,
+                        })
+                     }
+                     required
+                     validate={true}
+                  />
+                  <Input
+                     type="text"
+                     placeholder="address line 2"
+                     name="line2"
+                     value={address.line2}
+                     onChange={e =>
+                        setAddress({
+                           ...address,
+                           [e.target.name]: e.target.value,
+                        })
+                     }
+                  />
+                  <div className="flex">
+                     <div className="w-6/12 mr-4">
+                        <Input
+                           type="text"
+                           placeholder="zip code"
+                           name="zip"
+                           value={address.zip}
+                           onChange={e =>
+                              setAddress({
+                                 ...address,
+                                 [e.target.name]: e.target.value,
+                              })
+                           }
+                           pattern="(\d{5}([\-]\d{4})?)"
+                           title="Format: nnnnn or nnnnn-nnnn"
+                           required
+                           validate={true}
+                        />
+                     </div>
+                     <div className="w-full">
+                        <Input
+                           type="text"
+                           placeholder="city"
+                           name="city"
+                           value={address.city}
+                           onChange={e =>
+                              setAddress({
+                                 ...address,
+                                 [e.target.name]: e.target.value,
+                              })
+                           }
+                           required
+                           validate={true}
+                        />
+                     </div>
+                  </div>
+               </div>
+               <Button>Save Address</Button>
+            </form>
          </Modal>
       </Layout>
    )

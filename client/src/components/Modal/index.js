@@ -30,6 +30,7 @@ const Modal = ({ show, closeHandler, children }) => {
                   background: rgba(0, 0, 0, 0.5);
                }
                #close {
+                  top: 0;
                   right: -50px;
                }
             `}
