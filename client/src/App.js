@@ -1,5 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { UserContext, state as initialState, reducers } from './context/User'
 
@@ -18,6 +20,17 @@ const App = () => {
    return (
       <UserContext.Provider value={{ state, dispatch }}>
          <Router>
+            <ToastContainer
+               position="top-right"
+               autoClose={5000}
+               hideProgressBar={false}
+               newestOnTop={false}
+               closeOnClick
+               rtl={false}
+               pauseOnVisibilityChange
+               draggable
+               pauseOnHover
+            />
             <Route path="/" exact component={Home} />
             <Route path="/onboarding" exact component={Onboarding} />
             <Route path="/menu" exact component={Menu} />
