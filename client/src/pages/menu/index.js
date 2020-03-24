@@ -71,7 +71,7 @@ const Home = () => {
                Your local restaurants are now serving Meal Kits
             </h1>
          </div>
-         <h2 className="font-medium tracking-wider uppercase text-gray-500 p-4 text-sm">
+         <h2 className="font-medium tracking-wider uppercase text-gray-500 pb-2 pt-4 pl-4 text-sm">
             Hungerboard
          </h2>
          <DatePicker getSelectedDay={day => console.log(day)} />
