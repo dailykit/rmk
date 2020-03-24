@@ -6,7 +6,7 @@ import gql from 'graphql-tag'
 
 import { DatePicker } from '../../components'
 
-import { Cart, Restaurant } from '../../sections'
+import { Cart, Restaurant, RecipeDetails } from '../../sections'
 
 const GET_MENU = gql`
    query {
@@ -61,6 +61,7 @@ const GET_MENU = gql`
 
 const Home = () => {
    const { loading, error, data } = useQuery(GET_MENU)
+   const [tunnel, toggleTunnel] = React.useState(false)
    if (loading) return <div>loading...</div>
    if (error) return console.log(error.message)
    return (
@@ -70,16 +71,19 @@ const Home = () => {
                Your local restaurants are now serving Meal Kits
             </h1>
          </div>
-         <h2 className="font-medium p-4 text-lg">Hungerboard</h2>
+         <h2 className="font-medium tracking-wider uppercase text-gray-500 p-4 text-sm">
+            Hungerboard
+         </h2>
          <DatePicker getSelectedDay={day => console.log(day)} />
          <div className="wrapper p-6">
             <div>
-               <Restaurant menus={data.menus} />
+               <Restaurant menus={data.menus} toggleTunnel={toggleTunnel} />
             </div>
             <div>
                <Cart />
             </div>
          </div>
+         {tunnel && <RecipeDetails toggleTunnel={toggleTunnel} />}
          <style jsx>
             {`
                .jumbotron {
@@ -87,7 +91,7 @@ const Home = () => {
                }
                .wrapper {
                   display: grid;
-                  grid-template-columns: 1fr 420px;
+                  grid-template-columns: 1fr 360px;
                   grid-gap: 20px;
                }
             `}

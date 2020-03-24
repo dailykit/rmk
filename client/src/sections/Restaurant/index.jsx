@@ -2,7 +2,7 @@ import React from 'react'
 
 import Section from '../Section'
 
-const Restaurant = ({ menus }) => {
+const Restaurant = ({ menus, toggleTunnel }) => {
    const [menu] = menus
    const [
       lunch,
@@ -24,6 +24,7 @@ const Restaurant = ({ menus }) => {
          {lunch && (
             <Section
                type="Lunch"
+               toggleTunnel={toggleTunnel}
                count={lunch.recipes.length}
                recipes={lunch.recipes}
             />
@@ -31,6 +32,7 @@ const Restaurant = ({ menus }) => {
          {dinner && (
             <Section
                type="Dinner"
+               toggleTunnel={toggleTunnel}
                count={dinner.recipes.length}
                recipes={dinner.recipes}
             />
