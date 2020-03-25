@@ -27,7 +27,7 @@ const Home = () => {
                </Link>
             </div>
          </div>
-         <style jsx>
+         <style>
             {`
                .hero {
                   background-image: url('/img/index-hero.jpg');

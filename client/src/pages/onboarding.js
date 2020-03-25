@@ -304,7 +304,7 @@ const Home = () => {
                </form>
             </div>
          </div>
-         <style jsx>{`
+         <style>{`
             .bg-onboarding {
                background-image: url('/img/index-hero.jpg');
             }
