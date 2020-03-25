@@ -8,7 +8,9 @@ import 'react-toastify/dist/ReactToastify.css'
 import { UserContext, state as initialState, reducers } from './context/User'
 
 import Home from './pages'
-import Onboarding from './pages/onboarding'
+import Onboarding from './pages/onboarding/index'
+import OnboardingAddress from './pages/onboarding/address'
+import OnboardingPayment from './pages/onboarding/payment'
 import Menu from './pages/menu'
 import RecipeDetails from './pages/menu/menu'
 import Account from './pages/user/account'
@@ -38,6 +40,8 @@ const App = () => {
                />
                <Route path="/" exact component={Home} />
                <Route path="/onboarding" exact component={Onboarding} />
+               <Route path="/address" exact component={OnboardingAddress} />
+               <Route path="/payment" exact component={OnboardingPayment} />
                <Route path="/menu" exact component={Menu} />
                <Route path="/menu/:id" exact component={RecipeDetails} />
                <Route path="/user/account" exact component={Account} />

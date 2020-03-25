@@ -6,4 +6,12 @@ import DatePicker from './DatePicker'
 import CardSection from './CardSection'
 import RecipeCard from './RecipeCard'
 
-export { Input, Button, ProfileLayout, Modal, DatePicker, RecipeCard }
+export {
+   Input,
+   Button,
+   ProfileLayout,
+   Modal,
+   DatePicker,
+   RecipeCard,
+   CardSection,
+}
