@@ -7,13 +7,17 @@ import { DatePicker } from '../../components'
 
 import { Logo } from '../../assets/icons'
 
-const Header = () => {
+const Header = ({ onlyNav }) => {
    const { state } = React.useContext(UserContext)
    const [isDropdownVisible, setIsDropdownVisible] = React.useState(false)
 
    return (
       <header>
-         <nav className="bg-white w-full h-16 flex flex-row items-center justify-between px-8">
+         <nav
+            className={`bg-white w-full h-16 flex flex-row items-center justify-between px-8 ${
+               onlyNav ? 'border-b' : ''
+            }`}
+         >
             <span className="w-32">
                <Logo />
             </span>
@@ -76,18 +80,22 @@ const Header = () => {
                `}
             </style>
          </nav>
-         <div
-            style={{ backgroundImage: "url('/img/menu-hero.jpg')" }}
-            className="bg-center bg-no-repeat bg-cover h-64 flex items-center pl-16"
-         >
-            <h1 className="text-white text-4xl font-light">
-               Your local restaurants are now serving Meal Kits
-            </h1>
-         </div>
-         <h2 className="font-medium tracking-wider uppercase text-gray-500 pb-2 pt-4 pl-4 text-sm">
-            Hungerboard
-         </h2>
-         <DatePicker getSelectedDay={day => console.log(day)} />
+         {!onlyNav && (
+            <>
+               <div
+                  style={{ backgroundImage: "url('/img/menu-hero.jpg')" }}
+                  className="bg-center bg-no-repeat bg-cover h-64 flex items-center pl-16"
+               >
+                  <h1 className="text-white text-4xl font-light">
+                     Your local restaurants are now serving Meal Kits
+                  </h1>
+               </div>
+               <h2 className="font-medium tracking-wider uppercase text-gray-500 pb-2 pt-4 pl-4 text-sm">
+                  Hungerboard
+               </h2>
+               <DatePicker getSelectedDay={day => console.log(day)} />
+            </>
+         )}
       </header>
    )
 }

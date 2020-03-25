@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { Layout } from '../../sections'
+import { Header } from '../../sections'
 import { ProfileLayout } from '../../components'
 
 const Payment = () => {
    return (
-      <Layout>
+      <div>
+         <Header onlyNav />
          <ProfileLayout>
             <h4 className="text-gray-700 font-semibold mb-8">Payment Info</h4>
             <div className="flex justify-between items-center text-md mb-4">
@@ -36,7 +37,7 @@ const Payment = () => {
                </div>
             </div>
          </ProfileLayout>
-      </Layout>
+      </div>
    )
 }
 

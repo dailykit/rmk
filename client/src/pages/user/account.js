@@ -1,13 +1,14 @@
 import React from 'react'
 
-import { Layout } from '../../sections'
+import { Header } from '../../sections'
 import { ProfileLayout } from '../../components'
 
 const Account = () => {
    return (
-      <Layout>
+      <div>
+         <Header onlyNav />
          <ProfileLayout>Account</ProfileLayout>
-      </Layout>
+      </div>
    )
 }
 

@@ -1,30 +1,38 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { Link } from 'react-router-dom'
 
-const ProfileLayout = ({ children }) => {
+const ListItem = ({ path, title }) => {
+   const location = useLocation()
    return (
-      <div className="relative">
-         <aside className="fixed">
-            <ul className="w-64 bg-gray-light p-8">
-               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
-                  <Link to="/user/account">Account</Link>
-               </li>
-               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
-                  <Link to="/user/orders">Orders</Link>
-               </li>
-               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
-                  <Link to="/user/address">Delivery Addresses</Link>
-               </li>
-               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
-                  <Link to="/user/payment">Payment Info</Link>
-               </li>
-               <li className="py-8 font-semibold text-gray-dark hover:text-blue cursor-pointer">
-                  <Link to="/user/settings">Settings</Link>
-               </li>
-            </ul>
+      <Link
+         to={path}
+         className={`py-4 pl-4 ${
+            location.pathname === path ? 'bg-gray-200' : ''
+         } hover:bg-gray-200`}
+      >
+         {title}
+      </Link>
+   )
+}
+
+const ProfileLayout = ({ children }) => {
+   const [pages] = React.useState([
+      { path: '/user/account', title: 'Account' },
+      { path: '/user/orders', title: 'Orders' },
+      { path: '/user/address', title: 'Delivery Addresses' },
+      { path: '/user/payment', title: 'Payment Info' },
+      { path: '/user/settings', title: 'Settings' },
+   ])
+   return (
+      <div className="flex" style={{ height: 'calc(100vh - 64px' }}>
+         <aside className="border-r flex flex-col w-64 bg-gray-100">
+            {pages.map(page => (
+               <ListItem key={page.path} path={page.path} title={page.title} />
+            ))}
          </aside>
-         <main className="ml-64 py-12 px-24 z-10">{children}</main>
+         <main className="py-12 px-24 z-10 flex-1">{children}</main>
       </div>
    )
 }

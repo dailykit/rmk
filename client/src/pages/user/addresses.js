@@ -1,7 +1,7 @@
 import React from 'react'
 import { toast } from 'react-toastify'
 
-import { Layout } from '../../sections'
+import { Header } from '../../sections'
 import { ProfileLayout, Modal, Input, Button } from '../../components'
 
 const Addresses = () => {
@@ -27,7 +27,8 @@ const Addresses = () => {
    }
 
    return (
-      <Layout>
+      <div>
+         <Header onlyNav />
          <ProfileLayout>
             <h4 className="text-gray-700 font-semibold mb-8">
                Delivery Addresses
@@ -166,7 +167,7 @@ const Addresses = () => {
                <Button>Save Address</Button>
             </form>
          </Modal>
-      </Layout>
+      </div>
    )
 }
 
