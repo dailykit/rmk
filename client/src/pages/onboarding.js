@@ -72,7 +72,24 @@ const Home = () => {
 
    return (
       <div className="flex h-screen">
-         <div className="bg-onboarding bg-cover flex-1"></div>
+         <div className="bg-onboarding bg-cover flex-1 flex pt-48 justify-center">
+            <div className="flex flex-col" style={{ width: '640px' }}>
+               <p className="text-5xl text-white font-light">
+                  Your{` `}
+                  <span className="font-bold text-yellow-200">
+                     Local Restaurants{` `}
+                  </span>
+                  are now serving
+                  <span className="font-bold text-yellow-200"> Meal Kits</span>
+               </p>
+               <p className="text-xl text-gray-500 my-4">
+                  Groceries Sold Out? Staring at a Lock Down? Don't fret.
+                  <span className="text-yellow-200 block">
+                     Restaurants near you have got your back.
+                  </span>
+               </p>
+            </div>
+         </div>
          <div className="flex-1 relative p-8">
             <div className="progress transition-all duration-200 ease-linear h-2 bg-primary absolute top-0 left-0"></div>
             <div className="text-right mb-8">

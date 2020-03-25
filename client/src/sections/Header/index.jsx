@@ -3,36 +3,23 @@ import { Link } from 'react-router-dom'
 
 import { UserContext } from '../../context/User'
 
+import { Logo } from '../../assets/icons'
+
 const Header = () => {
    const { state } = React.useContext(UserContext)
    const [isDropdownVisible, setIsDropdownVisible] = React.useState(false)
 
    return (
-      <nav className="bg-white h-16 w-full flex flex-row items-center px-8 fixed">
-         <div className="w-32">
-            <img src="/img/logo.png" alt="DailyKIT Logo" />
-         </div>
-         <ul className="mx-16 list-none h-full flex flex-1">
-            <Link to="/">
-               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-primary">
-                  Home
-               </li>
-            </Link>
-            <Link to="/menu">
-               <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-dark hover:text-primary">
-                  Menu
-               </li>
-            </Link>
-         </ul>
-         <ul className="list-none h-full flex">
-            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-primary">
-               {state.zip.length > 0 ? state.zip : 'Location'}
-            </li>
-            <li className="mx-8 h-full flex items-center cursor-pointer font-semibold text-gray-500 hover:text-primary">
-               Cart
+      <nav className="bg-white h-16 w-full flex flex-row items-center justify-between px-8 fixed">
+         <span className="w-32">
+            <Logo />
+         </span>
+         <ul className="list-none h-full flex ">
+            <li className="mr-4 h-full flex items-center cursor-pointer font-normal text-primary">
+               {state.zip.length > 0 ? state.zip : 'Select Location'}
             </li>
             <li
-               className="mx-8 h-full flex items-center cursor-pointer font-semibold relative"
+               className="h-full flex items-center cursor-pointer font-normal relative"
                onClick={() => setIsDropdownVisible(!isDropdownVisible)}
             >
                <img
@@ -41,23 +28,26 @@ const Header = () => {
                   alt="Avatar"
                />
                <ul
-                  className="dropdown absolute list-none bg-white z-40 shadow w-56 rounded-lg"
+                  className="dropdown absolute list-none bg-white z-40 w-56 shadow-lg  rounded"
                   hidden={!isDropdownVisible}
                >
-                  <li className="p-4 text-lg text-gray-500"> Alex Pinto </li>
-                  <li className="py-2 px-4 cursor-pointer">
+                  <li className="px-3 py-3 text-gray-600 font-normal tracking-wide">
+                     Alex Pinto
+                  </li>
+                  <hr />
+                  <li className="px-3 py-2 hover:bg-gray-200">
                      <Link to="/user/account">Account</Link>
                   </li>
-                  <li className="py-2 px-4 cursor-pointer">
+                  <li className="px-3 py-2 hover:bg-gray-200">
                      <Link to="/user/orders">Orders</Link>
                   </li>
-                  <li className="py-2 px-4 cursor-pointer">
+                  <li className="px-3 py-2 hover:bg-gray-200">
                      <Link to="/user/address">Delivery Addresses</Link>
                   </li>
-                  <li className="py-2 px-4 cursor-pointer">
+                  <li className="px-3 py-2 hover:bg-gray-200">
                      <Link to="/user/payment">Payment</Link>
                   </li>
-                  <li className="py-2 px-4 cursor-pointer">
+                  <li className="px-3 py-2 hover:bg-gray-200">
                      <Link to="/user/settings">Settings</Link>
                   </li>
                </ul>
@@ -66,19 +56,19 @@ const Header = () => {
          <style jsx>
             {`
                .dropdown {
-                  top: 5rem;
-                  right: -2rem;
+                  top: 76px;
+                  right: -10px;
                }
 
                .dropdown::before {
                   content: '';
                   position: absolute;
                   background: #fff;
-                  height: 1rem;
-                  width: 1rem;
+                  height: 10px;
+                  width: 10px;
                   transform: rotate(45deg);
-                  right: 2.5rem;
-                  top: -0.5rem;
+                  right: 24px;
+                  top: -5px;
                }
             `}
          </style>
