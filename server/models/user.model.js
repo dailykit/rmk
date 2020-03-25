@@ -28,9 +28,11 @@ const UserSchema = new mongoose.Schema(
       stripe_id: {
          type: String,
       },
-      payment_method: {
-         type: String,
-      },
+      cards: [
+         {
+            type: String,
+         },
+      ],
       addresses: [
          {
             type: mongoose.Schema.Types.ObjectId,

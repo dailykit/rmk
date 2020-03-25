@@ -54,10 +54,30 @@ const Address = () => {
       state: '',
       instructions: '',
    })
-
+   console.log(global)
    const submit = async e => {
+      e.preventDefault()
       try {
-      } catch (e) {}
+         setIsLoading(true)
+         const response = await fetch('/users/save-address', {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ address: state, id: global.id }),
+         })
+         const res = await response.json()
+         if (res.success) {
+            action({ type: 'ZIP', payload: { value: state.zip } })
+            toast.success('Address saved!')
+            history.push('/menu')
+         } else {
+            setIsLoading(false)
+            throw Error(res.message)
+         }
+      } catch (err) {
+         toast.error(err.message)
+      }
    }
 
    return (
@@ -129,7 +149,7 @@ const Address = () => {
                               type="text"
                               placeholder="state"
                               name="state"
-                              value={state.city}
+                              value={state.state}
                               onChange={e =>
                                  dispatch({
                                     type: 'STATE',
@@ -194,7 +214,7 @@ const Address = () => {
                background-image: url('/img/index-hero.jpg');
             }
             .progress {
-               width: 66%;
+               width: 100%;
             }
          `}</style>
       </div>

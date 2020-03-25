@@ -2,7 +2,7 @@ import React from 'react'
 
 import { RecipeCard } from '../../components'
 
-const Section = ({ type, count, recipes: rec }) => {
+const Section = ({ type, count, toggleTunnel }) => {
    const [recipes] = React.useState([
       {
          title: 'Chicken Salad',
@@ -36,7 +36,7 @@ const Section = ({ type, count, recipes: rec }) => {
       },
    ])
    return (
-      <div className="mt-4 bg-gray-200 px-4 pb-3">
+      <div className="mt-4 bg-gray-200 px-4 pb-4">
          <span
             className={`inline-block mb-2 ${
                type.toLowerCase() === 'dinner' ? 'bg-blue-900' : 'bg-orange-400'
@@ -44,13 +44,16 @@ const Section = ({ type, count, recipes: rec }) => {
          >
             {type}: Serves 4 people
          </span>
-         <header className="mb-2 flex items-center justify-between">
+         <header className="mb-2 flex items-center ">
             <span className="text-gray-600">{count} recipes available:</span>
-            <button className="text-blue-500">View All</button>
          </header>
-         <ul className="grid grid-cols-4 col-gap-3 overflow-x-auto">
+         <ul className="grid grid-cols-3 gap-4 overflow-x-auto">
             {recipes.slice(0, 4).map((recipe, index) => (
-               <RecipeCard key={index} recipe={recipe} />
+               <RecipeCard
+                  key={index}
+                  recipe={recipe}
+                  toggleTunnel={toggleTunnel}
+               />
             ))}
          </ul>
       </div>

@@ -30,7 +30,7 @@ export default function DatePicker(props) {
    const getStyles = day => {
       const classes = []
       if (isSameDay(day, selectedDate)) {
-         classes.push('h-full bg-blue-500 text-white DateDayItem--selected')
+         classes.push('h-full border-2 border-primary DateDayItem--selected')
       }
       if (isBefore(day, currentDate)) {
          classes.push('text-gray-500 DateDayItem--disabled')
@@ -57,12 +57,12 @@ export default function DatePicker(props) {
       const dayFormat = 'E'
       const dateFormat = 'd'
       const days = []
-      let startDay = subDays(currentWeek, 1)
+      let startDay = subDays(currentWeek, 0)
       for (let i = 0; i < maxValue; i++) {
          days.push(
             <div
                id={`${getId(addDays(startDay, i))}`}
-               className={`flex-1 text-center py-2 rounded cursor-pointer Datepicker--DateDayItem ${getStyles(
+               className={`text-center w-20 py-2 border-2 border-white rounded-lg cursor-pointer Datepicker--DateDayItem ${getStyles(
                   addDays(startDay, i)
                )}`}
                key={i * i + 2}
@@ -96,7 +96,10 @@ export default function DatePicker(props) {
          )
       }
       return (
-         <div id={'container '} className={`${getScroll()} w-full flex`}>
+         <div
+            id={'container '}
+            className={`${getScroll()} w-full flex justify-around`}
+         >
             {days}
          </div>
       )
@@ -162,13 +165,12 @@ export default function DatePicker(props) {
          <div className={'w-full Datepicker--Strip '}>
             <span
                className={
-                  'text-blue-400 font-medium pl-3 Datepicker--MonthYearLabel'
+                  'text-lg text-black font-medium pl-4 Datepicker--MonthYearLabel'
                }
             >
                {scroll
                   ? format(softSelect, dateFormat)
                   : format(currentWeek, dateFormat)}
-               {/*{!scroll? isSameMonth(softSelect,currentWeek)? null: " / " + format(softSelect, dateFormat) : null}*/}
             </span>
             <div className={'w-full flex mt-3'}>
                <button

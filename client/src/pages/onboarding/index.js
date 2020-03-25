@@ -62,7 +62,7 @@ const Home = () => {
          })
          const res = await response.json()
          if (res.success) {
-            action({ type: 'USER', payload: res.data })
+            action({ type: 'SIGNUP', payload: { value: res.data } })
             toast.success('Signed up successfully!')
             history.push('/address')
          } else {
@@ -176,7 +176,7 @@ const Home = () => {
                background-image: url('/img/index-hero.jpg');
             }
             .progress {
-               width: 33%;
+               width: 50%;
             }
          `}</style>
       </div>

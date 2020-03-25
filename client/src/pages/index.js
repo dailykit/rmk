@@ -6,27 +6,28 @@ import { Button } from '../components'
 const Home = () => {
    return (
       <React.Fragment>
-         <div className="hero h-screen bg-bottom bg-cover p-40">
-            <div className="w-6/12 flex flex-col">
-               <p className="text-white text-2xl font-semibold">
-                  Your <span className="text-5xl">Local Restaurants</span>
+         <div className="hero h-screen bg-bottom bg-cover pl-40 flex items-center">
+            <div className="flex flex-col" style={{ width: '640px' }}>
+               <p className="text-5xl text-white font-light">
+                  Your{' '}
+                  <span className="font-bold text-yellow-200">
+                     Local Restaurants
+                  </span>{' '}
+                  are now serving{' '}
+                  <span className="font-bold text-yellow-200">Meal Kits</span>
                </p>
-               <p className="text-white text-2xl font-semibold mb-12">
-                  are now serving
-                  <span className="text-6xl text-secondary">Meal Kits</span>
-               </p>
-               <p className="text-xl text-white font-semibold p-2 mb-2">
+               <p className="text-xl text-gray-500 my-4">
                   Groceries Sold Out? Staring at a Lock Down? Don't fret.
-               </p>
-               <p className="text-xl text-secondary font-semibold p-2 text-right mb-8">
-                  Restaurants near you have got you back.
+                  <span className="text-yellow-200 block">
+                     Restaurants near you have got your back.
+                  </span>
                </p>
                <Link to="/onboarding">
                   <Button>GET STARTED</Button>
                </Link>
             </div>
          </div>
-         <style jsx>
+         <style>
             {`
                .hero {
                   background-image: url('/img/index-hero.jpg');

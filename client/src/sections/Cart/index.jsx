@@ -1,59 +1,73 @@
 import React from 'react'
 
+import { RecipeCard } from '../../components'
+
 const Cart = () => {
    return (
-      <React.Fragment>
-         <div className="bg-white p-2">
-            <div className="title border-gray-500 text-2xl font-semibold mb-8">
-               YOUR DAILY KITS
+      <div>
+         <header className="flex items-center justify-between border-b pb-3">
+            <span className="text-xl text-gray-700">
+               {new Intl.DateTimeFormat('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+               }).format(new Date())}
+            </span>
+            <div>
+               <label
+                  htmlFor="skip_day"
+                  className="flex items-center text-gray-500"
+               >
+                  <span className="pr-2">Skip for the day</span>
+                  <input type="checkbox" id="skip_day" />
+               </label>
             </div>
-            <div className="cart-content">
-               <div className="progress border"></div>
-               <div>
-                  <div>
-                     <h3 className="mb-4">Meals selected</h3>
-                     <div className="border border-gray-300 p-4 mb-16">
-                        <h2 className="mb-4 text-md font-medium">
-                           Asian Restaurant name
-                        </h2>
-                        <div className="lunch-tile bg-white p-2 shadow font-bold mb-2">
-                           English Lunch
-                        </div>
-                        <div className="dinner-tile bg-white p-2 shadow font-bold">
-                           English Dinner
-                        </div>
-                     </div>
+         </header>
+         <main>
+            <div>
+               <h3 className="text-primary font-medium text-xl pt-4 pb-3">
+                  1. Select your DailyKit
+               </h3>
+               <div className="border p-3">
+                  <div className="mb-3 flex items-center justify-between">
+                     <h3 className="font-medium text-gray-700">Little Italy</h3>
+                     <span className="font-bold text-gray-700">$60</span>
                   </div>
-                  <div className="font-medium mb-16">
-                     We're waiting for restaurant to confirm your order. Stay
-                     put!
-                  </div>
-                  <div className="font-medium">
-                     <small>Delivering at:</small>
-                     <h3>1271, S Indiana Avenue, Chicago, Illinois, 60001</h3>
-                     <span className="text-blue-500 cursor-pointer text-sm">
-                        Change address
+                  <div className="bg-gray-200 px-4 pb-3">
+                     <span className="inline-block mb-2 bg-orange-400 px-2 py-1 text-white text-sm">
+                        Lunch: Serves 4 people
                      </span>
+                     <ul>
+                        <RecipeCard
+                           hideCheck
+                           recipe={{
+                              title:
+                                 'Lasagna Bolognese with Meal Sauce, Homemade Ricotta, Parmesan Sauce',
+                              thumb:
+                                 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
+                           }}
+                        />
+                     </ul>
+                  </div>
+                  <div className="mt-4 bg-gray-200 px-4 pb-3">
+                     <span className="inline-block mb-2 bg-blue-900 px-2 py-1 text-white text-sm">
+                        Dinner: Serves 4 people
+                     </span>
+                     <ul>
+                        <RecipeCard
+                           hideCheck
+                           recipe={{
+                              title:
+                                 'Lasagna Bolognese with Meal Sauce, Homemade Ricotta, Parmesan Sauce',
+                              thumb:
+                                 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
+                           }}
+                        />
+                     </ul>
                   </div>
                </div>
             </div>
-         </div>
-         <style jsx>{`
-            .title {
-               border-bottom: 1px solid #ececec;
-            }
-            .cart-content {
-               display: grid;
-               grid-template-columns: 2rem 1fr;
-            }
-            .lunch-tile {
-               border-left: 4px solid #f6ad55;
-            }
-            .dinner-tile {
-               border-left: 4px solid #2a4365;
-            }
-         `}</style>
-      </React.Fragment>
+         </main>
+      </div>
    )
 }
 

@@ -5,6 +5,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
 const signup = async (req, res) => {
    try {
+      // remove passwor later
       const { email, password, firstname, lastname, phone } = req.body
       let url = `http://${process.env.KEYCLOAK_IP}/auth/realms/consumers/protocol/openid-connect/token`
       console.log(req.body)
@@ -67,6 +68,7 @@ const signup = async (req, res) => {
             message: 'Account created',
             data: {
                id: user._id,
+               name: user.firstname + ' ' + user.lastname,
             },
          })
       }
@@ -79,10 +81,60 @@ const signup = async (req, res) => {
    }
 }
 
+const saveAddress = async (req, res) => {
+   try {
+      const { address, id } = req.body
+      const addr = new Address(address)
+      const user = await User.findOne({ _id: id })
+      if (!user.addresses.length) {
+         addr.isDefault = true
+      }
+      await addr.save()
+      user.addresses = [...user.addresses, addr._id]
+      await user.save()
+      return res.json({
+         success: true,
+         message: 'Address saved',
+         data: null,
+      })
+   } catch (err) {
+      return res.json({
+         success: false,
+         message: err.message,
+         data: null,
+      })
+   }
+}
+
+const paymentIntent = async (req, res) => {
+   try {
+      const user = await User.findOne({ _id: req.body.id })
+      const intent = await stripe.setupIntents.create({
+         customer: user.stripe_id,
+      })
+      return res.json({
+         success: true,
+         message: 'Intent created',
+         data: {
+            secret: intent.client_secret,
+         },
+      })
+   } catch (err) {
+      return res.json({
+         success: false,
+         message: err.message,
+         data: null,
+      })
+   }
+}
+
 const saveCard = async (req, res) => {
    try {
       const user = await User.findOne({ _id: req.body.id })
-      user.payment_method = req.body.payment_method
+      // This will change later
+      // We'll make API req to stripe for fetching some card details like 4 digits, exp date. etc.
+      // It is not allowing that not test accounts maybe
+      user.cards = [...user.cards, req.body.card]
       await user.save()
       return res.json({
          success: true,
@@ -101,4 +153,6 @@ const saveCard = async (req, res) => {
 module.exports = {
    signup,
    saveCard,
+   saveAddress,
+   paymentIntent,
 }
