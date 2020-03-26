@@ -59,13 +59,16 @@ const Address = () => {
       e.preventDefault()
       try {
          setIsLoading(true)
-         const response = await fetch('/users/save-address', {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ address: state, id: global.id }),
-         })
+         const response = await fetch(
+            `${process.env.REACT_APP_DAILYKEY}/users/save-address`,
+            {
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/json',
+               },
+               body: JSON.stringify({ address: state, id: global.id }),
+            }
+         )
          const res = await response.json()
          if (res.success) {
             action({ type: 'ZIP', payload: { value: state.zip } })

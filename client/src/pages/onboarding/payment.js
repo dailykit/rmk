@@ -16,13 +16,16 @@ const Payment = () => {
 
    const createIntent = async () => {
       try {
-         const response = await fetch('/users/payment-intent', {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: global.id }),
-         })
+         const response = await fetch(
+            `${process.env.REACT_APP_DAILYKEY}/users/payment-intent`,
+            {
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/json',
+               },
+               body: JSON.stringify({ id: global.id }),
+            }
+         )
          const res = await response.json()
          if (res.success) {
             console.log(res)
