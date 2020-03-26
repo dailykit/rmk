@@ -10,7 +10,7 @@ const state = {
 
 const reducers = (state, { type, payload }) => {
    switch (type) {
-      case 'SIGNUP':
+      case 'LOGIN':
          return {
             ...state,
             id: payload.value.id,

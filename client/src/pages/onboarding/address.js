@@ -87,7 +87,6 @@ const Address = () => {
       <div className="flex h-screen">
          <div className="bg-onboarding bg-cover flex-1"></div>
          <div className="flex-1 relative p-8">
-            <div className="progress transition-all duration-200 ease-linear h-2 bg-primary absolute top-0 left-0"></div>
             <h1 className="text-gray-700 text-4xl font-bold mb-16">
                Delivery Address
             </h1>
@@ -110,7 +109,7 @@ const Address = () => {
                            })
                         }
                         required
-                        validate={true}
+                        validate="true"
                      />
                      <Input
                         type="text"
@@ -144,7 +143,7 @@ const Address = () => {
                                  })
                               }
                               required
-                              validate={true}
+                              validate="true"
                            />
                         </div>
                         <div className="w-6/12">
@@ -163,7 +162,7 @@ const Address = () => {
                                  })
                               }
                               required
-                              validate={true}
+                              validate="true"
                            />
                         </div>
                      </div>
@@ -185,7 +184,7 @@ const Address = () => {
                            pattern="(\d{5}([\-]\d{4})?)"
                            title="Format: nnnnn or nnnnn-nnnn"
                            required
-                           validate={true}
+                           validate="true"
                         />
                      </div>
                      <div className="w-full">
@@ -204,7 +203,7 @@ const Address = () => {
                               })
                            }
                            required
-                           validate={true}
+                           validate="true"
                         />
                      </div>
                   </div>
@@ -215,9 +214,6 @@ const Address = () => {
          <style jsx>{`
             .bg-onboarding {
                background-image: url('/img/index-hero.jpg');
-            }
-            .progress {
-               width: 100%;
             }
          `}</style>
       </div>

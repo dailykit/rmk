@@ -1,9 +1,8 @@
 import React from 'react'
 import { useHistory, Link } from 'react-router-dom'
 
-import { Input, Button } from '../../components'
+import { Input, Button, Modal } from '../../components'
 import { toast } from 'react-toastify'
-import { UserContext } from '../../context/User'
 
 const reducer = (state, action) => {
    switch (action.type) {
@@ -39,7 +38,7 @@ const reducer = (state, action) => {
 
 const Home = () => {
    const history = useHistory()
-   const { dispatch: action } = React.useContext(UserContext)
+   const [isModalVisible, setIsModalVisible] = React.useState(false)
    const [isLoading, setIsLoading] = React.useState(false)
    const [state, dispatch] = React.useReducer(reducer, {
       email: '',
@@ -65,9 +64,8 @@ const Home = () => {
          )
          const res = await response.json()
          if (res.success) {
-            action({ type: 'SIGNUP', payload: { value: res.data } })
-            toast.success('Signed up successfully!')
-            history.push('/address')
+            setIsModalVisible(true)
+            setIsLoading(false)
          } else {
             setIsLoading(false)
             throw Error(res.message)
@@ -81,7 +79,6 @@ const Home = () => {
       <div className="flex h-screen">
          <div className="bg-onboarding bg-cover flex-1"></div>
          <div className="flex-1 relative p-8">
-            <div className="progress transition-all duration-200 ease-linear h-2 bg-primary absolute top-0 left-0"></div>
             <div className="text-right mb-8">
                Already have an account?{' '}
                <Link to="/login">
@@ -106,7 +103,7 @@ const Home = () => {
                               })
                            }
                            required
-                           validate={true}
+                           validate="true"
                         />
                         <Input
                            type="text"
@@ -120,7 +117,7 @@ const Home = () => {
                               })
                            }
                            required
-                           validate={true}
+                           validate="true"
                         />
                      </div>
                      <Input
@@ -135,7 +132,7 @@ const Home = () => {
                            })
                         }
                         required
-                        validate={true}
+                        validate="true"
                      />
                      <Input
                         type="email"
@@ -149,7 +146,7 @@ const Home = () => {
                            })
                         }
                         required
-                        validate={true}
+                        validate="true"
                      />
                      <Input
                         type="password"
@@ -162,10 +159,10 @@ const Home = () => {
                               payload: { value: e.target.value },
                            })
                         }
-                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters."
+                        minLength="6"
+                        title="Must contain 6 or more characters."
                         required
-                        validate={true}
+                        validate="true"
                      />
                   </div>
                   <Button disabled={isLoading}>
@@ -176,12 +173,24 @@ const Home = () => {
                </form>
             </div>
          </div>
+         <Modal show={isModalVisible}>
+            <div className="text-center">
+               <h1 className="text-3xl text-primary font-semibold mb-4">
+                  Your account has been created.
+               </h1>
+               <h3 className="text-lg text-gray-700 font-medium mb-8">
+                  We've sent an email for verification.
+                  <br />
+                  You'll be able to login into your account once verfied.
+               </h3>
+               <Link to="/login">
+                  <Button>Go to login</Button>
+               </Link>
+            </div>
+         </Modal>
          <style jsx>{`
             .bg-onboarding {
                background-image: url('/img/index-hero.jpg');
-            }
-            .progress {
-               width: 50%;
             }
          `}</style>
       </div>

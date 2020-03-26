@@ -48,12 +48,13 @@ const Login = () => {
          const res = await response.json()
          if (res.success) {
             action({
-               type: 'SIGNUP',
+               type: 'LOGIN',
                payload: { value: { id: res.data.id, name: res.data.name } },
             })
             console.log(res.data)
             toast.success('Logged in successfully!')
-            history.push('/menu')
+            if (res.data.redirect) history.push('/address')
+            else history.push('/menu')
          } else {
             setIsLoading(false)
             throw Error(res.message)

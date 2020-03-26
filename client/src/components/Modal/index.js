@@ -11,13 +11,14 @@ const Modal = ({ show, closeHandler, children }) => {
    return ReactDOM.createPortal(
       <React.Fragment>
          {isVisible && (
-            <div className="modal absolute z-40 h-screen w-screen flex justify-center items-center">
+            <div className="modal absolute z-40 h-screen w-screen flex justify-center items-center shadow">
                <div className="relative bg-white w-6/12 h-6/12 p-4">
                   {children}
                   <span
                      className="absolute text-white cursor-pointer"
                      id="close"
                      onClick={closeHandler}
+                     hidden={!closeHandler}
                   >
                      close
                   </span>
