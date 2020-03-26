@@ -6,12 +6,10 @@ const mongoose = require('mongoose')
 const app = express()
 
 // Local imports
-const config = require('./config')
-const UserRouter = require('./routes/user.router')
 
 // DB Connection
 mongoose
-   .connect(config.DB_URL, {
+   .connect(process.env.DB_URI, {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -24,7 +22,13 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 // Routes
-app.use('/api/users', UserRouter)
+app.get('/api/users', (req, res) => {
+   res.json({
+      success: true,
+      message: `Use DailyKEY(${process.env.DAILYKEY_IP}) for this route`,
+      data: null,
+   })
+})
 
 const PORT = process.env.PORT || 4000
 
