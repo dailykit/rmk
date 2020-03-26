@@ -33,6 +33,32 @@ const login = async (req, res) => {
    }
 }
 
+const refreshToken = async (req, res) => {
+   try {
+      const { token } = req.body
+      let url = `http://${process.env.KEYCLOAK_IP}/auth/realms/consumers/protocol/openid-connect/token`
+      const response = await axios({
+         url,
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+         },
+         data: `grant_type=refresh_token&client_id=restaurantmealkit&refresh_token=${token}`,
+      })
+      return res.json({
+         success: true,
+         message: 'Token refreshed',
+         data: response.data,
+      })
+   } catch (err) {
+      return res.json({
+         success: false,
+         message: err.message,
+         data: null,
+      })
+   }
+}
+
 const signup = async (req, res) => {
    try {
       // remove passwor later
@@ -185,4 +211,5 @@ module.exports = {
    saveCard,
    saveAddress,
    paymentIntent,
+   refreshToken,
 }
