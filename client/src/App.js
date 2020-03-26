@@ -9,6 +9,7 @@ import { UserContext, state as initialState, reducers } from './context/User'
 
 import Home from './pages'
 import Onboarding from './pages/onboarding/index'
+import Login from './pages/login'
 import OnboardingAddress from './pages/onboarding/address'
 import OnboardingPayment from './pages/onboarding/payment'
 import Listing from './pages/listing'
@@ -40,6 +41,7 @@ const App = () => {
                />
                <Route path="/" exact component={Home} />
                <Route path="/onboarding" exact component={Onboarding} />
+               <Route path="/login" exact component={Login} />
                <Route path="/address" exact component={OnboardingAddress} />
                <Route path="/payment" exact component={OnboardingPayment} />
                <Route path="/listing" exact component={Listing} />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 
 import { Input, Button } from '../../components'
 import { toast } from 'react-toastify'
@@ -81,7 +81,9 @@ const Home = () => {
             <div className="progress transition-all duration-200 ease-linear h-2 bg-primary absolute top-0 left-0"></div>
             <div className="text-right mb-8">
                Already have an account?{' '}
-               <span className="text-primary">LOGIN</span>
+               <Link to="/login">
+                  <span className="text-primary">LOGIN</span>
+               </Link>
             </div>
             <h1 className="text-gray-700 text-4xl font-bold mb-16">Sign Up</h1>
             <div className="w-3/4">

@@ -3,12 +3,41 @@ const Address = require('../models/address.model')
 const axios = require('axios')
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
+const login = async (req, res) => {
+   try {
+      const { email, password } = req.body
+      let url = `http://${process.env.KEYCLOAK_IP}/auth/realms/consumers/protocol/openid-connect/token`
+      const response = await axios({
+         url,
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+         },
+         data: `grant_type=password&client_id=restaurantmealkit&username=${email}&password=${password}&scope=openid`,
+      })
+      const data = response.data
+      const user = await User.findOne({ email })
+      data.id = user._id
+      data.name = user.firstname + ' ' + user.lastname
+      return res.json({
+         success: true,
+         message: 'Logged in',
+         data,
+      })
+   } catch (err) {
+      return res.json({
+         success: false,
+         message: err.message,
+         data: null,
+      })
+   }
+}
+
 const signup = async (req, res) => {
    try {
       // remove passwor later
       const { email, password, firstname, lastname, phone } = req.body
       let url = `http://${process.env.KEYCLOAK_IP}/auth/realms/consumers/protocol/openid-connect/token`
-      console.log(req.body)
       const keycloak_response = await axios({
          url,
          method: 'POST',
@@ -151,6 +180,7 @@ const saveCard = async (req, res) => {
 }
 
 module.exports = {
+   login,
    signup,
    saveCard,
    saveAddress,
