@@ -1,4 +1,5 @@
-const fetch = require('isomorphic-fetch')
+const { fetchQuery } = require('../../utils')
+
 const Restaurant = require('./model')
 
 const GET_BRAND = `query {
@@ -11,20 +12,6 @@ const GET_BRAND = `query {
       }
     }
 }`
-
-const fetchQuery = async (url, query) => {
-   try {
-      const response = await fetch(url, {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ query }),
-      })
-      const { data } = await response.json()
-      return data
-   } catch (error) {
-      console.log(error.message)
-   }
-}
 
 const list = async (req, res) => {
    try {
