@@ -5,31 +5,31 @@ import { Layout } from '../sections'
 
 const Listing = () => {
    const history = useHistory()
-   const [restaurants] = React.useState([
-      {
-         title: 'Little Italy',
-         logo: '',
-      },
-      {
-         title: 'Truffles',
-         logo: '',
-      },
-   ])
+   const [list, setList] = React.useState([])
+
    const getInitials = title => {
       const length = title.split(' ').length
       const first = title.split(' ')[0][0]
       const last = length > 1 ? title.split(' ')[length - 1][0] : ''
       return `${first}${last}`
    }
+
+   React.useEffect(() => {
+      ;(async () => {
+         const response = await fetch('/restaurants')
+         const restaurants = await response.json()
+         setList(restaurants.data)
+      })()
+   }, [])
    return (
       <Layout>
          <h1 className="text-3xl pb-3 font-medium text-blue-900">
             Restaurants
          </h1>
          <ul>
-            {restaurants.map(restaurant => (
+            {list.map(restaurant => (
                <li
-                  key={restaurant.title}
+                  key={restaurant._id}
                   className="border p-3 flex items-center justify-between mb-4"
                >
                   <div className="flex items-center">
@@ -38,16 +38,16 @@ const Listing = () => {
                            <img
                               className="h-full object-cover"
                               src={restaurant.logo}
-                              alt={restaurant.title}
+                              alt={restaurant.name}
                            />
                         ) : (
                            <span className="text-2xl">
-                              {getInitials(restaurant.title)}
+                              {getInitials(restaurant.name)}
                            </span>
                         )}
                      </span>
                      <h2 className="text-2xl text-blue-900 ml-3">
-                        {restaurant.title}
+                        {restaurant.name}
                      </h2>
                   </div>
                   <button

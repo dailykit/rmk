@@ -2,6 +2,7 @@
    "name": "shop-app",
    "version": "0.1.0",
    "private": true,
+   "proxy": "http://localhost:4000/api",
    "scripts": {
       "start": "react-scripts start",
       "build": "react-scripts build",
