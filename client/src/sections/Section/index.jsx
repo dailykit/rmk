@@ -2,39 +2,7 @@ import React from 'react'
 
 import { RecipeCard } from '../../components'
 
-const Section = ({ type, count, toggleTunnel }) => {
-   const [recipes] = React.useState([
-      {
-         title: 'Chicken Salad',
-         url: 'menu/chicken',
-         thumb:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
-      },
-      {
-         title: 'Chicken Salad',
-         url: 'menu/salad',
-         thumb:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
-      },
-      {
-         title: 'Chicken Salad',
-         url: 'menu/curry',
-         thumb:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
-      },
-      {
-         title: 'Chicken Salad',
-         url: '#',
-         thumb:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
-      },
-      {
-         title: 'Chicken Salad',
-         url: '#',
-         thumb:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
-      },
-   ])
+const Section = ({ type, count, recipes, toggleTunnel }) => {
    return (
       <div className="mt-4 bg-gray-200 px-4 pb-4">
          <span
@@ -48,7 +16,7 @@ const Section = ({ type, count, toggleTunnel }) => {
             <span className="text-gray-600">{count} recipes available:</span>
          </header>
          <ul className="grid grid-cols-3 gap-4 overflow-x-auto">
-            {recipes.slice(0, 4).map((recipe, index) => (
+            {recipes.map(({ recipe }, index) => (
                <RecipeCard
                   key={index}
                   recipe={recipe}

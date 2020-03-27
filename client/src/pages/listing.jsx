@@ -2,10 +2,12 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { Layout } from '../sections'
+import { UserContext } from '../context/User'
 
 const Listing = () => {
    const history = useHistory()
    const [list, setList] = React.useState([])
+   const { dispatch } = React.useContext(UserContext)
 
    const getInitials = (title = '') => {
       const length = title.split(' ').length
@@ -21,6 +23,11 @@ const Listing = () => {
          setList(restaurants.data)
       })()
    }, [])
+
+   const selectRestaurant = restaurant => {
+      dispatch({ type: 'SET_MENU', payload: restaurant._id })
+      history.push(`/listing/${restaurant.menu.menuId}`)
+   }
    return (
       <Layout>
          <h1 className="text-3xl pb-3 font-medium text-blue-900">
@@ -51,9 +58,7 @@ const Listing = () => {
                      </h2>
                   </div>
                   <button
-                     onClick={() =>
-                        history.push(`/listing/${restaurant.menu.menuId}`)
-                     }
+                     onClick={() => selectRestaurant(restaurant)}
                      className="w-auto h-12 px-3 bg-primary text-white"
                   >
                      View Menu

@@ -6,6 +6,7 @@ const initialState = {
    id: '',
    name: '',
    zip: '',
+   viewingRestaurant: '',
 }
 
 const reducers = (state, { type, payload }) => {
@@ -21,6 +22,8 @@ const reducers = (state, { type, payload }) => {
             ...state,
             zip: payload.value,
          }
+      case 'SET_MENU':
+         return { ...state, viewingRestaurant: payload }
       default:
          return state
    }

@@ -4,8 +4,21 @@ import Section from '../Section'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 
-const Restaurant = ({ toggleTunnel }) => {
+const Restaurant = ({ menu, toggleTunnel }) => {
    const history = useHistory()
+   const [lunch, setLunch] = React.useState({})
+   const [dinner, setDinner] = React.useState({})
+
+   React.useEffect(() => {
+      if (Object.keys(menu).length > 0) {
+         const menus =
+            menu.menuCollections[0].menuCollection[0].categories[0].products[0]
+               .items
+         setLunch(menus[0] || {})
+         setDinner(menus[1] || {})
+      }
+   }, [menu])
+
    const selectPlan = async () => {
       try {
          // Add logic to check is default card present
@@ -31,8 +44,22 @@ const Restaurant = ({ toggleTunnel }) => {
                Select Plan
             </button>
          </header>
-         <Section type="Lunch" toggleTunnel={toggleTunnel} count={2} />
-         <Section type="Dinner" toggleTunnel={toggleTunnel} count={4} />
+         {lunch?.recipes?.length > 0 && (
+            <Section
+               type="Lunch"
+               recipes={lunch.recipes}
+               toggleTunnel={toggleTunnel}
+               count={lunch.recipes.length}
+            />
+         )}
+         {dinner?.recipes?.length > 0 && (
+            <Section
+               type="Dinner"
+               recipes={dinner.recipes}
+               toggleTunnel={toggleTunnel}
+               count={dinner.recipes.length}
+            />
+         )}
       </div>
    )
 }

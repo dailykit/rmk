@@ -5,6 +5,7 @@ const restaurantSchema = new Schema(
    {
       name: String,
       logo: String,
+      api_url: String,
       isActive: {
          type: Boolean,
          default: true,

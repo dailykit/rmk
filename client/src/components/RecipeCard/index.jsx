@@ -1,7 +1,6 @@
 import React from 'react'
 
 const RecipeCard = ({ hideCheck, recipe, toggleTunnel }) => {
-   const { title, thumb } = recipe
    const [select, toggleSelect] = React.useState(false)
    const randomNumber = Math.random()
    return (
@@ -24,13 +23,19 @@ const RecipeCard = ({ hideCheck, recipe, toggleTunnel }) => {
             </label>
          )}
          <div className="mb-2 rounded overflow-hidden ">
-            <img className="w-full select-none" src={thumb} alt={title} />
+            {recipe.thumb && (
+               <img
+                  className="w-full select-none"
+                  src={recipe.thumb}
+                  alt={recipe.name}
+               />
+            )}
          </div>
          <h4
             className="cursor-pointer select-none"
             onClick={() => toggleTunnel(true)}
          >
-            {title}
+            {recipe.name}
          </h4>
       </li>
    )

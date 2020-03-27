@@ -6,7 +6,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
-const RestaurantRouter = require('./entities/restaurant')
+const { RestaurantRouter, MenuRouter } = require('./entities')
 
 const app = express()
 
@@ -37,6 +37,7 @@ const PORT = process.env.PORT || 4000
 
 // Routes
 app.use('/api/restaurants', RestaurantRouter)
+app.use('/api/menu', MenuRouter)
 
 app.get('*', (req, res) => {
    res.sendFile(path.join(__dirname + '/../client/build/index.html'))
