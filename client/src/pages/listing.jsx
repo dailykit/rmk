@@ -1,8 +1,10 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { Layout } from '../sections'
 
 const Listing = () => {
+   const history = useHistory()
    const [restaurants] = React.useState([
       {
          title: 'Little Italy',
@@ -48,7 +50,10 @@ const Listing = () => {
                         {restaurant.title}
                      </h2>
                   </div>
-                  <button className="w-auto h-12 px-3 bg-primary text-white">
+                  <button
+                     onClick={() => history.push('/listing/123')}
+                     className="w-auto h-12 px-3 bg-primary text-white"
+                  >
                      View Menu
                   </button>
                </li>

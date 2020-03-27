@@ -1,16 +1,16 @@
 import React from 'react'
-import { Layout } from '../../sections'
+import { Layout } from '../sections'
 
-import { Restaurant, RecipeDetails } from '../../sections'
+import { Menu, RecipeDetails } from '../sections'
 
-const Home = () => {
+const Restaurant = () => {
    const [tunnel, toggleTunnel] = React.useState(false)
    return (
       <Layout>
-         <Restaurant toggleTunnel={toggleTunnel} />
+         <Menu toggleTunnel={toggleTunnel} />
          {tunnel && <RecipeDetails toggleTunnel={toggleTunnel} />}
       </Layout>
    )
 }
 
-export default Home
+export default Restaurant
