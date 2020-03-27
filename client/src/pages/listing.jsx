@@ -7,7 +7,7 @@ const Listing = () => {
    const history = useHistory()
    const [list, setList] = React.useState([])
 
-   const getInitials = title => {
+   const getInitials = (title = '') => {
       const length = title.split(' ').length
       const first = title.split(' ')[0][0]
       const last = length > 1 ? title.split(' ')[length - 1][0] : ''
@@ -51,7 +51,9 @@ const Listing = () => {
                      </h2>
                   </div>
                   <button
-                     onClick={() => history.push('/listing/123')}
+                     onClick={() =>
+                        history.push(`/listing/${restaurant.menu.menuId}`)
+                     }
                      className="w-auto h-12 px-3 bg-primary text-white"
                   >
                      View Menu
