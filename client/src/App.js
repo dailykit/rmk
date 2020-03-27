@@ -5,7 +5,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import 'react-toastify/dist/ReactToastify.css'
 
-import { UserContext, state as initialState, reducers } from './context/User'
+import { UserProvider } from './context/User'
 
 import Home from './pages'
 import Onboarding from './pages/onboarding/index'
@@ -23,10 +23,9 @@ import Settings from './pages/user/settings'
 const stripePromise = loadStripe('pk_test_YimZaa4yE2vqtcLy2Uf70NzR00CZwdOVk3')
 
 const App = () => {
-   const [state, dispatch] = React.useReducer(reducers, initialState)
    return (
       <Elements stripe={stripePromise}>
-         <UserContext.Provider value={{ state, dispatch }}>
+         <UserProvider>
             <Router>
                <ToastContainer
                   position="top-right"
@@ -52,7 +51,7 @@ const App = () => {
                <Route path="/user/payment" exact component={Payment} />
                <Route path="/user/settings" exact component={Settings} />
             </Router>
-         </UserContext.Provider>
+         </UserProvider>
       </Elements>
    )
 }

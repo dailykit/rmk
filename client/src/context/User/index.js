@@ -1,8 +1,8 @@
 import React from 'react'
 
-const UserContext = React.createContext()
+export const UserContext = React.createContext()
 
-const state = {
+const initialState = {
    id: '',
    name: '',
    zip: '',
@@ -26,4 +26,11 @@ const reducers = (state, { type, payload }) => {
    }
 }
 
-export { UserContext, state, reducers }
+export const UserProvider = ({ children }) => {
+   const [state, dispatch] = React.useReducer(reducers, initialState)
+   return (
+      <UserContext.Provider value={{ state, dispatch }}>
+         {children}
+      </UserContext.Provider>
+   )
+}
