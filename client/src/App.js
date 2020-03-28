@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { UserProvider } from './context/User'
+import { MenuProvider } from './context/menu'
 
 import Home from './pages'
 import Onboarding from './pages/onboarding/index'
@@ -44,7 +45,9 @@ const App = () => {
                <Route path="/address" exact component={OnboardingAddress} />
                <Route path="/payment" exact component={OnboardingPayment} />
                <Route path="/listing" exact component={Listing} />
-               <Route path="/listing/:id" exact component={Restaurant} />
+               <MenuProvider>
+                  <Route path="/listing/:id" exact component={Restaurant} />
+               </MenuProvider>
                <Route path="/user/account" exact component={Account} />
                <Route path="/user/address" exact component={Address} />
                <Route path="/user/orders" exact component={Orders} />

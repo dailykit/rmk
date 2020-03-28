@@ -1,23 +1,26 @@
 import React from 'react'
-
-import Section from '../Section'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 
-const Restaurant = ({ menu, toggleTunnel }) => {
+import Section from '../Section'
+
+import { MenuContext } from '../../context/menu'
+
+const Restaurant = ({ toggleTunnel }) => {
    const history = useHistory()
    const [lunch, setLunch] = React.useState({})
    const [dinner, setDinner] = React.useState({})
+   const { state } = React.useContext(MenuContext)
 
    React.useEffect(() => {
-      if (Object.keys(menu).length > 0) {
+      if (Object.keys(state.menu).length > 0) {
          const menus =
-            menu.menuCollections[0].menuCollection[0].categories[0].products[0]
-               .items
+            state.menu.menuCollections[0].menuCollection[0].categories[0]
+               .products[0].items
          setLunch(menus[0] || {})
          setDinner(menus[1] || {})
       }
-   }, [menu])
+   }, [state.menu])
 
    const selectPlan = async () => {
       try {
