@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RecipeCard = ({ selected, recipe, toggleTunnel, onClick }) => {
+const RecipeCard = ({ selected, recipe, toggleTunnel, onClick, noDetails }) => {
    const viewDetails = e => {
       e.stopPropagation()
       toggleTunnel(true)
@@ -26,12 +26,14 @@ const RecipeCard = ({ selected, recipe, toggleTunnel, onClick }) => {
          </div>
          <div className="flex items-center justify-between">
             <h4 className="cursor-pointer select-none">{recipe.name}</h4>
-            <button
-               className="text-sm uppercase font-medium tracking-wider border border-gray-300 rounded px-1 text-gray-500"
-               onClick={viewDetails}
-            >
-               View
-            </button>
+            {!noDetails && (
+               <button
+                  className="text-sm uppercase font-medium tracking-wider border border-gray-300 rounded px-1 text-gray-500"
+                  onClick={viewDetails}
+               >
+                  View
+               </button>
+            )}
          </div>
       </li>
    )

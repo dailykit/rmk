@@ -38,6 +38,7 @@ const Cart = () => {
                      </span>
                      <ul>
                         <RecipeCard
+                           noDetails
                            recipe={{
                               name:
                                  'Lasagna Bolognese with Meal Sauce, Homemade Ricotta, Parmesan Sauce',
@@ -53,6 +54,7 @@ const Cart = () => {
                      </span>
                      <ul>
                         <RecipeCard
+                           noDetails
                            recipe={{
                               name:
                                  'Lasagna Bolognese with Meal Sauce, Homemade Ricotta, Parmesan Sauce',
