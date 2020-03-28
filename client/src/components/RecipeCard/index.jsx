@@ -1,42 +1,38 @@
 import React from 'react'
 
-const RecipeCard = ({ hideCheck, recipe, toggleTunnel }) => {
-   const [select, toggleSelect] = React.useState(false)
-   const randomNumber = Math.random()
+const RecipeCard = ({ selected, recipe, toggleTunnel, onClick }) => {
+   const viewDetails = e => {
+      e.stopPropagation()
+      toggleTunnel(true)
+   }
    return (
-      <li className="flex flex-col bg-white p-2 rounded overflow-hidden border border-gray-300">
-         {!hideCheck && (
-            <label
-               htmlFor={`select_recipe${randomNumber}`}
-               className={`${
-                  select ? 'bg-primary' : 'bg-white'
-               } self-end h-5 w-5 border border-primary mb-2 rounded-full flex items-center justify-center cursor-pointer`}
-            >
-               <CheckIcon />
-               <input
-                  type="checkbox"
-                  id={`select_recipe${randomNumber}`}
-                  className="hidden"
-                  value={select}
-                  onChange={() => toggleSelect(!select)}
-               />
-            </label>
-         )}
-         <div className="mb-2 rounded overflow-hidden ">
-            {recipe.thumb && (
+      <li
+         className={`flex flex-col bg-white p-2 rounded overflow-hidden  ${
+            selected ? 'border-2 border-primary' : 'border border-gray-300'
+         }`}
+         onClick={onClick}
+      >
+         <div className="flex items-center justify-center h-48 bg-gray-200 mb-2 rounded overflow-hidden">
+            {recipe.thumb ? (
                <img
-                  className="w-full select-none"
+                  className="h-full w-full object-cover select-none"
                   src={recipe.thumb}
                   alt={recipe.name}
+                  title={recipe.name}
                />
+            ) : (
+               <span>No Photos</span>
             )}
          </div>
-         <h4
-            className="cursor-pointer select-none"
-            onClick={() => toggleTunnel(true)}
-         >
-            {recipe.name}
-         </h4>
+         <div className="flex items-center justify-between">
+            <h4 className="cursor-pointer select-none">{recipe.name}</h4>
+            <button
+               className="text-sm uppercase font-medium tracking-wider border border-gray-300 rounded px-1 text-gray-500"
+               onClick={viewDetails}
+            >
+               View
+            </button>
+         </div>
       </li>
    )
 }

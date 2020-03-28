@@ -32,7 +32,7 @@ const Restaurant = ({ toggleTunnel }) => {
    }
 
    return (
-      <div className="border border-gray-300 p-4">
+      <div>
          <header className="flex items-center justify-between">
             <div>
                <h1 className="text-2xl">Little Italy</h1>

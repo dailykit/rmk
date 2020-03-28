@@ -3,6 +3,7 @@ import React from 'react'
 import { RecipeCard } from '../../components'
 
 const Section = ({ type, count, recipes, toggleTunnel }) => {
+   const [selected, selectRecipe] = React.useState('')
    return (
       <div className="mt-4 bg-gray-200 px-4 pb-4">
          <span
@@ -21,6 +22,12 @@ const Section = ({ type, count, recipes, toggleTunnel }) => {
                   key={index}
                   recipe={recipe}
                   toggleTunnel={toggleTunnel}
+                  selected={selected === recipe.name}
+                  onClick={() =>
+                     selectRecipe(selected =>
+                        selected !== recipe.name ? recipe.name : ''
+                     )
+                  }
                />
             ))}
          </ul>
