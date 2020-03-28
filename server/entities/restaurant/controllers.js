@@ -35,7 +35,7 @@ const list = async (req, res) => {
             }
          })
       )
-      return res.json({ success: true, data: restaurants })
+      return res.json({ success: true, data: restaurants.filter(Boolean) })
    } catch (error) {
       return res.json({ success: false, error: error.message })
    }

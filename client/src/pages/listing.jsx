@@ -20,7 +20,7 @@ const Listing = () => {
       ;(async () => {
          const response = await fetch('/restaurants')
          const restaurants = await response.json()
-         setList(restaurants.data)
+         restaurants.success && setList(restaurants.data)
       })()
    }, [])
 
@@ -33,6 +33,11 @@ const Listing = () => {
          <h1 className="text-3xl pb-3 font-medium text-blue-900">
             Restaurants
          </h1>
+         {list.length === 0 && (
+            <span className="text-xl text-gray-600 font-light">
+               No restaurants are serving on this date!
+            </span>
+         )}
          <ul>
             {list.map(restaurant => (
                <li
