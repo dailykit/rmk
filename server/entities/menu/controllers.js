@@ -15,6 +15,9 @@ const GET_MENU = `query {
              name
              items {
                label
+               defaultRecipe {
+                  name
+               }
                recipes {
                  recipe {
                    name

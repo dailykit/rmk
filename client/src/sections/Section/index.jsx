@@ -2,8 +2,8 @@ import React from 'react'
 
 import { RecipeCard } from '../../components'
 
-const Section = ({ type, count, recipes, toggleTunnel }) => {
-   const [selected, selectRecipe] = React.useState('')
+const Section = ({ type, count, defaultRecipe, recipes, toggleTunnel }) => {
+   const [selected, selectRecipe] = React.useState(defaultRecipe.name)
    return (
       <div className="mt-4 bg-gray-200 px-4 pb-4">
          <span

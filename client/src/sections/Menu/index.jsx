@@ -9,7 +9,9 @@ import { MenuContext } from '../../context/menu'
 const Restaurant = ({ toggleTunnel }) => {
    const history = useHistory()
    const [lunch, setLunch] = React.useState({})
+   const [lunchDefault, setLunchDefault] = React.useState('')
    const [dinner, setDinner] = React.useState({})
+   const [dinnerDefault, setDinnerDefault] = React.useState('')
    const { state } = React.useContext(MenuContext)
 
    React.useEffect(() => {
@@ -18,7 +20,9 @@ const Restaurant = ({ toggleTunnel }) => {
             state.menu.menuCollections[0].menuCollection[0].categories[0]
                .products[0].items
          setLunch(menus[0] || {})
+         setLunchDefault(menus[0]?.defaultRecipe || '')
          setDinner(menus[1] || {})
+         setDinnerDefault(menus[1]?.defaultRecipe || '')
       }
    }, [state.menu])
 
@@ -50,6 +54,7 @@ const Restaurant = ({ toggleTunnel }) => {
          {lunch?.recipes?.length > 0 && (
             <Section
                type="Lunch"
+               defaultRecipe={lunchDefault}
                recipes={lunch.recipes}
                toggleTunnel={toggleTunnel}
                count={lunch.recipes.length}
@@ -58,6 +63,7 @@ const Restaurant = ({ toggleTunnel }) => {
          {dinner?.recipes?.length > 0 && (
             <Section
                type="Dinner"
+               defaultRecipe={dinnerDefault}
                recipes={dinner.recipes}
                toggleTunnel={toggleTunnel}
                count={dinner.recipes.length}
