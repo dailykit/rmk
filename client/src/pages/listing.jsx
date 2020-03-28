@@ -7,7 +7,7 @@ import { UserContext } from '../context/User'
 const Listing = () => {
    const history = useHistory()
    const [list, setList] = React.useState([])
-   const { dispatch } = React.useContext(UserContext)
+   const { state, dispatch } = React.useContext(UserContext)
 
    const getInitials = (title = '') => {
       const length = title.split(' ').length
@@ -20,7 +20,10 @@ const Listing = () => {
       ;(async () => {
          const response = await fetch('/restaurants')
          const restaurants = await response.json()
-         restaurants.success && setList(restaurants.data)
+         const available = await restaurants.data.filter(restaurant =>
+            restaurant.menu.zipcode.includes(state.zip)
+         )
+         restaurants.success && setList(available)
       })()
    }, [])
 
@@ -34,7 +37,8 @@ const Listing = () => {
          </h1>
          {list.length === 0 && (
             <span className="text-xl text-gray-600 font-light">
-               No restaurants are serving on this date!
+               No restaurants available in this location! We will notify you
+               when a restaurant starts serving mealkits in your area.
             </span>
          )}
          <ul>

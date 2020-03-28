@@ -9,6 +9,7 @@ const GET_BRAND = `query {
       menus {
         name
         menuId
+        zipcode
       }
     }
 }`
