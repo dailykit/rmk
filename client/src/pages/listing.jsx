@@ -25,8 +25,7 @@ const Listing = () => {
    }, [])
 
    const selectRestaurant = restaurant => {
-      dispatch({ type: 'SET_MENU', payload: restaurant._id })
-      history.push(`/listing/${restaurant.menu.menuId}`)
+      history.push(`/listing/${restaurant._id}`)
    }
    return (
       <Layout>
