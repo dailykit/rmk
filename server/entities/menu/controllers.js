@@ -57,9 +57,9 @@ const GET_MENU = `query {
 const menu = async (req, res) => {
    try {
       const { restaurantId } = req.params
-      const { api_url } = await Restaurant.findById({ _id: restaurantId })
-      const data = await fetchQuery(api_url, GET_MENU)
-      return res.status(200).json({ success: true, data })
+      const { name, api_url } = await Restaurant.findById({ _id: restaurantId })
+      const { menu } = await fetchQuery(api_url, GET_MENU)
+      return res.status(200).json({ success: true, data: { name, menu } })
    } catch (error) {
       return res.json({ success: false, error: error.message })
    }

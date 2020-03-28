@@ -15,16 +15,16 @@ const Restaurant = ({ toggleTunnel }) => {
    const { state } = React.useContext(MenuContext)
 
    React.useEffect(() => {
-      if (Object.keys(state.menu).length > 0) {
+      if (Object.keys(state.restaurant).length > 0) {
          const menus =
-            state.menu.menuCollections[0].menuCollection[0].categories[0]
-               .products[0].items
+            state.restaurant.menu.menuCollections[0].menuCollection[0]
+               .categories[0].products[0].items
          setLunch(menus[0] || {})
          setLunchDefault(menus[0]?.defaultRecipe || '')
          setDinner(menus[1] || {})
          setDinnerDefault(menus[1]?.defaultRecipe || '')
       }
-   }, [state.menu])
+   }, [state.restaurant])
 
    const selectPlan = async () => {
       try {
@@ -39,7 +39,7 @@ const Restaurant = ({ toggleTunnel }) => {
       <div>
          <header className="flex items-center justify-between">
             <div>
-               <h1 className="text-2xl">Little Italy</h1>
+               <h1 className="text-2xl">{state.restaurant.name}</h1>
                <p className="text-gray-600">
                   Select your preferred recipes for Lunch and Dinner
                </p>

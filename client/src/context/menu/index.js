@@ -3,7 +3,7 @@ import React from 'react'
 export const MenuContext = React.createContext()
 
 const initialState = {
-   menu: {},
+   restaurant: {},
 }
 
 const reducers = (state, { type, payload }) => {
@@ -11,7 +11,7 @@ const reducers = (state, { type, payload }) => {
       case 'SELECT_MENU':
          return {
             ...state,
-            menu: payload,
+            restaurant: payload,
          }
       default:
          return state

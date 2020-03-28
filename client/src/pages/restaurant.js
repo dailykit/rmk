@@ -16,7 +16,7 @@ const Restaurant = () => {
          try {
             const response = await fetch(`/menu/${params.id}`)
             const { data } = await response.json()
-            dispatch({ type: 'SELECT_MENU', payload: data.menu })
+            dispatch({ type: 'SELECT_MENU', payload: data })
          } catch (error) {
             console.log(error.message)
          }
