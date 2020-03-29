@@ -84,7 +84,7 @@ const Home = () => {
          <div className="flex-1 relative p-8">
             <div className="text-right mb-8">
                Already have an account?{' '}
-               <span className="text-primary" onClick={() => login()}>
+               <span className="text-primary" onClick={() => login('/listing')}>
                   LOGIN
                </span>
             </div>
@@ -186,7 +186,7 @@ const Home = () => {
                   <br />
                   You'll be able to login into your account once verfied.
                </h3>
-               <Button onClick={() => login()}>Go to login</Button>
+               <Button onClick={() => login('/address')}>Go to login</Button>
             </div>
          </Modal>
          <style jsx>{`

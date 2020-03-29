@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       })()
    }, [isAuthenticated])
 
-   const login = () => keycloak.login()
+   const login = path => keycloak.login({ redirectUri: path })
    const logout = () => keycloak.logout()
    const isTokenExpired = () => keycloak.isTokenExpired()
    const updateToken = () => keycloak.updateToken()
