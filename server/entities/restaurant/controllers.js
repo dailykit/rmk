@@ -20,10 +20,7 @@ const list = async (req, res) => {
       const restaurants = await Promise.all(
          list.map(async item => {
             try {
-               const { brand } = await fetchQuery(
-                  process.env.DATAHUB_URI,
-                  GET_BRAND
-               )
+               const { brand } = await fetchQuery(item.api_url, GET_BRAND)
                const result = await {
                   ...item._doc,
                   menu: brand.menus.find(
