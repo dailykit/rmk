@@ -8,6 +8,7 @@ const RecipeCard = ({ selected, recipe, onClick, noDetails }) => {
    const viewDetails = e => {
       e.stopPropagation()
       dispatch({ type: 'TOGGLE_TUNNEL' })
+      dispatch({ type: 'SELECT_RECIPE', payload: recipe.id })
    }
    return (
       <li

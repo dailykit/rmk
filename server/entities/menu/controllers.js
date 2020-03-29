@@ -4,40 +4,43 @@ const Restaurant = require('../restaurant/model')
 
 const GET_MENU = `query {
    menu(name: "Restaurant Meal Kits") {
+     id
      name
      menuCollections {
        availability
        menuCollection {
+         id
          name
          categories {
            title
            products {
+             id
              name
              items {
                label
                defaultRecipe {
-                  name
+                 name
                }
                recipes {
                  recipe {
+                   id
                    name
                    servings {
                      size
                       ingredients {
                        ingredient {
+                         id
                          name
                        }
                        processing {
-                         processingName {
-                           name
-                         }
-                         sachets {
-                           quantity {
-                             value
-                           }
+                         id
+                         name {
+                           id
+                           title
                          }
                        }
                        sachet {
+                         id
                          quantity {
                            value
                          }

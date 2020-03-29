@@ -1,10 +1,27 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import { MenuContext } from '../../context/menu'
 
 const RecipeDetails = () => {
+   const params = useParams()
+   const [recipe, setRecipe] = React.useState({})
    const { state, dispatch } = React.useContext(MenuContext)
-   console.log('RecipeDetails -> state', state.RecipeDetails)
+
+   React.useEffect(() => {
+      ;(async () => {
+         const response = await fetch(
+            `/recipe/${params.id}/${state.recipeDetails}`
+         )
+         const { success, data } = await response.json()
+         success &&
+            setRecipe({
+               ...data,
+               servings: data.servings.find(serving => serving.size === 4),
+            })
+      })()
+   }, [state.recipeDetails])
+
    return (
       <div className="w-8/12 border-t shadow-md bg-white fixed mt-16 top-0 left-0 bottom-0">
          <header className="h-16 border-b px-3 flex items-center justify-between">
@@ -20,13 +37,13 @@ const RecipeDetails = () => {
             className="overflow-y-auto"
             style={{ height: 'calc(100% - 64px)' }}
          >
-            <div className="bg-gray-200">
-               <div className="p-6">
+            <div className="bg-gray-200 p-6">
+               {Object.keys(recipe).length > 0 ? (
                   <div className="bg-white p-4">
                      <h1 className="text-gray-800 mb-3 text-3xl font-medium">
-                        Paneer curry & Rice
+                        {recipe.name}
                      </h1>
-                     <div className="w-full">
+                     <div className="w-8/12">
                         <div>
                            <img
                               className="w-full rounded"
@@ -55,9 +72,11 @@ const RecipeDetails = () => {
                         Ingredients
                      </h2>
                      <ol className="list-decimal ml-6">
-                        <li className="h-8 ">200gm chopped Potato</li>
-                        <li className="h-8 ">200gm fried and sliced onion</li>
-                        <li className="h-8 ">200gm chopped potato</li>
+                        {recipe.servings.ingredients.map(({ ingredient }) => (
+                           <li className="h-8 " key={ingredient.id}>
+                              {ingredient.name}
+                           </li>
+                        ))}
                      </ol>
                      <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
                         Nutritional Values
@@ -77,48 +96,34 @@ const RecipeDetails = () => {
                      <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
                         Cooking Process
                      </h2>
-                     <ol className=" list-decimal ml-6">
-                        <li className="h-auto mb-4">
-                           Toast the buns. In a large frying pan, place the
-                           buns, cut sides down, and cook over medium-high heat
-                           until lightly toasted, 1 to 2 minutes. Alternatively,
-                           toast them in a toaster oven. Transfer to a plate. Do
-                           not clean the pan.
-                        </li>
-                        <li className="h-auto mb-4">
-                           Make the sloppy joe filling Peel and coarsely chop
-                           the onion. If using the jalapeño, remove the stem,
-                           ribs, and seeds; thinly slice the jalapeño. Wash your
-                           hands after handling.
-                        </li>
-                        <li className="h-auto mb-4">
-                           Cut a small corner from the ground chicken packaging
-                           and drain off any excess liquid. Transfer to a plate;
-                           pat dry with a paper towel.
-                        </li>
-                        <li className="h-auto mb-4">
-                           In the same pan used for the buns, warm 2 to 3
-                           teaspoons oil over medium-high heat until hot but not
-                           smoking. Add the onion and as much jalapeño as you
-                           like, season with salt and pepper, and cook, stirring
-                           occasionally, until starting to soften, 2 to 3
-                           minutes. Add the chicken, season with salt and
-                           pepper, and cook, stirring to break up the meat,
-                           until lightly browned but not yet cooked through, 3
-                           to 4 minutes.
-                        </li>
-                        <li className="h-auto mb-4">
-                           Stir in the sloppy joe sauce base and ¼ cup (½ cup)
-                           water and cook until the sauce is thickened slightly,
-                           1 to 2 minutes. Stir in the cheddar and cook until
-                           melted and the chicken is cooked through, about 1
-                           minute. Remove from the heat and season to taste with
-                           salt and pepper. While the sloppy joe filling cooks,
-                           prepare the salad.
-                        </li>
+                     <ol className="list-decimal ml-4">
+                        {recipe.procedures.map(procedure => (
+                           <li className="h-auto mb-4" key={procedure.name}>
+                              <ol className="list-decimal">
+                                 <h2 className="text-lg font-normal text-gray-700">
+                                    {procedure.name}
+                                 </h2>
+                                 {procedure.steps.map(step => (
+                                    <li
+                                       className="h-auto mb-4 ml-4 mt-2"
+                                       key={step.title}
+                                    >
+                                       <h3 className="text-gray-800">
+                                          {step.title}
+                                       </h3>
+                                       <p className="mt-1 text-gray-600">
+                                          {step.description}
+                                       </p>
+                                    </li>
+                                 ))}
+                              </ol>
+                           </li>
+                        ))}
                      </ol>
                   </div>
-               </div>
+               ) : (
+                  <span>Loading...</span>
+               )}
             </div>
          </main>
       </div>
