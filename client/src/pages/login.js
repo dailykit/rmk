@@ -36,7 +36,7 @@ const Login = () => {
          e.preventDefault()
          setIsLoading(true)
          const response = await fetch(
-            `${process.env.REACT_APP_DAILYKEY}/users/login`,
+            `${process.env.REACT_APP_DAILYKEY}/api/users/login`,
             {
                method: 'POST',
                headers: {

@@ -4,6 +4,8 @@ import { useHistory, Link } from 'react-router-dom'
 import { Input, Button, Modal } from '../../components'
 import { toast } from 'react-toastify'
 
+import { useAuth } from '../../context/auth'
+
 const reducer = (state, action) => {
    switch (action.type) {
       case 'EMAIL':
@@ -40,6 +42,7 @@ const Home = () => {
    const history = useHistory()
    const [isModalVisible, setIsModalVisible] = React.useState(false)
    const [isLoading, setIsLoading] = React.useState(false)
+   const { login } = useAuth()
    const [state, dispatch] = React.useReducer(reducer, {
       email: '',
       password: '',
@@ -53,7 +56,7 @@ const Home = () => {
          e.preventDefault()
          setIsLoading(true)
          const response = await fetch(
-            `${process.env.REACT_APP_DAILYKEY}/users/signup`,
+            `${process.env.REACT_APP_DAILYKEY}/api/users/signup`,
             {
                method: 'POST',
                headers: {
@@ -81,9 +84,9 @@ const Home = () => {
          <div className="flex-1 relative p-8">
             <div className="text-right mb-8">
                Already have an account?{' '}
-               <Link to="/login">
-                  <span className="text-primary">LOGIN</span>
-               </Link>
+               <span className="text-primary" onClick={() => login()}>
+                  LOGIN
+               </span>
             </div>
             <h1 className="text-gray-700 text-4xl font-bold mb-16">Sign Up</h1>
             <div className="w-3/4">
@@ -183,9 +186,7 @@ const Home = () => {
                   <br />
                   You'll be able to login into your account once verfied.
                </h3>
-               <Link to="/login">
-                  <Button>Go to login</Button>
-               </Link>
+               <Button onClick={() => login()}>Go to login</Button>
             </div>
          </Modal>
          <style jsx>{`

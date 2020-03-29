@@ -17,7 +17,7 @@ const Payment = () => {
    const createIntent = async () => {
       try {
          const response = await fetch(
-            `${process.env.REACT_APP_DAILYKEY}/users/payment-intent`,
+            `${process.env.REACT_APP_DAILYKEY}/api/users/payment-intent`,
             {
                method: 'POST',
                headers: {

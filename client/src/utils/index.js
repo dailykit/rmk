@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 export const refreshToken = async token => {
    try {
       const response = await fetch(
-         `${process.env.REACT_APP_DAILYKEY}/users/refresh-token`,
+         `${process.env.REACT_APP_DAILYKEY}/api/users/refresh-token`,
          {
             method: 'POST',
             headers: {

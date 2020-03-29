@@ -60,7 +60,7 @@ const Address = () => {
       try {
          setIsLoading(true)
          const response = await fetch(
-            `${process.env.REACT_APP_DAILYKEY}/users/save-address`,
+            `${process.env.REACT_APP_DAILYKEY}/api/users/save-address`,
             {
                method: 'POST',
                headers: {
