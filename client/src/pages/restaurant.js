@@ -9,8 +9,7 @@ import { Menu, RecipeDetails } from '../sections'
 
 const Restaurant = () => {
    const params = useParams()
-   const [tunnel, toggleTunnel] = React.useState(false)
-   const { dispatch } = React.useContext(MenuContext)
+   const { state, dispatch } = React.useContext(MenuContext)
    React.useEffect(() => {
       ;(async () => {
          try {
@@ -24,8 +23,8 @@ const Restaurant = () => {
    }, [params.id])
    return (
       <Layout>
-         <Menu toggleTunnel={toggleTunnel} />
-         {tunnel && <RecipeDetails toggleTunnel={toggleTunnel} />}
+         <Menu />
+         {state.isTunnelOpen && <RecipeDetails />}
       </Layout>
    )
 }

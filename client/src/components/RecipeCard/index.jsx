@@ -1,9 +1,13 @@
 import React from 'react'
 
-const RecipeCard = ({ selected, recipe, toggleTunnel, onClick, noDetails }) => {
+import { MenuContext } from '../../context/menu'
+
+const RecipeCard = ({ selected, recipe, onClick, noDetails }) => {
+   const { dispatch } = React.useContext(MenuContext)
+
    const viewDetails = e => {
       e.stopPropagation()
-      toggleTunnel(true)
+      dispatch({ type: 'TOGGLE_TUNNEL' })
    }
    return (
       <li
@@ -40,19 +44,3 @@ const RecipeCard = ({ selected, recipe, toggleTunnel, onClick, noDetails }) => {
 }
 
 export default RecipeCard
-
-const CheckIcon = ({ size = 16, color = '#fff' }) => (
-   <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-   >
-      <polyline points="20 6 9 17 4 12"></polyline>
-   </svg>
-)

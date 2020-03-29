@@ -2,7 +2,7 @@ import React from 'react'
 
 import { RecipeCard } from '../../components'
 
-const Section = ({ type, count, defaultRecipe, recipes, toggleTunnel }) => {
+const Section = ({ type, count, defaultRecipe, recipes }) => {
    const [selected, selectRecipe] = React.useState(defaultRecipe.name)
    return (
       <div className="mt-4 bg-gray-200 px-4 pb-4">
@@ -21,7 +21,6 @@ const Section = ({ type, count, defaultRecipe, recipes, toggleTunnel }) => {
                <RecipeCard
                   key={index}
                   recipe={recipe}
-                  toggleTunnel={toggleTunnel}
                   selected={selected === recipe.name}
                   onClick={() =>
                      selectRecipe(selected =>

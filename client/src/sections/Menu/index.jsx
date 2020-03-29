@@ -6,7 +6,7 @@ import Section from '../Section'
 
 import { MenuContext } from '../../context/menu'
 
-const Restaurant = ({ toggleTunnel }) => {
+const Restaurant = () => {
    const history = useHistory()
    const [lunch, setLunch] = React.useState({})
    const [lunchDefault, setLunchDefault] = React.useState('')
@@ -56,7 +56,6 @@ const Restaurant = ({ toggleTunnel }) => {
                type="Lunch"
                defaultRecipe={lunchDefault}
                recipes={lunch.recipes}
-               toggleTunnel={toggleTunnel}
                count={lunch.recipes.length}
             />
          )}
@@ -65,7 +64,6 @@ const Restaurant = ({ toggleTunnel }) => {
                type="Dinner"
                defaultRecipe={dinnerDefault}
                recipes={dinner.recipes}
-               toggleTunnel={toggleTunnel}
                count={dinner.recipes.length}
             />
          )}

@@ -4,6 +4,7 @@ export const MenuContext = React.createContext()
 
 const initialState = {
    restaurant: {},
+   isTunnelOpen: false,
 }
 
 const reducers = (state, { type, payload }) => {
@@ -12,6 +13,11 @@ const reducers = (state, { type, payload }) => {
          return {
             ...state,
             restaurant: payload,
+         }
+      case 'TOGGLE_TUNNEL':
+         return {
+            ...state,
+            isTunnelOpen: !state.isTunnelOpen,
          }
       default:
          return state

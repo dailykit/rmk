@@ -1,13 +1,17 @@
 import React from 'react'
 
-const RecipeDetails = ({ toggleTunnel }) => {
+import { MenuContext } from '../../context/menu'
+
+const RecipeDetails = () => {
+   const { state, dispatch } = React.useContext(MenuContext)
+   console.log('RecipeDetails -> state', state.RecipeDetails)
    return (
       <div className="w-8/12 border-t shadow-md bg-white fixed mt-16 top-0 left-0 bottom-0">
          <header className="h-16 border-b px-3 flex items-center justify-between">
             <h2 className="font-normal text-xl">Recipe Details</h2>
             <button
                className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-200"
-               onClick={() => toggleTunnel(false)}
+               onClick={() => dispatch({ type: 'TOGGLE_TUNNEL' })}
             >
                <CloseIcon />
             </button>
