@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { RecipeCard } from '../../components'
-
 const Cart = () => {
    return (
       <div>
@@ -36,35 +34,42 @@ const Cart = () => {
                      <span className="inline-block mb-2 bg-orange-400 px-2 py-1 text-white text-sm">
                         Lunch: Serves 4 people
                      </span>
-                     <ul>
-                        <RecipeCard
-                           noDetails
-                           recipe={{
-                              name:
-                                 'Lasagna Bolognese with Meal Sauce, Homemade Ricotta, Parmesan Sauce',
-                              thumb:
-                                 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
-                           }}
-                        />
-                     </ul>
-                  </div>
-                  <div className="mt-4 bg-gray-200 px-4 pb-3">
+                     <div className="bg-white p-2 rounded-md flex">
+                        <div className="flex-shrink-0">
+                           <img
+                              className="h-16 object-cover rounded-md"
+                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
+                              alt=""
+                           />
+                        </div>
+                        <h2 className="text-gray-700 ml-2">
+                           Lasagna Bolognese with Meal Sauce
+                        </h2>
+                     </div>
+                     <hr className="mt-4 border-gray-300" />
                      <span className="inline-block mb-2 bg-blue-900 px-2 py-1 text-white text-sm">
                         Dinner: Serves 4 people
                      </span>
-                     <ul>
-                        <RecipeCard
-                           noDetails
-                           recipe={{
-                              name:
-                                 'Lasagna Bolognese with Meal Sauce, Homemade Ricotta, Parmesan Sauce',
-                              thumb:
-                                 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg',
-                           }}
-                        />
-                     </ul>
+                     <div className="bg-white p-2 rounded-md flex">
+                        <div className="flex-shrink-0">
+                           <img
+                              className="h-16 object-cover rounded-md"
+                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
+                              alt=""
+                           />
+                        </div>
+                        <h2 className="text-gray-700 ml-2">
+                           Lasagna Bolognese with Meal Sauce
+                        </h2>
+                     </div>
                   </div>
                </div>
+               <h3 className="text-primary font-medium text-xl pt-3">
+                  2. Payment Deducted
+               </h3>
+               <h3 className="text-primary font-medium text-xl pt-3 pb-3">
+                  3. Order Placed
+               </h3>
             </div>
          </main>
       </div>
