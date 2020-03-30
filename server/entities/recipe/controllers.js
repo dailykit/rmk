@@ -24,6 +24,11 @@ const GET_RECIPE = `query recipe($id: ID!){
           }
         }
       }
+      assets {
+         images {
+            url
+         }
+      }
       procedures {
          name
          steps {

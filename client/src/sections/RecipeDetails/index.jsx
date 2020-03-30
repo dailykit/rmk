@@ -6,6 +6,7 @@ import { MenuContext } from '../../context/menu'
 const RecipeDetails = () => {
    const params = useParams()
    const [recipe, setRecipe] = React.useState({})
+   const [selectedImage, selectImage] = React.useState({})
    const { state, dispatch } = React.useContext(MenuContext)
 
    React.useEffect(() => {
@@ -14,11 +15,13 @@ const RecipeDetails = () => {
             `/recipe/${params.id}/${state.recipeDetails}`
          )
          const { success, data } = await response.json()
-         success &&
+         if (success) {
             setRecipe({
                ...data,
                servings: data.servings.find(serving => serving.size === 4),
             })
+            selectImage(data.assets.images[0] || {})
+         }
       })()
    }, [state.recipeDetails])
 
@@ -43,31 +46,26 @@ const RecipeDetails = () => {
                      <h1 className="text-gray-800 mb-3 text-3xl font-medium">
                         {recipe.name}
                      </h1>
-                     <div className="w-8/12">
-                        <div>
-                           <img
-                              className="w-full rounded"
-                              src="https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2018/12/Shakshuka-19.jpg"
-                              alt=""
-                           />
-                        </div>
-                        <div className="flex mt-4">
-                           <div className="w-24 h-16 mr-4 border border-gray-100 ">
-                              <img
-                                 className="w-full h-full object-cover rounded"
-                                 src="https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/indian.jpg"
-                                 alt=""
-                              />
-                           </div>
-                           <div className="w-24 h-16 border border-gray-100 ">
-                              <img
-                                 className="w-full h-full object-cover rounded"
-                                 src="https://res.cloudinary.com/hellofresh/image/upload/f_auto,fl_lossy,q_auto,w_610/v1/hellofresh_s3/image/5dcc139c96d0db43857c2eb3-a12c2ae7.jpg"
-                                 alt=""
-                              />
-                           </div>
-                        </div>
+                     <div className="w-8/12 mb-2" style={{ height: '320px' }}>
+                        <img
+                           src={selectedImage.url}
+                           className="w-full h-full border-gray-100 object-cover rounded-lg"
+                        />
                      </div>
+                     <ul className="w-8/12 flex">
+                        {recipe.assets.images.map(image => (
+                           <li
+                              key={image.url}
+                              className="w-24 h-16 mr-2 cursor-pointer"
+                              onClick={() => selectImage(image)}
+                           >
+                              <img
+                                 src={image.url}
+                                 className="w-full h-full border-gray-100 object-cover rounded-lg"
+                              />
+                           </li>
+                        ))}
+                     </ul>
                      <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
                         Ingredients
                      </h2>
@@ -78,21 +76,6 @@ const RecipeDetails = () => {
                            </li>
                         ))}
                      </ol>
-                     <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
-                        Nutritional Values
-                     </h2>
-                     <table className="w-full table-auto">
-                        <tbody>
-                           <tr className="border-b border-gray-300">
-                              <td className="font-medium p-2">Calories:</td>
-                              <td className="p-2 text-gray-600">2gm</td>
-                           </tr>
-                           <tr className="border-b border-gray-300">
-                              <td className="font-medium p-2">Cholestrol:</td>
-                              <td className="p-2 text-gray-600">1gm</td>
-                           </tr>
-                        </tbody>
-                     </table>
                      <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
                         Cooking Process
                      </h2>
