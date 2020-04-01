@@ -3,9 +3,11 @@ import { useHistory } from 'react-router-dom'
 
 import { Layout } from '../sections'
 import { UserContext } from '../context/User'
+import { useAuth } from '../context/auth'
 
 const Listing = () => {
    const history = useHistory()
+   const { isAddressAdded } = useAuth()
    const [list, setList] = React.useState([])
    const { state } = React.useContext(UserContext)
 
@@ -18,11 +20,13 @@ const Listing = () => {
 
    React.useEffect(() => {
       ;(async () => {
-         const response = await fetch(`/restaurants/${state.zip}`)
-         const restaurants = await response.json()
-         restaurants.success && setList(restaurants.data)
+         if (isAddressAdded) {
+            const response = await fetch(`/restaurants/${state.zip}`)
+            const restaurants = await response.json()
+            restaurants.success && setList(restaurants.data)
+         }
       })()
-   }, [])
+   }, [isAddressAdded])
 
    const selectRestaurant = restaurant => {
       history.push(`/restaurants/${restaurant._id}`)

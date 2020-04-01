@@ -20,6 +20,7 @@ const AuthContext = React.createContext()
 export const AuthProvider = ({ children }) => {
    const [isAuthenticated, setIsAuthenticated] = React.useState(false)
    const [user, setUser] = React.useState({})
+   const [isAddressAdded, setIsAddressAdded] = React.useState(false)
    const [isInitialized, setIsInitialized] = React.useState(false)
 
    const initialize = async () => {
@@ -46,8 +47,10 @@ export const AuthProvider = ({ children }) => {
                `${process.env.REACT_APP_DAILYKEY}/api/users/${keycloak.subject}`
             )
             if (success) {
+               setUser(user => ({ ...user, id: data.user._id }))
+               setIsAddressAdded(data.user.addresses?.length > 0)
             } else {
-               const data = await fetcher(
+               const { success, data } = await fetcher(
                   `${process.env.REACT_APP_DAILYKEY}/api/users/signup`,
                   {
                      method: 'POST',
@@ -62,11 +65,14 @@ export const AuthProvider = ({ children }) => {
                      }),
                   }
                )
-               console.log('AuthProvider -> data', data)
+               if (success) {
+                  setUser(user => ({ ...user, id: data._id }))
+                  setIsAddressAdded(true)
+               }
             }
          })()
       }
-   }, [isAuthenticated, user])
+   }, [isAuthenticated, user.email])
 
    const login = path => keycloak.login({ redirectUri: path })
    const logout = () => keycloak.logout()
@@ -95,7 +101,9 @@ export const AuthProvider = ({ children }) => {
             updateToken,
             isInitialized,
             isTokenExpired,
+            isAddressAdded,
             isAuthenticated,
+            setIsAddressAdded,
          }}
       >
          {children}

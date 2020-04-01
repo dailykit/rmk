@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { MenuProvider } from './context/menu'
+import { useAuth } from './context/auth'
 
 // import Home from './pages'
 // import Onboarding from './pages/onboarding/index'
@@ -25,6 +26,7 @@ import { AddressModal } from './sections'
 const stripePromise = loadStripe('pk_test_tOKq1xJmx07XTTAKLfntMh7f00ltRB823g')
 
 const App = () => {
+   const { isAddressAdded } = useAuth()
    return (
       <Elements stripe={stripePromise}>
          <Router>
@@ -54,7 +56,7 @@ const App = () => {
             <Route path="/user/payment" exact component={Payment} />
             <Route path="/user/settings" exact component={Settings} />
          </Router>
-         <AddressModal />
+         {!isAddressAdded && <AddressModal />}
       </Elements>
    )
 }

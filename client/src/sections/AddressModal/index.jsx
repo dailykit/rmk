@@ -2,7 +2,33 @@ import React from 'react'
 
 import { Label } from '../../components'
 
+import { useAuth } from '../../context/auth'
+
+import { fetcher } from '../../utils'
+
 const AddressModal = () => {
+   const { user, setIsAddressAdded } = useAuth()
+   const addAddress = async e => {
+      e.preventDefault()
+      const data = new FormData(e.target)
+      const address = {}
+      for (var [key, value] of data.entries()) {
+         address[key] = value
+      }
+      const { success } = await fetcher(
+         `${process.env.REACT_APP_DAILYKEY}/api/addresses`,
+         {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ address, id: user.id }),
+         }
+      )
+      if (success) {
+         setIsAddressAdded(true)
+      }
+   }
    return (
       <div className="fixed inset-0 bg-gray-100 flex items-center justify-center">
          <div
@@ -12,7 +38,7 @@ const AddressModal = () => {
             <h1 className="text-xl border-b pb-3 mb-3 text-gray-600">
                Address
             </h1>
-            <form>
+            <form onSubmit={e => addAddress(e)}>
                <fieldset className="mb-4">
                   <Label htmlFor="line1">Line 1</Label>
                   <input
@@ -33,10 +59,10 @@ const AddressModal = () => {
                </fieldset>
                <div className="flex">
                   <fieldset className="mb-4 mr-4">
-                     <Label htmlFor="zipcode">Zip Code</Label>
+                     <Label htmlFor="zip">Zip Code</Label>
                      <input
                         type="text"
-                        name="zipcode"
+                        name="zip"
                         placeholder="Enter zip code"
                         className="w-40 h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
                      />
@@ -62,7 +88,7 @@ const AddressModal = () => {
                </fieldset>
                <button
                   type="submit"
-                  className="mt-3 w-auto h-12 px-2 bg-primary text-white"
+                  className="mt-3 w-auto h-12 px-3 bg-primary text-white"
                >
                   Save Address
                </button>
