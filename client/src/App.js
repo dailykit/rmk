@@ -39,14 +39,14 @@ const App = () => {
                   draggable
                   pauseOnHover
                />
-               <Route path="/" exact component={Home} />
+               {/* <Route path="/" exact component={Home} />
                <Route path="/onboarding" exact component={Onboarding} />
                <Route path="/login" exact component={Login} />
                <Route path="/address" exact component={OnboardingAddress} />
-               <Route path="/payment" exact component={OnboardingPayment} />
-               <Route path="/listing" exact component={Listing} />
+               <Route path="/payment" exact component={OnboardingPayment} /> */}
+               <Route path="/" exact component={Listing} />
                <MenuProvider>
-                  <Route path="/listing/:id" exact component={Restaurant} />
+                  <Route path="/restaurants/:id" exact component={Restaurant} />
                </MenuProvider>
                <Route path="/user/account" exact component={Account} />
                <Route path="/user/address" exact component={Address} />
