@@ -5,6 +5,7 @@ import Modal from './Modal'
 import DatePicker from './DatePicker'
 import CardSection from './CardSection'
 import RecipeCard from './RecipeCard'
+import Label from './Label'
 
 export {
    Input,
@@ -14,4 +15,5 @@ export {
    DatePicker,
    RecipeCard,
    CardSection,
+   Label,
 }
