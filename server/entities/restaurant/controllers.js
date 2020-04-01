@@ -16,24 +16,11 @@ const GET_BRAND = `query {
 
 const list = async (req, res) => {
    try {
-      const list = await Restaurant.find({})
-      const restaurants = await Promise.all(
-         list.map(async item => {
-            try {
-               const { brand } = await fetchQuery(item.api_url, GET_BRAND)
-               const result = await {
-                  ...item._doc,
-                  menu: brand.menus.find(
-                     menu => menu.name === 'Restaurant Meal Kits'
-                  ),
-               }
-               return result
-            } catch (error) {
-               console.log(error.message)
-            }
-         })
-      )
-      return res.json({ success: true, data: restaurants.filter(Boolean) })
+      const { zip } = req.params
+      const restaurants = await Restaurant.find({
+         'menu.zip_codes': Number(zip),
+      })
+      return res.json({ success: true, data: restaurants })
    } catch (error) {
       return res.json({ success: false, error: error.message })
    }

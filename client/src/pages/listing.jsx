@@ -7,7 +7,7 @@ import { UserContext } from '../context/User'
 const Listing = () => {
    const history = useHistory()
    const [list, setList] = React.useState([])
-   const { state, dispatch } = React.useContext(UserContext)
+   const { state } = React.useContext(UserContext)
 
    const getInitials = (title = '') => {
       const length = title.split(' ').length
@@ -18,17 +18,14 @@ const Listing = () => {
 
    React.useEffect(() => {
       ;(async () => {
-         const response = await fetch('/restaurants')
+         const response = await fetch(`/restaurants/${state.zip}`)
          const restaurants = await response.json()
-         const available = await restaurants.data.filter(restaurant =>
-            restaurant.menu.zipcode.includes(state.zip)
-         )
-         restaurants.success && setList(available)
+         restaurants.success && setList(restaurants.data)
       })()
    }, [])
 
    const selectRestaurant = restaurant => {
-      history.push(`/listing/${restaurant._id}`)
+      history.push(`/restaurants/${restaurant._id}`)
    }
    return (
       <Layout>
