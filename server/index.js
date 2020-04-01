@@ -3,7 +3,6 @@ const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
 const { RestaurantRouter, MenuRouter, RecipeRouter } = require('./entities')
@@ -22,14 +21,9 @@ mongoose
 
 // Middlewares
 app.use(cors())
-app.use(bodyParser.json())
-app.use(
-   bodyParser.urlencoded({
-      extended: true,
-   })
-)
-app.use(morgan('dev'))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(morgan('dev'))
 
 app.use(express.static(path.join(__dirname, '/../client/build')))
 
