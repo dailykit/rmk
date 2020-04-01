@@ -6,14 +6,58 @@ const restaurantSchema = new Schema(
       name: String,
       logo: String,
       api_url: String,
+      stripeId: String,
       isActive: {
          type: Boolean,
          default: true,
       },
       menu: {
-         id: String,
          name: String,
-         zip_codes: [String],
+         menuId: String,
+      },
+      zipcodes: [String],
+      fulfillment: {
+         pickup: [
+            {
+               address: String,
+               discount: Number,
+               contact: {
+                  name: String,
+                  email: String,
+                  phone: Number,
+               },
+               timings: [
+                  {
+                     to: Date,
+                     from: Date,
+                  },
+               ],
+            },
+         ],
+         delivery: {
+            self: {
+               serviceAreas: [
+                  {
+                     price: Number,
+                     zipcodes: [String],
+                  },
+               ],
+            },
+            partners: [
+               {
+                  name: String,
+                  logo: String,
+                  tags: [String],
+                  stripeId: String,
+                  serviceAreas: [
+                     {
+                        price: Number,
+                        zipcodes: [String],
+                     },
+                  ],
+               },
+            ],
+         },
       },
    },
    { timestamps: true }
