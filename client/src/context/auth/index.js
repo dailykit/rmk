@@ -1,6 +1,8 @@
 import React from 'react'
 import Keycloak from 'keycloak-js'
 
+import { fetcher } from '../../utils'
+
 const keycloak = new Keycloak({
    realm: process.env.REACT_APP_KEYCLOAK_REALM,
    url: process.env.REACT_APP_KEYCLOAK_URL,
@@ -36,6 +38,35 @@ export const AuthProvider = ({ children }) => {
    React.useEffect(() => {
       initialize()
    }, [])
+
+   React.useEffect(() => {
+      if (isAuthenticated && user.email) {
+         ;(async () => {
+            const { success, data } = await fetcher(
+               `${process.env.REACT_APP_DAILYKEY}/api/users/${keycloak.subject}`
+            )
+            if (success) {
+            } else {
+               const data = await fetcher(
+                  `${process.env.REACT_APP_DAILYKEY}/api/users/signup`,
+                  {
+                     method: 'POST',
+                     headers: {
+                        'Content-Type': 'application/json',
+                     },
+                     body: JSON.stringify({
+                        email: user.email,
+                        lastname: user.lastName,
+                        firstname: user.firstName,
+                        keycloak_id: keycloak.subject,
+                     }),
+                  }
+               )
+               console.log('AuthProvider -> data', data)
+            }
+         })()
+      }
+   }, [isAuthenticated, user])
 
    const login = path => keycloak.login({ redirectUri: path })
    const logout = () => keycloak.logout()
