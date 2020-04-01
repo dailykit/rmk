@@ -66,13 +66,16 @@ const Payment = () => {
                payment_method: result.setupIntent.payment_method,
                id: global.id,
             }
-            const response = await fetch('/users/save-card', {
-               method: 'POST',
-               headers: {
-                  'Content-Type': 'application/json',
-               },
-               body: JSON.stringify(data),
-            })
+            const response = await fetch(
+               `${process.env.REACT_APP_DAILYKEY}/api/cards`,
+               {
+                  method: 'POST',
+                  headers: {
+                     'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+               }
+            )
             const res = await response.json()
             if (res.success) {
                toast.success('Card saved!')
