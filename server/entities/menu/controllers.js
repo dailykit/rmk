@@ -7,44 +7,49 @@ const GET_MENU = `query {
      id
      name
      menuCollections {
-       availability
-       menuCollection {
+      availability
+      menuCollection {
          id
          name
          categories {
-           title
-           products {
-             id
-             name
-             items {
-               label
-               defaultRecipe {
-                 name
-               }
-               recipes {
-                 recipe {
-                   id
-                   name
-                   servings {
-                     size
-                      ingredients {
-                       ingredient {
-                         id
-                         name
-                       }
-                       processing {
-                         id
-                         name {
+            title
+            products {
+               id
+               name
+               items {
+                  label
+                  defaultRecipe {
+                     name
+                  }
+                  recipes {
+                     recipe {
+                     id
+                     name
+                     assets {
+                        images {
+                           url
+                        }
+                     }
+                     servings {
+                        size
+                        ingredients {
+                           ingredient {
+                              id
+                              name
+                           }
+                        processing {
                            id
-                           title
-                         }
-                       }
-                       sachet {
-                         id
-                         quantity {
-                           value
-                         }
-                       }
+                           name {
+                              id
+                              title
+                           }
+                        }
+                        sachet {
+                           id
+                           quantity {
+                              value
+                           }
+                        }
                      }
                    }
                  }

@@ -18,10 +18,10 @@ const RecipeCard = ({ selected, recipe, onClick, noDetails }) => {
          onClick={onClick}
       >
          <div className="flex items-center justify-center h-48 bg-gray-200 mb-2 rounded overflow-hidden">
-            {recipe.thumb ? (
+            {recipe.assets.images[0]?.url ? (
                <img
                   className="h-full w-full object-cover select-none"
-                  src={recipe.thumb}
+                  src={recipe.assets.images[0].url}
                   alt={recipe.name}
                   title={recipe.name}
                />
