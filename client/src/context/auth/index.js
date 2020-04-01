@@ -22,26 +22,20 @@ export const AuthProvider = ({ children }) => {
 
    const initialize = async () => {
       const authenticated = await keycloak.init({
+         onLoad: 'login-required',
          promiseType: 'native',
       })
       if (authenticated) {
          setIsInitialized(true)
          setIsAuthenticated(authenticated)
+         const user = await keycloak.loadUserProfile()
+         setUser(user)
       }
    }
 
    React.useEffect(() => {
       initialize()
    }, [])
-
-   React.useEffect(() => {
-      ;(async () => {
-         if (isAuthenticated) {
-            const user = await keycloak.loadUserProfile()
-            setUser(user)
-         }
-      })()
-   }, [isAuthenticated])
 
    const login = path => keycloak.login({ redirectUri: path })
    const logout = () => keycloak.logout()
