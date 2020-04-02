@@ -12,7 +12,7 @@ const RecipeDetails = () => {
    React.useEffect(() => {
       ;(async () => {
          const response = await fetch(
-            `/recipe/${params.id}/${state.recipeDetails}`
+            `${process.env.REACT_APP_RMK_URI}/recipe/${params.id}/${state.recipeDetails}`
          )
          const { success, data } = await response.json()
          if (success) {

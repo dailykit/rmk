@@ -23,7 +23,9 @@ const Listing = () => {
             const { zip } = await user.addresses.find(
                address => address.is_default
             )
-            const response = await fetch(`/restaurants/${zip}`)
+            const response = await fetch(
+               `${process.env.REACT_APP_RMK_URI}/restaurants/${zip}`
+            )
             const restaurants = await response.json()
             restaurants.success && setList(restaurants.data)
          }

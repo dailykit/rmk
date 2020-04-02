@@ -13,7 +13,9 @@ const Restaurant = () => {
    React.useEffect(() => {
       ;(async () => {
          try {
-            const response = await fetch(`/menu/${params.id}`)
+            const response = await fetch(
+               `${process.env.REACT_APP_RMK_URI}/menu/${params.id}`
+            )
             const { data } = await response.json()
             dispatch({ type: 'SELECT_MENU', payload: data })
          } catch (error) {
