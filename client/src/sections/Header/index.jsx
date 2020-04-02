@@ -38,17 +38,15 @@ const Header = ({ onlyNav }) => {
                   className="h-full flex items-center cursor-pointer font-normal relative"
                   onClick={() => setIsDropdownVisible(!isDropdownVisible)}
                >
-                  <img
-                     src="/img/avatar.jpg"
-                     className="w-10 h-10 rounded-full"
-                     alt="Avatar"
-                  />
+                  <span className="h-10 w-10 flex items-center justify-center bg-primary rounded-full text-white">
+                     {`${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}`}
+                  </span>
                   <ul
                      className="dropdown absolute list-none bg-white z-40 w-56 shadow-lg  rounded"
                      hidden={!isDropdownVisible}
                   >
                      <li className="px-3 py-3 text-gray-600 font-normal tracking-wide">
-                        Alex Pinto
+                        {user.firstName} {user.lastName}
                      </li>
                      <hr />
                      <li className="px-3 py-2 hover:bg-gray-200">
