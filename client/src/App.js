@@ -26,7 +26,8 @@ import { AddressModal } from './sections'
 const stripePromise = loadStripe('pk_test_tOKq1xJmx07XTTAKLfntMh7f00ltRB823g')
 
 const App = () => {
-   const { isAddressAdded } = useAuth()
+   const { isAddressAdded, isLoading } = useAuth()
+   if (isLoading) return <div>Loading...</div>
    return (
       <Elements stripe={stripePromise}>
          <Router>
