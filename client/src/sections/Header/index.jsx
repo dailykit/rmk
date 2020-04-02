@@ -3,9 +3,16 @@ import { Link } from 'react-router-dom'
 
 import { DatePicker } from '../../components'
 
-import { Logo } from '../../assets/icons'
+import { useAuth } from '../../context/auth'
+
+import { Logo, LocationIcon } from '../../assets/icons'
 
 const Header = ({ onlyNav }) => {
+   const { user } = useAuth()
+   const [address] = React.useState(() =>
+      user.addresses.find(address => address.is_default)
+   )
+
    const [isDropdownVisible, setIsDropdownVisible] = React.useState(false)
 
    return (
@@ -18,7 +25,15 @@ const Header = ({ onlyNav }) => {
             <span className="w-32">
                <Logo />
             </span>
-            <ul className="list-none h-full flex ">
+            <ul className="list-none h-full flex items-center">
+               <li className="text-primary mr-3 flex items-center">
+                  <span className="mr-2">
+                     <LocationIcon className="stroke-current text-primary" />
+                  </span>
+                  <p>
+                     {`${address.line1}, ${address.line2}, ${address.city}, ${address.state}, ${address.zip}`}
+                  </p>
+               </li>
                <li
                   className="h-full flex items-center cursor-pointer font-normal relative"
                   onClick={() => setIsDropdownVisible(!isDropdownVisible)}

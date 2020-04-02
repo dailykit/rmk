@@ -1,5 +1,4 @@
 import React from 'react'
-import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 
 import Section from '../Section'
@@ -26,14 +25,7 @@ const Restaurant = () => {
       }
    }, [state.restaurant])
 
-   const selectPlan = async () => {
-      try {
-         // Add logic to check is default card present
-         history.push('/payment')
-      } catch (err) {
-         toast.error(err.message)
-      }
-   }
+   const selectPlan = () => {}
 
    return (
       <div>
