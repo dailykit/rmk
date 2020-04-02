@@ -2,14 +2,13 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { Layout } from '../sections'
-import { UserContext } from '../context/User'
 import { useAuth } from '../context/auth'
 
 const Listing = () => {
+   const { user } = useAuth()
    const history = useHistory()
    const { isAddressAdded } = useAuth()
    const [list, setList] = React.useState([])
-   const { state } = React.useContext(UserContext)
 
    const getInitials = (title = '') => {
       const length = title.split(' ').length
@@ -21,7 +20,10 @@ const Listing = () => {
    React.useEffect(() => {
       ;(async () => {
          if (isAddressAdded) {
-            const response = await fetch(`/restaurants/${state.zip}`)
+            const { zip } = await user.addresses.find(
+               address => address.is_default
+            )
+            const response = await fetch(`/restaurants/${zip}`)
             const restaurants = await response.json()
             restaurants.success && setList(restaurants.data)
          }
