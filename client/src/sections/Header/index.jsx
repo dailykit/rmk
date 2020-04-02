@@ -1,14 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { UserContext } from '../../context/User'
-
 import { DatePicker } from '../../components'
 
 import { Logo } from '../../assets/icons'
 
 const Header = ({ onlyNav }) => {
-   const { state } = React.useContext(UserContext)
    const [isDropdownVisible, setIsDropdownVisible] = React.useState(false)
 
    return (
@@ -22,9 +19,6 @@ const Header = ({ onlyNav }) => {
                <Logo />
             </span>
             <ul className="list-none h-full flex ">
-               <li className="mr-4 h-full flex items-center cursor-pointer font-normal text-primary">
-                  {state.zip.length > 0 ? state.zip : 'Select Location'}
-               </li>
                <li
                   className="h-full flex items-center cursor-pointer font-normal relative"
                   onClick={() => setIsDropdownVisible(!isDropdownVisible)}

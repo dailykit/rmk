@@ -1,18 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import 'react-toastify/dist/ReactToastify.css'
 
 import { MenuProvider } from './context/menu'
 import { useAuth } from './context/auth'
 
 // import Home from './pages'
-// import Onboarding from './pages/onboarding/index'
-// import Login from './pages/login'
-// import OnboardingAddress from './pages/onboarding/address'
-// import OnboardingPayment from './pages/onboarding/payment'
 import Listing from './pages/listing'
 import Restaurant from './pages/restaurant'
 import Account from './pages/user/account'
@@ -31,22 +25,7 @@ const App = () => {
    return (
       <Elements stripe={stripePromise}>
          <Router>
-            <ToastContainer
-               position="top-right"
-               autoClose={5000}
-               hideProgressBar={false}
-               newestOnTop={false}
-               closeOnClick
-               rtl={false}
-               pauseOnVisibilityChange
-               draggable
-               pauseOnHover
-            />
-            {/* <Route path="/" exact component={Home} />
-               <Route path="/onboarding" exact component={Onboarding} />
-               <Route path="/login" exact component={Login} />
-               <Route path="/address" exact component={OnboardingAddress} />
-               <Route path="/payment" exact component={OnboardingPayment} /> */}
+            {/* <Route path="/" exact component={Home} /> */}
             <Route path="/" exact component={Listing} />
             <MenuProvider>
                <Route path="/restaurants/:id" exact component={Restaurant} />

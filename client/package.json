@@ -21,7 +21,6 @@
       "react-dom": "^16.13.0",
       "react-router-dom": "5.1.2",
       "react-scripts": "3.4.0",
-      "react-toastify": "^5.5.0",
       "react-waypoint": "^9.0.2"
    },
    "browserslist": {
