@@ -13,6 +13,22 @@ import { fetcher } from '../../utils'
 const Addresses = () => {
    const { user } = useAuth()
    const [isFormVisible, setFormVisibility] = React.useState(false)
+
+   const changeDefault = async addressId => {
+      const { success } = await fetcher(
+         `${process.env.REACT_APP_DAILYKEY}/api/addresses/default`,
+         {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ addressId, userId: user.id }),
+         }
+      )
+      if (success && window) {
+         window.location.reload()
+      }
+   }
    return (
       <div>
          <Header onlyNav />
@@ -35,11 +51,20 @@ const Addresses = () => {
                      key={address._id}
                      className="border rounded-lg h-auto p-4"
                   >
-                     {address.is_default && (
-                        <span className="mb-2 inline-block rounded border bg-teal-200 border-teal-300 px-2">
-                           Default
-                        </span>
-                     )}
+                     <header>
+                        {address.is_default ? (
+                           <span className="mb-2 inline-block rounded border bg-teal-200 border-teal-300 px-2 text-teal-700">
+                              Default
+                           </span>
+                        ) : (
+                           <span
+                              onClick={() => changeDefault(address._id)}
+                              className="mb-2 inline-block cursor-pointer rounded border border-primary  px-2 text-teal-700 hover:bg-primary hover:text-white"
+                           >
+                              Make Default
+                           </span>
+                        )}
+                     </header>
                      {address.line1 && (
                         <p className="text-gray-800 mb-3">
                            <span className="uppercase text-gray-600 tracking-wider font-medium">
@@ -97,7 +122,6 @@ export default Addresses
 
 const AddressForm = ({ setFormVisibility }) => {
    const { user } = useAuth()
-   const history = useHistory()
    const addAddress = async e => {
       e.preventDefault()
       const data = new FormData(e.target)
