@@ -48,7 +48,11 @@ export const AuthProvider = ({ children }) => {
                `${process.env.REACT_APP_DAILYKEY}/api/users/${keycloak.subject}`
             )
             if (success) {
-               setUser(user => ({ ...user, id: data.user._id }))
+               setUser(user => ({
+                  ...user,
+                  id: data.user._id,
+                  addresses: data.user.addresses,
+               }))
                setIsAddressAdded(data.user.addresses.length > 0)
                setLoading(false)
             } else {

@@ -1,174 +1,200 @@
 import React from 'react'
-import { toast } from 'react-toastify'
+import { useHistory } from 'react-router-dom'
 
 import { Header } from '../../sections'
-import { ProfileLayout, Modal, Input, Button } from '../../components'
+import { ProfileLayout, Label } from '../../components'
+
+import { useAuth } from '../../context/auth'
+
+import { PlusIcon } from '../../assets/icons'
+
+import { fetcher } from '../../utils'
 
 const Addresses = () => {
-   const [isModalVisible, setIsModalVisible] = React.useState(false)
-   const [address, setAddress] = React.useState({
-      line1: '',
-      line2: '',
-      zip: '',
-      city: '',
-   })
-
-   const submit = e => {
-      e.preventDefault()
-      console.log(address)
-      toast.success('Address saved!')
-      setIsModalVisible(false)
-      setAddress({
-         line1: '',
-         line2: '',
-         zip: '',
-         city: '',
-      })
-   }
-
+   const { user } = useAuth()
+   const [isFormVisible, setFormVisibility] = React.useState(false)
    return (
       <div>
          <Header onlyNav />
          <ProfileLayout>
-            <h4 className="text-gray-700 font-semibold mb-8">
-               Delivery Addresses
-            </h4>
-            <div className="flex justify-between items-center text-md mb-4">
-               <h3 className="text-lg">Saved Addresses</h3>
+            <h1 className="flex items-center text-2xl text-gray-700">
+               Addresses
                <span
-                  className="text-primary cursor-pointer"
-                  onClick={() => setIsModalVisible(true)}
+                  onClick={() => setFormVisibility(!isFormVisible)}
+                  className="flex items-center justify-center ml-2 h-8 w-8 border border-gray-300 rounded-full bg-gray-200 cursor-pointer"
                >
-                  Add Address
+                  <PlusIcon
+                     size={20}
+                     className="stroke-current text-gray-800"
+                  />
                </span>
-            </div>
-            <div className="flex flex-row">
-               <div className="bg-gray-300 flex-col flex-1  p-8 mr-16">
-                  <div className="text-md font-semibold h-8 flex items-center">
-                     <span className="mr-16">1st Main road</span>
-                  </div>
-                  <div className="text-md font-semibold h-8 flex items-center">
-                     <span className="mr-16">1st Block</span>
-                  </div>
-                  <div className="text-md font-semibold h-8 flex items-center">
-                     <span className="mr-16">340056</span>
-                     <span className="mr-16">Bangalore</span>
-                  </div>
-                  <div className="text-md font-semibold h-8 flex items-center mt-4">
-                     <div>
-                        <span className="text-white bg-primary border border-blue p-1">
+            </h1>
+            <div className="grid grid-cols-2 gap-4 mt-3">
+               {user.addresses.map(address => (
+                  <div
+                     key={address._id}
+                     className="border rounded-lg h-auto p-4"
+                  >
+                     {address.is_default && (
+                        <span className="mb-2 inline-block rounded border bg-teal-200 border-teal-300 px-2">
                            Default
                         </span>
-                        <span className="text-gray-500 ml-8 cursor-pointer">
-                           Edit
-                        </span>
-                        <span className="text-gray-500 ml-8 cursor-pointer hover:text-red-500">
-                           Remove
-                        </span>
+                     )}
+                     {address.line1 && (
+                        <p className="text-gray-800 mb-3">
+                           <span className="uppercase text-gray-600 tracking-wider font-medium">
+                              Line 1:
+                           </span>{' '}
+                           {address.line1}
+                        </p>
+                     )}
+                     {address.line2 && (
+                        <p className="text-gray-800 mb-3">
+                           <span className="uppercase text-gray-600 tracking-wider font-medium">
+                              Line 2:
+                           </span>{' '}
+                           {address.line2}
+                        </p>
+                     )}
+                     <div className="flex mb-3">
+                        {address.zip && (
+                           <span className="flex-1 text-gray-800">
+                              <span className="uppercase text-gray-600 tracking-wider font-medium">
+                                 Zip Code:
+                              </span>{' '}
+                              {address.zip}
+                           </span>
+                        )}
+                        {address.city && (
+                           <span className="flex-1 text-gray-800">
+                              <span className="uppercase text-gray-600 tracking-wider font-medium">
+                                 City:
+                              </span>{' '}
+                              {address.city}
+                           </span>
+                        )}
                      </div>
-                  </div>
-               </div>
-               <div className="bg-gray-300 flex-col flex-1 p-8">
-                  <div className="text-md font-semibold h-8 flex items-center">
-                     <span className="mr-16">1st Main road</span>
-                  </div>
-                  <div className="text-md font-semibold h-8 flex items-center">
-                     <span className="mr-16">1st Block</span>
-                  </div>
-                  <div className="text-md font-semibold h-8 flex items-center">
-                     <span className="mr-16">340056</span>
-                     <span className="mr-16">Bangalore</span>
-                  </div>
-                  <div className="text-md font-semibold h-8 flex items-center mt-4">
-                     <div>
-                        <span className="text-primary cursor-pointer border-blue">
-                           Make Default
+                     {address.state && (
+                        <span className="text-gray-800">
+                           <span className="uppercase text-gray-600 tracking-wider font-medium">
+                              State:
+                           </span>{' '}
+                           {address.state}
                         </span>
-                        <span className="text-gray-500 ml-8 cursor-pointer">
-                           Edit
-                        </span>
-                        <span className="text-gray-500 ml-8 cursor-pointer hover:text-red-500">
-                           Remove
-                        </span>
-                     </div>
+                     )}
                   </div>
-               </div>
+               ))}
             </div>
+            {isFormVisible && (
+               <AddressForm setFormVisibility={setFormVisibility} />
+            )}
          </ProfileLayout>
-         <Modal
-            show={isModalVisible}
-            closeHandler={() => setIsModalVisible(false)}
-         >
-            <form onSubmit={submit}>
-               <div className="mb-4">
-                  <Input
-                     type="text"
-                     placeholder="address line 1"
-                     name="line1"
-                     value={address.line1}
-                     onChange={e =>
-                        setAddress({
-                           ...address,
-                           [e.target.name]: e.target.value,
-                        })
-                     }
-                     required
-                     validate={true}
-                  />
-                  <Input
-                     type="text"
-                     placeholder="address line 2"
-                     name="line2"
-                     value={address.line2}
-                     onChange={e =>
-                        setAddress({
-                           ...address,
-                           [e.target.name]: e.target.value,
-                        })
-                     }
-                  />
-                  <div className="flex">
-                     <div className="w-6/12 mr-4">
-                        <Input
-                           type="text"
-                           placeholder="zip code"
-                           name="zip"
-                           value={address.zip}
-                           onChange={e =>
-                              setAddress({
-                                 ...address,
-                                 [e.target.name]: e.target.value,
-                              })
-                           }
-                           pattern="(\d{5}([\-]\d{4})?)"
-                           title="Format: nnnnn or nnnnn-nnnn"
-                           required
-                           validate={true}
-                        />
-                     </div>
-                     <div className="w-full">
-                        <Input
-                           type="text"
-                           placeholder="city"
-                           name="city"
-                           value={address.city}
-                           onChange={e =>
-                              setAddress({
-                                 ...address,
-                                 [e.target.name]: e.target.value,
-                              })
-                           }
-                           required
-                           validate={true}
-                        />
-                     </div>
-                  </div>
-               </div>
-               <Button>Save Address</Button>
-            </form>
-         </Modal>
       </div>
    )
 }
 
 export default Addresses
+
+const AddressForm = ({ setFormVisibility }) => {
+   const { user } = useAuth()
+   const history = useHistory()
+   const addAddress = async e => {
+      e.preventDefault()
+      const data = new FormData(e.target)
+      const address = {}
+      for (var [key, value] of data.entries()) {
+         address[key] = value
+      }
+      const { success } = await fetcher(
+         `${process.env.REACT_APP_DAILYKEY}/api/addresses`,
+         {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ address, id: user.id }),
+         }
+      )
+      if (success) {
+         setFormVisibility(false)
+         if (window) {
+            window.location.reload()
+         }
+      }
+   }
+   return (
+      <div className="fixed inset-0 bg-tint flex items-center justify-center">
+         <div
+            className="bg-white h-auto rounded-lg p-4 border"
+            style={{ width: '560px' }}
+         >
+            <h1 className="text-xl border-b pb-3 mb-3 text-gray-600">
+               Address
+            </h1>
+            <form onSubmit={e => addAddress(e)}>
+               <fieldset className="mb-4">
+                  <Label htmlFor="line1">Line 1</Label>
+                  <input
+                     type="text"
+                     name="line1"
+                     className="w-full h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
+                     placeholder="Enter address Line 1"
+                  />
+               </fieldset>
+               <fieldset className="mb-4">
+                  <Label htmlFor="line2">Line 2</Label>
+                  <input
+                     type="text"
+                     name="line2"
+                     className="w-full h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
+                     placeholder="Enter address Line 2"
+                  />
+               </fieldset>
+               <div className="flex">
+                  <fieldset className="mb-4 mr-4">
+                     <Label htmlFor="zip">Zip Code</Label>
+                     <input
+                        type="text"
+                        name="zip"
+                        placeholder="Enter zip code"
+                        className="w-40 h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
+                     />
+                  </fieldset>
+                  <fieldset className="mb-4 flex-1">
+                     <Label htmlFor="city">City</Label>
+                     <input
+                        type="text"
+                        name="city"
+                        placeholder="Enter city"
+                        className="w-full h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
+                     />
+                  </fieldset>
+               </div>
+               <fieldset className="">
+                  <Label htmlFor="state">State</Label>
+                  <input
+                     type="text"
+                     name="state"
+                     placeholder="Enter state"
+                     className="w-full h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
+                  />
+               </fieldset>
+               <div className="mt-3">
+                  <button
+                     type="submit"
+                     className="w-auto h-12 px-3 bg-primary text-white"
+                  >
+                     Save Address
+                  </button>
+                  <button
+                     onClick={() => setFormVisibility(false)}
+                     className="ml-2 w-auto h-12 px-3 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white"
+                  >
+                     Close
+                  </button>
+               </div>
+            </form>
+         </div>
+      </div>
+   )
+}
