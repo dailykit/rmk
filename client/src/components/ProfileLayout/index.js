@@ -32,7 +32,7 @@ const ProfileLayout = ({ children }) => {
                <ListItem key={page.path} path={page.path} title={page.title} />
             ))}
          </aside>
-         <main className="py-12 px-24 z-10 flex-1">{children}</main>
+         <main className="py-12 px-24 flex-1">{children}</main>
       </div>
    )
 }

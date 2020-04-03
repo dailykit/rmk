@@ -18,7 +18,7 @@ const Header = ({ onlyNav }) => {
    return (
       <header>
          <nav
-            className={`bg-white w-full h-16 flex flex-row items-center justify-between px-8 ${
+            className={`top-0 fixed bg-white w-full h-16 flex flex-row items-center justify-between px-8 ${
                onlyNav ? 'border-b' : ''
             }`}
          >
