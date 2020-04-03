@@ -9,9 +9,11 @@ import { Logo, LocationIcon } from '../../assets/icons'
 
 const Header = ({ onlyNav }) => {
    const { user } = useAuth()
-   const [address] = React.useState(() =>
-      user.addresses.find(address => address.is_default)
-   )
+   const [address] = React.useState(() => {
+      const address = user.addresses?.find(address => address.is_default) || {}
+      const result = `${address.line1}, ${address.line2}, ${address.city}, ${address.state}, ${address.zip}`
+      return result
+   })
 
    const [isDropdownVisible, setIsDropdownVisible] = React.useState(false)
 
@@ -30,9 +32,7 @@ const Header = ({ onlyNav }) => {
                   <span className="mr-2">
                      <LocationIcon className="stroke-current text-primary" />
                   </span>
-                  <p>
-                     {`${address.line1}, ${address.line2}, ${address.city}, ${address.state}, ${address.zip}`}
-                  </p>
+                  <p title={address}>{address.slice(0, 30)}</p>
                </li>
                <li
                   className="h-full flex items-center cursor-pointer font-normal relative"

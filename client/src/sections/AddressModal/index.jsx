@@ -7,7 +7,7 @@ import { useAuth } from '../../context/auth'
 import { fetcher } from '../../utils'
 
 const AddressModal = () => {
-   const { user, setIsAddressAdded } = useAuth()
+   const { user } = useAuth()
    const addAddress = async e => {
       e.preventDefault()
       const data = new FormData(e.target)
@@ -25,8 +25,8 @@ const AddressModal = () => {
             body: JSON.stringify({ address, id: user.id }),
          }
       )
-      if (success) {
-         setIsAddressAdded(true)
+      if (success && window) {
+         window.location.reload()
       }
    }
    return (

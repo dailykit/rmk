@@ -5,9 +5,8 @@ import { Layout } from '../sections'
 import { useAuth } from '../context/auth'
 
 const Listing = () => {
-   const { user } = useAuth()
+   const { user, isAddressAdded } = useAuth()
    const history = useHistory()
-   const { isAddressAdded } = useAuth()
    const [list, setList] = React.useState([])
 
    const getInitials = (title = '') => {

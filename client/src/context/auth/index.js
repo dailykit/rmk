@@ -44,10 +44,10 @@ export const AuthProvider = ({ children }) => {
    React.useEffect(() => {
       if (isAuthenticated && user.email) {
          ;(async () => {
-            const { success, data } = await fetcher(
+            const { success: userExists, data } = await fetcher(
                `${process.env.REACT_APP_DAILYKEY}/api/users/${keycloak.subject}`
             )
-            if (success) {
+            if (userExists) {
                setUser(user => ({
                   ...user,
                   id: data.user._id,
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
                setIsAddressAdded(data.user.addresses.length > 0)
                setLoading(false)
             } else {
-               const { success, data } = await fetcher(
+               const { success: userCreated, data: newUser } = await fetcher(
                   `${process.env.REACT_APP_DAILYKEY}/api/users/signup`,
                   {
                      method: 'POST',
@@ -71,9 +71,9 @@ export const AuthProvider = ({ children }) => {
                      }),
                   }
                )
-               if (success) {
-                  setUser(user => ({ ...user, id: data._id }))
-                  setIsAddressAdded(data.addresses.length > 0)
+               if (userCreated) {
+                  setUser(user => ({ ...user, id: newUser._id }))
+                  setIsAddressAdded(false)
                   setLoading(false)
                }
             }
@@ -103,6 +103,7 @@ export const AuthProvider = ({ children }) => {
             user,
             login,
             logout,
+            setUser,
             isLoading,
             initialize,
             clearToken,
