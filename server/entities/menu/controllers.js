@@ -19,7 +19,13 @@ const GET_MENU = `query {
                items {
                   label
                   defaultRecipe {
+                     id
                      name
+                     assets {
+                        images {
+                          url
+                        }
+                     }
                   }
                   recipes {
                      recipe {
