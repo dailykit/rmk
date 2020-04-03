@@ -21,7 +21,12 @@ const stripePromise = loadStripe('pk_test_tOKq1xJmx07XTTAKLfntMh7f00ltRB823g')
 
 const App = () => {
    const { isAddressAdded, isLoading } = useAuth()
-   if (isLoading) return <div>Loading...</div>
+   if (isLoading)
+      return (
+         <div className="fixed inset-0 flex items-center justify-center">
+            <img src="/img/loader.gif" alt="" className="h-16" />
+         </div>
+      )
    return (
       <Elements stripe={stripePromise}>
          <Router>
