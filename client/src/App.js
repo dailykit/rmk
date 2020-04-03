@@ -26,8 +26,8 @@ const App = () => {
       <Elements stripe={stripePromise}>
          <Router>
             {/* <Route path="/" exact component={Home} /> */}
-            <Route path="/" exact component={Listing} />
             <MenuProvider>
+               <Route path="/" exact component={Listing} />
                <Route path="/restaurants/:id" exact component={Restaurant} />
             </MenuProvider>
             <Route path="/user/account" exact component={Account} />
