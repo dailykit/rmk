@@ -1,17 +1,15 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
 
 import Section from '../Section'
 
 import { MenuContext } from '../../context/menu'
 
 const Restaurant = () => {
-   const history = useHistory()
    const [lunch, setLunch] = React.useState({})
-   const [lunchDefault, setLunchDefault] = React.useState('')
+   const [lunchDefault, setLunchDefault] = React.useState({})
    const [dinner, setDinner] = React.useState({})
-   const [dinnerDefault, setDinnerDefault] = React.useState('')
-   const { state } = React.useContext(MenuContext)
+   const [dinnerDefault, setDinnerDefault] = React.useState({})
+   const { state, dispatch } = React.useContext(MenuContext)
 
    React.useEffect(() => {
       if (Object.keys(state.restaurant).length > 0) {
@@ -19,13 +17,22 @@ const Restaurant = () => {
             state.restaurant.menu.menuCollections[0].menuCollection[0]
                .categories[0].products[0].items
          setLunch(menus[0] || {})
-         setLunchDefault(menus[0]?.defaultRecipe || '')
+         setLunchDefault(menus[0]?.defaultRecipe || {})
          setDinner(menus[1] || {})
-         setDinnerDefault(menus[1]?.defaultRecipe || '')
+         setDinnerDefault(menus[1]?.defaultRecipe || {})
       }
    }, [state.restaurant])
 
-   const selectPlan = () => {}
+   const selectOrder = () => {
+      dispatch({
+         type: 'SELECT_FOR_TODAY',
+         payload: { key: 'lunch', value: lunchDefault },
+      })
+      dispatch({
+         type: 'SELECT_FOR_TODAY',
+         payload: { key: 'dinner', value: dinnerDefault },
+      })
+   }
 
    return (
       <div>
@@ -38,25 +45,25 @@ const Restaurant = () => {
             </div>
             <button
                className="w-auto h-12 px-3 bg-primary text-white"
-               onClick={selectPlan}
+               onClick={() => selectOrder()}
             >
-               Select Plan
+               Select
             </button>
          </header>
          {lunch?.recipes?.length > 0 && (
             <Section
                type="Lunch"
-               defaultRecipe={lunchDefault}
                recipes={lunch.recipes}
-               count={lunch.recipes.length}
+               defaultRecipe={lunchDefault}
+               onClick={recipe => setLunchDefault(recipe)}
             />
          )}
          {dinner?.recipes?.length > 0 && (
             <Section
                type="Dinner"
-               defaultRecipe={dinnerDefault}
                recipes={dinner.recipes}
-               count={dinner.recipes.length}
+               defaultRecipe={dinnerDefault}
+               onClick={recipe => setDinnerDefault(recipe)}
             />
          )}
       </div>

@@ -1,6 +1,9 @@
 import React from 'react'
 
+import { MenuContext } from '../../context/menu'
+
 const Cart = () => {
+   const { state } = React.useContext(MenuContext)
    return (
       <div>
          <header className="flex items-center justify-between border-b pb-3">
@@ -30,38 +33,31 @@ const Cart = () => {
                      <h3 className="font-medium text-gray-700">Little Italy</h3>
                      <span className="font-bold text-gray-700">$60</span>
                   </div>
+
                   <div className="bg-gray-200 px-4 pb-3">
                      <span className="inline-block mb-2 bg-orange-400 px-2 py-1 text-white text-sm">
                         Lunch: Serves 4 people
                      </span>
-                     <div className="bg-white p-2 rounded-md flex">
-                        <div className="flex-shrink-0">
-                           <img
-                              className="h-16 object-cover rounded-md"
-                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-                              alt=""
-                           />
-                        </div>
-                        <h2 className="text-gray-700 ml-2">
-                           Lasagna Bolognese with Meal Sauce
-                        </h2>
-                     </div>
+                     {Object.keys(state.selectedForToday.lunch).length > 0 && (
+                        <RecipeCard
+                           title={state.selectedForToday.lunch.name}
+                           thumbnails={
+                              state.selectedForToday.lunch.assets.images
+                           }
+                        />
+                     )}
                      <hr className="mt-4 border-gray-300" />
                      <span className="inline-block mb-2 bg-blue-900 px-2 py-1 text-white text-sm">
                         Dinner: Serves 4 people
                      </span>
-                     <div className="bg-white p-2 rounded-md flex">
-                        <div className="flex-shrink-0">
-                           <img
-                              className="h-16 object-cover rounded-md"
-                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1200px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-                              alt=""
-                           />
-                        </div>
-                        <h2 className="text-gray-700 ml-2">
-                           Lasagna Bolognese with Meal Sauce
-                        </h2>
-                     </div>
+                     {Object.keys(state.selectedForToday.dinner).length > 0 && (
+                        <RecipeCard
+                           title={state.selectedForToday.dinner.name}
+                           thumbnails={
+                              state.selectedForToday.dinner.assets.images
+                           }
+                        />
+                     )}
                   </div>
                </div>
                <h3 className="text-primary font-medium text-xl pt-3">
@@ -77,3 +73,22 @@ const Cart = () => {
 }
 
 export default Cart
+
+const RecipeCard = ({ thumbnails, title }) => {
+   return (
+      <div className="bg-white p-2 rounded-md flex">
+         <div className="flex items-center justify-center bg-gray-200 rounded-md flex-shrink-0 w-24 h-16">
+            {thumbnails.length > 0 && thumbnails[0].url ? (
+               <img
+                  alt={title}
+                  src={thumbnails[0].url}
+                  className="h-16 object-cover rounded-md"
+               />
+            ) : (
+               <span>NA</span>
+            )}
+         </div>
+         <h2 className="text-gray-700 ml-2">{title}</h2>
+      </div>
+   )
+}

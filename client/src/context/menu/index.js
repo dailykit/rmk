@@ -4,8 +4,12 @@ export const MenuContext = React.createContext()
 
 const initialState = {
    restaurant: {},
-   isTunnelOpen: false,
    recipeDetails: '',
+   isTunnelOpen: false,
+   selectedForToday: {
+      lunch: '',
+      dinner: '',
+   },
 }
 
 const reducers = (state, { type, payload }) => {
@@ -24,6 +28,14 @@ const reducers = (state, { type, payload }) => {
          return {
             ...state,
             recipeDetails: payload,
+         }
+      case 'SELECT_FOR_TODAY':
+         return {
+            ...state,
+            selectedForToday: {
+               ...state.selectedForToday,
+               [payload.key]: payload.value,
+            },
          }
       default:
          return state
