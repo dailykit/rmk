@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="prefix__Delivery_24_hour" width="93.323" height="88.485" data-name="Delivery 24 hour" viewBox="0 0 93.323 88.485">
+    <defs>
+        <style>
+            .prefix__cls-2{fill:#cdb698}.prefix__cls-4{fill:#d8355c}.prefix__cls-5{fill:#e5c190}.prefix__cls-6{fill:#fff}
+        </style>
+    </defs>
+    <path id="prefix__Path_1088" d="M0 9.141h88.467v58.978H4.213A4.213 4.213 0 0 1 0 63.906z" data-name="Path 1088" transform="translate(0 7.71)" style="fill:#e6c190"/>
+    <path id="prefix__Path_1089" d="M65.337 16.851V4.213A4.213 4.213 0 0 0 61.124 0h-33.7v16.851z" class="prefix__cls-2" data-name="Path 1089" transform="translate(23.13)"/>
+    <path id="prefix__Path_1090" d="M37.914 0H4.213A4.213 4.213 0 0 0 0 4.213v12.638h37.914z" class="prefix__cls-2" data-name="Path 1090"/>
+    <path id="prefix__Path_1091" d="M20.562 25.276H33.2V0H20.562v25.276z" data-name="Path 1091" transform="translate(17.343)" style="fill:#10192f"/>
+    <path id="prefix__Path_1092" d="M62.229 30.165A21 21 0 1 0 66.8 37a21.063 21.063 0 0 0-4.571-6.835z" class="prefix__cls-4" data-name="Path 1092" transform="translate(22.159 20.239)"/>
+    <path id="prefix__Path_1093" d="M43.838 20.568h-8.426v6.319h8.425z" class="prefix__cls-5" data-name="Path 1093" transform="translate(29.868 17.348)"/>
+    <path id="prefix__Path_1094" d="M49.983 23.459v-6.32H33.132v6.319h16.851z" class="prefix__cls-5" data-name="Path 1094" transform="translate(27.945 14.456)"/>
+    <path id="prefix__Path_1095" d="M67.962 35.422l1.489 1.489 2.978-2.978-5.957-5.957-2.978 2.976 1.489 1.489-1.567 1.567a23.126 23.126 0 0 0-8.5-4.476v-3h2.106a2.106 2.106 0 0 0 2.106-2.106V18.1a2.107 2.107 0 0 0-2.102-2.1H40.175a2.107 2.107 0 0 0-2.106 2.1v6.319a2.106 2.106 0 0 0 2.106 2.106h2.107v3a23.124 23.124 0 0 0-8.5 4.478l-1.567-1.567 1.489-1.489-2.978-2.978-5.957 5.957 2.976 2.978 1.489-1.489 1.566 1.574a23.17 23.17 0 1 0 35.6 0zM42.282 20.21H54.92v2.106H42.282zm4.213 8.425v-2.106h4.213v2.106zM48.6 70.762A18.978 18.978 0 1 1 62 65.2a18.956 18.956 0 0 1-13.4 5.562z" class="prefix__cls-4" data-name="Path 1095" transform="translate(20.893 13.493)"/>
+    <path id="prefix__Path_1096" d="M31.99 35.064h4.21v2.106h-4.21V47.7h8.425v-4.21H36.2v-2.107h4.213V30.851H31.99z" class="prefix__cls-6" data-name="Path 1096" transform="translate(26.982 26.021)"/>
+    <path id="prefix__Path_1097" d="M48.241 32.958h-4.213v4.213h-2.106v-6.32h-4.213v10.532h6.319V47.7h4.213v-6.317h2.106v-4.212h-2.106z" class="prefix__cls-6" data-name="Path 1097" transform="translate(31.805 26.021)"/>
+    <path id="prefix__Path_1098" d="M3.431 33.137v8.425a2.106 2.106 0 0 0 2.106 2.106h8.425v-4.212H7.643v-6.319z" data-name="Path 1098" transform="translate(2.894 27.949)" style="fill:#fde1bc"/>
+</svg>

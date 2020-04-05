@@ -6,6 +6,15 @@ import DatePicker from './DatePicker'
 import CardSection from './CardSection'
 import RecipeCard from './RecipeCard'
 import Label from './Label'
+import {
+   FlexCards,
+   HowItWorks,
+   Benefits,
+   Delivery,
+   Partner,
+   Footer,
+   Hero,
+} from './Landing'
 
 export {
    Input,
@@ -16,4 +25,11 @@ export {
    RecipeCard,
    CardSection,
    Label,
+   FlexCards,
+   HowItWorks,
+   Benefits,
+   Delivery,
+   Partner,
+   Footer,
+   Hero,
 }

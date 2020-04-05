@@ -8,6 +8,7 @@ import { useAuth } from './context/auth'
 
 // import Home from './pages'
 import Listing from './pages/listing'
+import Landing from './pages/landing'
 import Restaurant from './pages/restaurant'
 import Account from './pages/user/account'
 import Address from './pages/user/addresses'
@@ -31,6 +32,7 @@ const App = () => {
       <Elements stripe={stripePromise}>
          <Router>
             {/* <Route path="/" exact component={Home} /> */}
+            <Route path="/landing" exact component={Landing} />
             <MenuProvider>
                <Route path="/" exact component={Listing} />
                <Route path="/restaurants/:id" exact component={Restaurant} />
