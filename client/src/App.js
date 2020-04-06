@@ -30,19 +30,16 @@ const App = () => {
       )
    return (
       <Elements stripe={stripePromise}>
-         <Router>
-            {/* <Route path="/" exact component={Home} /> */}
-            <Route path="/landing" exact component={Landing} />
-            <MenuProvider>
-               <Route path="/" exact component={Listing} />
-               <Route path="/restaurants/:id" exact component={Restaurant} />
-            </MenuProvider>
-            <Route path="/user/account" exact component={Account} />
-            <Route path="/user/address" exact component={Address} />
-            <Route path="/user/orders" exact component={Orders} />
-            <Route path="/user/payment" exact component={Payment} />
-            <Route path="/user/settings" exact component={Settings} />
-         </Router>
+         <Route path="/" exact component={Landing} />
+         <MenuProvider>
+            <Route path="/restaurants" exact component={Listing} />
+            <Route path="/restaurants/:id" exact component={Restaurant} />
+         </MenuProvider>
+         <Route path="/user/account" exact component={Account} />
+         <Route path="/user/address" exact component={Address} />
+         <Route path="/user/orders" exact component={Orders} />
+         <Route path="/user/payment" exact component={Payment} />
+         <Route path="/user/settings" exact component={Settings} />
          {!isAddressAdded && <AddressModal />}
       </Elements>
    )

@@ -1,5 +1,6 @@
 import React from 'react'
 import Keycloak from 'keycloak-js'
+import { useHistory } from 'react-router-dom'
 
 import { fetcher } from '../../utils'
 
@@ -17,7 +18,10 @@ const keycloak = new Keycloak({
 
 const AuthContext = React.createContext()
 
+const excludeUrls = ['/']
+
 export const AuthProvider = ({ children }) => {
+   const history = useHistory()
    const [isAuthenticated, setIsAuthenticated] = React.useState(false)
    const [user, setUser] = React.useState({})
    const [isAddressAdded, setIsAddressAdded] = React.useState(false)
@@ -25,13 +29,31 @@ export const AuthProvider = ({ children }) => {
    const [isLoading, setLoading] = React.useState(true)
 
    const initialize = async () => {
-      const authenticated = await keycloak.init({
-         onLoad: 'login-required',
-         promiseType: 'native',
-      })
-      if (authenticated) {
+      let isLoggedIn = false
+      if (excludeUrls.includes(window.location.pathname)) {
+         const authenticated = await keycloak.init({
+            onLoad: 'check-sso',
+            promiseType: 'native',
+         })
+         if (authenticated) {
+            isLoggedIn = true
+            history.push('/restaurants')
+         } else {
+            setLoading(false)
+            setIsAddressAdded(true)
+         }
+      } else {
+         const authenticated = await keycloak.init({
+            onLoad: 'login-required',
+            promiseType: 'native',
+         })
+         if (authenticated) {
+            isLoggedIn = true
+         }
+      }
+      if (isLoggedIn) {
          setIsInitialized(true)
-         setIsAuthenticated(authenticated)
+         setIsAuthenticated(true)
          const user = await keycloak.loadUserProfile()
          setUser(user)
       }
