@@ -5,7 +5,12 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 
-const { RestaurantRouter, MenuRouter, RecipeRouter } = require('./entities')
+const {
+   RestaurantRouter,
+   MenuRouter,
+   RecipeRouter,
+   UserRouter,
+} = require('./entities')
 
 const app = express()
 
@@ -33,6 +38,7 @@ const PORT = process.env.PORT || 4000
 app.use('/api/restaurants', RestaurantRouter)
 app.use('/api/menu', MenuRouter)
 app.use('/api/recipe', RecipeRouter)
+app.use('/api/users', UserRouter)
 
 app.get('*', (req, res) => {
    res.sendFile(path.join(__dirname + '/../client/build/index.html'))
