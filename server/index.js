@@ -10,6 +10,7 @@ const {
    MenuRouter,
    RecipeRouter,
    UserRouter,
+   OrderRouter,
 } = require('./entities')
 
 const app = express()
@@ -39,6 +40,7 @@ app.use('/api/restaurants', RestaurantRouter)
 app.use('/api/menu', MenuRouter)
 app.use('/api/recipe', RecipeRouter)
 app.use('/api/users', UserRouter)
+app.use('/api/orders', OrderRouter)
 
 app.get('*', (req, res) => {
    res.sendFile(path.join(__dirname + '/../client/build/index.html'))
