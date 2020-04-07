@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import { Minus, PlusIcon } from '../../../assets/icons'
 import Button from '../../Button'
 
@@ -11,11 +13,11 @@ const FAQ = () => {
    }, [active])
 
    return (
-      <section className="lg:p-32">
-         <h1 className="mb-16 text-4xl text-extrabold">
+      <section className="p-8 lg:p-32">
+         <h1 className="mb-8 lg:mb16  text-2xl lg:text-4xl text-extrabold">
             Frequently Asked Questions
          </h1>
-         <div className="flex justify-evenly border-bottom">
+         <div className="flex flex-col lg:flex-row justify-evenly border-bottom">
             <span
                className={
                   active === 'orders'
@@ -57,7 +59,7 @@ const FAQ = () => {
                Payment
             </span>
          </div>
-         <div className="p-8">
+         <div className="py-4 lg:p-8">
             <section hidden={active !== 'orders'}>
                <div className="mb-8">
                   <div
@@ -416,8 +418,10 @@ const FAQ = () => {
                   </div>
                </div>
             </section>
-            <div className="mt-16 w-1/4">
-               <Button>Show all FAQs</Button>
+            <div className="mt-16 w-full lg:w-1/4">
+               <a href="https://www.dailykit.org/faqs" target="_blank">
+                  <Button>Show all FAQs</Button>
+               </a>
             </div>
          </div>
          <style>
