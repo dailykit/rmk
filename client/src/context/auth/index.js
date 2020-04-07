@@ -103,7 +103,8 @@ export const AuthProvider = ({ children }) => {
       }
    }, [isAuthenticated, user.email])
 
-   const login = path => keycloak.login({ redirectUri: path })
+   const login = () => keycloak.login()
+   const signup = () => keycloak.register()
    const logout = () => keycloak.logout()
    const isTokenExpired = () => keycloak.isTokenExpired()
    const updateToken = () => keycloak.updateToken()
@@ -124,6 +125,7 @@ export const AuthProvider = ({ children }) => {
          value={{
             user,
             login,
+            signup,
             logout,
             setUser,
             isLoading,

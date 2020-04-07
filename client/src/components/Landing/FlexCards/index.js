@@ -4,7 +4,10 @@ import lunch from '../../../assets/img/lunch.jpg'
 import dinner from '../../../assets/img/dinner.jpg'
 import Button from '../../Button'
 
+import { useAuth } from '../../../context/auth'
+
 const FlexCards = () => {
+   const { signup } = useAuth()
    return (
       <>
          <section className="p-4 lg:p-16 text-center font-semibold mb-8 text-gray-800">
@@ -47,7 +50,7 @@ const FlexCards = () => {
                         your local restaurants.
                      </p>
                      <div className="w-2/4">
-                        <Button>Explore Lunch</Button>
+                        <Button onClick={() => signup()}>Explore Lunch</Button>
                      </div>
                   </div>
                </div>
@@ -62,7 +65,7 @@ const FlexCards = () => {
                         your local restaurants.
                      </p>
                      <div className="w-2/4">
-                        <Button>Explore Dinner</Button>
+                        <Button onClick={() => signup()}>Explore Dinner</Button>
                      </div>
                   </div>
                </div>
@@ -85,7 +88,7 @@ const FlexCards = () => {
                </p>
             </div>
             <div className="w-64 mx-auto">
-               <Button>Get Started</Button>
+               <Button onClick={() => signup()}>Get Started</Button>
             </div>
          </section>
          <style>{`
