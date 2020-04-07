@@ -5,5 +5,17 @@ import Delivery from './Delivery'
 import Partner from './Partner'
 import Footer from './Footer'
 import Hero from './Hero'
+import FAQ from './FAQ'
+import CTA from './CTA'
 
-export { FlexCards, HowItWorks, Benefits, Delivery, Partner, Footer, Hero }
+export {
+   FlexCards,
+   HowItWorks,
+   Benefits,
+   Delivery,
+   Partner,
+   Footer,
+   Hero,
+   FAQ,
+   CTA,
+}

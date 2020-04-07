@@ -14,6 +14,8 @@ import {
    Partner,
    Footer,
    Hero,
+   FAQ,
+   CTA,
 } from './Landing'
 
 export {
@@ -32,4 +34,6 @@ export {
    Partner,
    Footer,
    Hero,
+   FAQ,
+   CTA,
 }

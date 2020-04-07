@@ -8,6 +8,8 @@ import {
    Delivery,
    Partner,
    Footer,
+   FAQ,
+   CTA,
 } from '../components'
 
 const Landing = () => {
@@ -19,6 +21,8 @@ const Landing = () => {
          <Benefits />
          <Delivery />
          <Partner />
+         <FAQ />
+         <CTA />
          <Footer />
       </>
    )
