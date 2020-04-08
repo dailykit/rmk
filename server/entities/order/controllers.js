@@ -1,4 +1,5 @@
 const { Order } = require('./model')
+const { User } = require('../user/model')
 
 module.exports = {
    create: async (req, res) => {
@@ -12,6 +13,7 @@ module.exports = {
          dinner,
       } = req.body
       try {
+         // Create an order
          const order = await Order.create({
             date,
             userId,
@@ -24,6 +26,12 @@ module.exports = {
                },
             ],
          })
+
+         // Push order into user's orders list
+         const query = { userId }
+         const update = { orders: { date, details: order._id } }
+         await User.findOneAndUpdate(query, { $push: update })
+
          return res.json({
             data: order,
             success: true,
