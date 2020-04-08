@@ -5,7 +5,10 @@ import mockup from '../../../assets/img/mockup_3x.png'
 import bg from '../../../assets/img/hero.svg'
 import Button from '../../Button'
 
+import { useAuth } from '../../../context/auth'
+
 const Hero = () => {
+   const { signup } = useAuth()
    return (
       <section className="py-16 flex flex-col-reverse lg:flex-row lg:h-screen">
          <div className="bg-hero flex-1 p-8">
@@ -19,13 +22,8 @@ const Hero = () => {
                Get your lunch and dinner for 4 serving at just $70
             </h4>
             <div className="flex flex-col lg:flex-row mb-2">
-               <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="shadow w-full p-2"
-               />
                <div className="w-full lg:w-1/4">
-                  <Button>Get Started</Button>
+                  <Button onClick={() => signup()}>Get Started</Button>
                </div>
             </div>
             <div className="flex justify-end  mb-16 lg:mb-24">

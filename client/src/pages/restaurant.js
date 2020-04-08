@@ -17,7 +17,10 @@ const Restaurant = () => {
                `${process.env.REACT_APP_RMK_URI}/menu/${params.id}`
             )
             const { data } = await response.json()
-            dispatch({ type: 'SELECT_MENU', payload: data })
+            dispatch({
+               type: 'SELECT_MENU',
+               payload: { ...data, id: params.id },
+            })
          } catch (error) {
             console.log(error.message)
          }

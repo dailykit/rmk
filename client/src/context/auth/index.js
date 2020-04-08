@@ -95,6 +95,11 @@ export const AuthProvider = ({ children }) => {
                )
                if (userCreated) {
                   setUser(user => ({ ...user, id: newUser._id }))
+                  await fetcher(`${process.env.REACT_APP_RMK_URI}/users`, {
+                     method: 'POST',
+                     headers: { 'Content-Type': 'application/json' },
+                     body: JSON.stringify({ id: newUser._id }),
+                  })
                   setIsAddressAdded(false)
                   setLoading(false)
                }
@@ -103,7 +108,8 @@ export const AuthProvider = ({ children }) => {
       }
    }, [isAuthenticated, user.email])
 
-   const login = path => keycloak.login({ redirectUri: path })
+   const login = () => keycloak.login()
+   const signup = () => keycloak.register()
    const logout = () => keycloak.logout()
    const isTokenExpired = () => keycloak.isTokenExpired()
    const updateToken = () => keycloak.updateToken()
@@ -124,6 +130,7 @@ export const AuthProvider = ({ children }) => {
          value={{
             user,
             login,
+            signup,
             logout,
             setUser,
             isLoading,

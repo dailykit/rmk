@@ -3,7 +3,10 @@ import React from 'react'
 import { Cart, Home, Bag } from '../../../assets/icons'
 import Button from '../../Button'
 
+import { useAuth } from '../../../context/auth'
+
 const HowItWorks = () => {
+   const { signup } = useAuth()
    return (
       <section className="text-center p-4 py-16 lg:p-16 text-gray-800">
          <h2 className="text-2xl lg:text-5xl font-bold mb-8">How it works?</h2>
@@ -44,7 +47,7 @@ const HowItWorks = () => {
             </div>
          </div>
          <div className="w-64 mx-auto">
-            <Button>Get Started</Button>
+            <Button onClick={() => signup()}>Get Started</Button>
          </div>
          <style>
             {`

@@ -6,7 +6,7 @@ const UserSchema = new Schema(
       userId: String,
       orders: [
          {
-            date: Date,
+            date: String,
             isSkipped: { type: Boolean, default: false },
             details: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
          },

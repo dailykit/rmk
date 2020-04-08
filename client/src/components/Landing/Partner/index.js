@@ -9,7 +9,8 @@ const Partner = () => {
                Are you a Restaurant looking to do Meal Kits?
             </h2>
             <p className="text-lg mb-8">
-               Partner with RMK! Download the Catalog to know more.
+               Partner with RestaurantMealKits.com! Download the Catalog to know
+               more.
             </p>
             <div className="w-64 mx-auto">
                <a

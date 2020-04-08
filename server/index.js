@@ -10,6 +10,7 @@ const {
    MenuRouter,
    RecipeRouter,
    UserRouter,
+   OrderRouter,
 } = require('./entities')
 
 const app = express()
@@ -20,6 +21,7 @@ mongoose
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
    })
    .then(() => console.log('Connected to DB...'))
    .catch(e => console.log(e))
@@ -39,6 +41,7 @@ app.use('/api/restaurants', RestaurantRouter)
 app.use('/api/menu', MenuRouter)
 app.use('/api/recipe', RecipeRouter)
 app.use('/api/users', UserRouter)
+app.use('/api/orders', OrderRouter)
 
 app.get('*', (req, res) => {
    res.sendFile(path.join(__dirname + '/../client/build/index.html'))
