@@ -50,4 +50,16 @@ module.exports = {
          return res.json({ success: false, error: error.message })
       }
    },
+   order: async (req, res) => {
+      try {
+         const order = await Order.findOne(req.query)
+         return res.json({
+            data: order,
+            success: true,
+            message: 'Successfully fetched the order!',
+         })
+      } catch (error) {
+         return res.json({ success: false, error: error.message })
+      }
+   },
 }
