@@ -95,6 +95,11 @@ export const AuthProvider = ({ children }) => {
                )
                if (userCreated) {
                   setUser(user => ({ ...user, id: newUser._id }))
+                  await fetcher(`${process.env.REACT_APP_RMK_URI}/users`, {
+                     method: 'POST',
+                     headers: { 'Content-Type': 'application/json' },
+                     body: JSON.stringify({ id: newUser._id }),
+                  })
                   setIsAddressAdded(false)
                   setLoading(false)
                }
