@@ -53,7 +53,7 @@ const OrderSchema = new Schema(
 
 const OrdersPerDaySchema = new Schema(
    {
-      date: Date,
+      date: String,
       orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
    },
    { timestamps: true }

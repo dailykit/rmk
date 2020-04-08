@@ -1,4 +1,4 @@
-const { Order } = require('./model')
+const { Order, OrdersPerDay } = require('./model')
 const { User } = require('../user/model')
 
 module.exports = {
@@ -28,9 +28,18 @@ module.exports = {
          })
 
          // Push order into user's orders list
-         const query = { userId }
-         const update = { orders: { date, details: order._id } }
-         await User.findOneAndUpdate(query, { $push: update })
+         const userQuery = { userId }
+         const userUpdate = { orders: { date, details: order._id } }
+         await User.findOneAndUpdate(userQuery, { $push: userUpdate })
+
+         // Push order into OrdersPerDay's order's list
+         const orderPerDay = await OrdersPerDay.findOne({ date })
+         if (orderPerDay) {
+            await orderPerDay.orders.push(order._id)
+            await orderPerDay.save()
+         } else {
+            await OrdersPerDay.create({ date, orders: [order._id] })
+         }
 
          return res.json({
             data: order,
