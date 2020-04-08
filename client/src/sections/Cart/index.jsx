@@ -2,6 +2,8 @@ import React from 'react'
 
 import { MenuContext } from '../../context/menu'
 
+import { getToday } from '../../utils'
+
 const Cart = () => {
    const { state } = React.useContext(MenuContext)
    return (
@@ -11,7 +13,7 @@ const Cart = () => {
                {new Intl.DateTimeFormat('en-US', {
                   month: 'short',
                   day: 'numeric',
-               }).format(new Date())}
+               }).format(getToday())}
             </span>
             <div>
                <label

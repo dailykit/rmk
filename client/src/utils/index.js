@@ -1,3 +1,4 @@
 import fetcher from './fetcher'
+import getToday from './getToday'
 
-export { fetcher }
+export { fetcher, getToday }

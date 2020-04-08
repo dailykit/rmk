@@ -12,11 +12,13 @@ import {
    subWeeks,
 } from 'date-fns'
 
+import { getToday } from '../../utils'
+
 export default function DatePicker(props) {
-   const [selectedDate, setSelectedDate] = useState(new Date())
+   const [selectedDate, setSelectedDate] = useState(getToday())
    const [softSelect, setSoftSelect] = useState(new Date())
-   const [currentWeek, setCurrentWeek] = useState(new Date())
-   const [currentDate] = useState(new Date())
+   const [currentWeek, setCurrentWeek] = useState(getToday())
+   const [currentDate] = useState(getToday())
    const { endDate, shouldScroll } = props
    let { selectDate } = props
    let scroll = false

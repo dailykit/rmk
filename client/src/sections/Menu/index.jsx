@@ -5,7 +5,7 @@ import Section from '../Section'
 import { MenuContext } from '../../context/menu'
 import { useAuth } from '../../context/auth'
 
-import { fetcher } from '../../utils'
+import { fetcher, getToday } from '../../utils'
 
 const Restaurant = () => {
    const { user } = useAuth()
@@ -51,7 +51,7 @@ const Restaurant = () => {
                   month: 'short',
                   day: 'numeric',
                   year: 'numeric',
-               }).format(new Date()),
+               }).format(getToday()),
                userId: user.id,
                addressId: user.addresses.find(address => address.is_default).id,
                restaurant: {
