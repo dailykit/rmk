@@ -9,6 +9,7 @@ import { useAuth } from './context/auth'
 // import Home from './pages'
 import Listing from './pages/listing'
 import Landing from './pages/landing'
+import Community from './pages/community'
 import Restaurant from './pages/restaurant'
 import Account from './pages/user/account'
 import Address from './pages/user/addresses'
@@ -22,7 +23,7 @@ const stripePromise = loadStripe('pk_test_tOKq1xJmx07XTTAKLfntMh7f00ltRB823g')
 
 const App = () => {
    const { isAddressAdded, isLoading } = useAuth()
-   if (!isLoading)
+   if (isLoading)
       return (
          <div className="fixed inset-0 flex items-center justify-center">
             <img src="/img/loader.gif" alt="" className="h-16" />
@@ -31,6 +32,7 @@ const App = () => {
    return (
       <Elements stripe={stripePromise}>
          <Route path="/" exact component={Landing} />
+         <Route path="/help-community" exact component={Community} />
          <MenuProvider>
             <Route path="/restaurants" exact component={Listing} />
             <Route path="/restaurants/:id" exact component={Restaurant} />
@@ -40,7 +42,7 @@ const App = () => {
          <Route path="/user/orders" exact component={Orders} />
          <Route path="/user/payment" exact component={Payment} />
          <Route path="/user/settings" exact component={Settings} />
-         {/* {!isAddressAdded && <AddressModal />} */}
+         {!isAddressAdded && <AddressModal />}
       </Elements>
    )
 }

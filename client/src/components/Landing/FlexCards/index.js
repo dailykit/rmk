@@ -5,6 +5,7 @@ import dinner from '../../../assets/img/dinner.webp'
 import Button from '../../Button'
 
 import { useAuth } from '../../../context/auth'
+import { Link } from 'react-router-dom'
 
 const FlexCards = () => {
    const { signup } = useAuth()
@@ -21,10 +22,12 @@ const FlexCards = () => {
                Our local restaurants are ready to serve you Meal Kits at your
                home.
             </p>
-            <p className="font-medium text-md lg:text-lg text-primary underline">
-               When you buy meal kits from us, you’re not only helping yourself
-               but helping your local community.
-            </p>
+            <Link to="/help-community">
+               <p className="font-medium text-md lg:text-lg text-primary underline">
+                  When you buy meal kits from us, you’re not only helping
+                  yourself but helping your local community.
+               </p>
+            </Link>
          </section>
          <section className="text-center py-16">
             <h1 className="text-2xl lg:text-4xl font-bold mb-4">
