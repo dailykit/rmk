@@ -1,6 +1,6 @@
 import React from 'react'
 
-import img from '../../../assets/img/delivery.jpg'
+import img from '../../../assets/img/delivery.webp'
 
 const Delivery = () => {
    return (

@@ -9,6 +9,7 @@ import { useAuth } from './context/auth'
 // import Home from './pages'
 import Listing from './pages/listing'
 import Landing from './pages/landing'
+import Community from './pages/community'
 import Restaurant from './pages/restaurant'
 import Account from './pages/user/account'
 import Address from './pages/user/addresses'
@@ -31,6 +32,7 @@ const App = () => {
    return (
       <Elements stripe={stripePromise}>
          <Route path="/" exact component={Landing} />
+         <Route path="/help-community" exact component={Community} />
          <MenuProvider>
             <Route path="/restaurants" exact component={Listing} />
             <Route path="/restaurants/:id" exact component={Restaurant} />

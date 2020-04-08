@@ -13,7 +13,12 @@ const Partner = () => {
                more.
             </p>
             <div className="w-64 mx-auto">
-               <Button>Download Catalog</Button>
+               <a
+                  href="https://share.hsforms.com/1bojCh2f5Sp6JDdztmdTHRg3fqrt"
+                  target="_blank"
+               >
+                  <Button>Download Catalog</Button>
+               </a>
             </div>
          </section>
       </>
