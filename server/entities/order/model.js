@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const OrderSchema = new Schema(
    {
-      date: Date,
+      date: String,
       userId: String,
       addressId: String,
       deliveryDate: Date,

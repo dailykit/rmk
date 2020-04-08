@@ -47,7 +47,11 @@ const Restaurant = () => {
                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-               date: new Date(),
+               date: new Intl.DateTimeFormat('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+               }).format(new Date()),
                userId: user.id,
                addressId: user.addresses.find(address => address.is_default).id,
                restaurant: {
