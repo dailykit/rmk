@@ -1,7 +1,7 @@
 import React from 'react'
 
-import lunch from '../../../assets/img/lunch.jpg'
-import dinner from '../../../assets/img/dinner.jpg'
+import lunch from '../../../assets/img/lunch.webp'
+import dinner from '../../../assets/img/dinner.webp'
 import Button from '../../Button'
 
 import { useAuth } from '../../../context/auth'
