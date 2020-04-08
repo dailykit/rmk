@@ -6,6 +6,7 @@ const initialState = {
    restaurant: {},
    recipeDetails: '',
    isTunnelOpen: false,
+   date: '',
    selectedForToday: {
       lunch: '',
       dinner: '',
@@ -37,6 +38,8 @@ const reducers = (state, { type, payload }) => {
                [payload.key]: payload.value,
             },
          }
+      case 'SET_DATE':
+         return { ...state, date: payload }
       default:
          return state
    }

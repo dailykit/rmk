@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom'
 import { DatePicker } from '../../components'
 
 import { useAuth } from '../../context/auth'
+import { MenuContext } from '../../context/menu'
 
 import { Logo, LocationIcon } from '../../assets/icons'
 
 const Header = ({ onlyNav }) => {
    const { user } = useAuth()
+   const { dispatch } = React.useContext(MenuContext)
    const [address] = React.useState(() => {
       const address = user.addresses?.find(address => address.is_default) || {}
       const result = `${address.line1}, ${address.line2}, ${address.city}, ${address.state}, ${address.zip}`
@@ -17,13 +19,20 @@ const Header = ({ onlyNav }) => {
 
    const [isDropdownVisible, setIsDropdownVisible] = React.useState(false)
 
+   const selectDay = day => {
+      dispatch({
+         type: 'SET_DATE',
+         payload: new Intl.DateTimeFormat('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+         }).format(day),
+      })
+   }
+
    return (
       <header>
-         <nav
-            className={`top-0 fixed bg-white w-full h-16 flex flex-row items-center justify-between px-8 ${
-               onlyNav ? 'border-b' : ''
-            }`}
-         >
+         <nav className="top-0 fixed bg-white w-full h-16 flex flex-row items-center justify-between px-8 border-b">
             <span className="w-32">
                <Logo />
             </span>
@@ -89,18 +98,10 @@ const Header = ({ onlyNav }) => {
          </nav>
          {!onlyNav && (
             <>
-               <div
-                  style={{ backgroundImage: "url('/img/menu-hero.jpg')" }}
-                  className="bg-center bg-no-repeat bg-cover h-64 flex items-center pl-16"
-               >
-                  <h1 className="text-white text-4xl font-light">
-                     Your local restaurants are now serving Meal Kits
-                  </h1>
-               </div>
                <h2 className="font-medium tracking-wider uppercase text-gray-500 pb-2 pt-4 pl-4 text-sm">
                   Hungerboard
                </h2>
-               <DatePicker getSelectedDay={day => console.log(day)} />
+               <DatePicker getSelectedDay={day => selectDay(day)} />
             </>
          )}
       </header>

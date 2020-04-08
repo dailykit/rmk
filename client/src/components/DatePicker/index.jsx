@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Waypoint } from 'react-waypoint'
-// import './datepicker.css'
 import {
    addDays,
    addWeeks,
@@ -14,7 +13,7 @@ import {
 
 import { getToday } from '../../utils'
 
-export default function DatePicker(props) {
+export default function DatePicker({ getSelectedDay, ...props }) {
    const [selectedDate, setSelectedDate] = useState(getToday())
    const [softSelect, setSoftSelect] = useState(new Date())
    const [currentWeek, setCurrentWeek] = useState(getToday())
@@ -111,21 +110,19 @@ export default function DatePicker(props) {
       if (!isBefore(day, currentDate)) {
          selectDate = null
          setSelectedDate(day)
-         if (props.getSelectedDay) {
-            props.getSelectedDay(day)
+         if (getSelectedDay) {
+            getSelectedDay(day)
          }
       }
    }
 
    useEffect(() => {
-      if (props.getSelectedDay) {
-         if (selectDate) {
-            props.getSelectedDay(selectDate)
-         } else {
-            props.getSelectedDay(new Date())
-         }
+      if (selectDate) {
+         getSelectedDay(selectDate)
+      } else {
+         getSelectedDay(getToday())
       }
-   }, [props, selectDate])
+   }, [selectDate])
 
    useEffect(() => {
       if (selectDate) {
