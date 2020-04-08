@@ -18,7 +18,7 @@ const keycloak = new Keycloak({
 
 const AuthContext = React.createContext()
 
-const excludeUrls = ['/']
+const excludeUrls = ['/', '/help-community']
 
 export const AuthProvider = ({ children }) => {
    const history = useHistory()
