@@ -19,13 +19,16 @@ module.exports = {
             userId,
             addressId,
             restaurant,
-            info: [
-               {
-                  productId,
-                  items: [lunch, dinner],
-               },
-            ],
+            info: [],
          })
+         order.status = 'SELECTED'
+         order.info = [
+            {
+               productId,
+               items: [lunch, dinner],
+            },
+         ]
+         await order.save()
 
          // Push order into user's orders list
          const userQuery = { userId }
