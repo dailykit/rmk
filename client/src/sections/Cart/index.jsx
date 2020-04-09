@@ -1,20 +1,56 @@
 import React from 'react'
 
 import { MenuContext } from '../../context/menu'
+import { useAuth } from '../../context/auth'
 
-import { getToday } from '../../utils'
+import { fetcher } from '../../utils'
+
+const statuses = ['SELECTED', 'CONFIRMED', 'PAYMENT_ERROR']
 
 const Cart = () => {
-   const { state } = React.useContext(MenuContext)
+   const { user } = useAuth()
+   const { state, dispatch } = React.useContext(MenuContext)
+
+   React.useEffect(() => {
+      ;(async () => {
+         const query = new URLSearchParams({
+            userId: user.id,
+            date: state.date,
+         }).toString()
+         const { success: orderExists, data: orderData } = await fetcher(
+            `${process.env.REACT_APP_RMK_URI}/orders?${query}`
+         )
+         if (orderExists && statuses.includes(orderData?.status)) {
+            const lunchId = orderData?.info[0].items[0].recipeId
+            const dinnerId = orderData?.info[0].items[1].recipeId
+            const restaurantId = orderData?.restaurant.id
+
+            const { success: lunchExists, data: lunchData } = await fetcher(
+               `${process.env.REACT_APP_RMK_URI}/recipe/${restaurantId}/${lunchId}`
+            )
+            const { success: dinnerExists, data: dinnerData } = await fetcher(
+               `${process.env.REACT_APP_RMK_URI}/recipe/${restaurantId}/${dinnerId}`
+            )
+            if (lunchExists) {
+               dispatch({
+                  type: 'SELECT_FOR_TODAY',
+                  payload: { key: 'lunch', value: lunchData },
+               })
+            }
+            if (dinnerExists) {
+               dispatch({
+                  type: 'SELECT_FOR_TODAY',
+                  payload: { key: 'dinner', value: dinnerData },
+               })
+            }
+         }
+      })()
+   }, [state.date])
+
    return (
       <div>
          <header className="flex items-center justify-between border-b pb-3">
-            <span className="text-xl text-gray-700">
-               {new Intl.DateTimeFormat('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-               }).format(getToday())}
-            </span>
+            <span className="text-xl text-gray-700">{state.date}</span>
             <div>
                <label
                   htmlFor="skip_day"

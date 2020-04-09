@@ -39,7 +39,14 @@ const reducers = (state, { type, payload }) => {
             },
          }
       case 'SET_DATE':
-         return { ...state, date: payload }
+         return {
+            ...state,
+            date: payload,
+            selectedForToday: {
+               lunch: '',
+               dinner: '',
+            },
+         }
       default:
          return state
    }
