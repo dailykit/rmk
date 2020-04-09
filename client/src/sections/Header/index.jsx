@@ -1,16 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { DatePicker } from '../../components'
-
 import { useAuth } from '../../context/auth'
-import { MenuContext } from '../../context/menu'
 
 import { Logo, LocationIcon } from '../../assets/icons'
 
-const Header = ({ onlyNav }) => {
+const Header = () => {
    const { user } = useAuth()
-   const { dispatch } = React.useContext(MenuContext)
    const [address] = React.useState(() => {
       const address = user.addresses?.find(address => address.is_default) || {}
       const result = `${address.line1}, ${address.line2}, ${address.city}, ${address.state}, ${address.zip}`
@@ -18,17 +14,6 @@ const Header = ({ onlyNav }) => {
    })
 
    const [isDropdownVisible, setIsDropdownVisible] = React.useState(false)
-
-   const selectDay = day => {
-      dispatch({
-         type: 'SET_DATE',
-         payload: new Intl.DateTimeFormat('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-         }).format(day),
-      })
-   }
 
    return (
       <header>
@@ -96,14 +81,6 @@ const Header = ({ onlyNav }) => {
                `}
             </style>
          </nav>
-         {!onlyNav && (
-            <>
-               <h2 className="font-medium tracking-wider uppercase text-gray-500 pb-2 pt-4 pl-4 text-sm">
-                  Hungerboard
-               </h2>
-               <DatePicker getSelectedDay={day => selectDay(day)} />
-            </>
-         )}
       </header>
    )
 }

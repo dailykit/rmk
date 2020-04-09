@@ -31,7 +31,7 @@ const Addresses = () => {
    }
    return (
       <div>
-         <Header onlyNav />
+         <Header />
          <ProfileLayout>
             <h1 className="flex items-center text-2xl text-gray-700">
                Addresses

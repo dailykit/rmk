@@ -6,7 +6,7 @@ import { ProfileLayout } from '../../components'
 const Account = () => {
    return (
       <div>
-         <Header onlyNav />
+         <Header />
          <ProfileLayout>Account</ProfileLayout>
       </div>
    )

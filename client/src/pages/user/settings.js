@@ -6,7 +6,7 @@ import { ProfileLayout } from '../../components'
 const Settings = () => {
    return (
       <div>
-         <Header onlyNav />
+         <Header />
          <ProfileLayout>Settings</ProfileLayout>
       </div>
    )

@@ -6,7 +6,7 @@ import { ProfileLayout } from '../../components'
 const Orders = () => {
    return (
       <div>
-         <Header onlyNav />
+         <Header />
          <ProfileLayout>Orders</ProfileLayout>
       </div>
    )

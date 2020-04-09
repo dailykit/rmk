@@ -6,7 +6,7 @@ import { ProfileLayout } from '../../components'
 const Payment = () => {
    return (
       <div>
-         <Header onlyNav />
+         <Header />
          <ProfileLayout>
             <h4 className="text-gray-700 font-semibold mb-8">Payment Info</h4>
             <div className="flex justify-between items-center text-md mb-4">
