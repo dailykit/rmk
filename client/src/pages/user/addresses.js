@@ -35,7 +35,7 @@ const Addresses = () => {
          <ProfileLayout>
             <h1 className="flex items-center text-2xl text-gray-700">
                Addresses
-               <span
+               {/* <span
                   onClick={() => setFormVisibility(!isFormVisible)}
                   className="flex items-center justify-center ml-2 h-8 w-8 border border-gray-300 rounded-full bg-gray-200 cursor-pointer"
                >
@@ -43,7 +43,7 @@ const Addresses = () => {
                      size={20}
                      className="stroke-current text-gray-800"
                   />
-               </span>
+               </span> */}
             </h1>
             <div className="grid grid-cols-2 gap-4 mt-3">
                {user.addresses.map(address => (
