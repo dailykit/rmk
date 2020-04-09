@@ -59,7 +59,7 @@ const OrdersPerDaySchema = new Schema(
    { timestamps: true }
 )
 
-const FinalOrdersPerDaySchema = new Schema(
+const OrdersPerRestaurantSchema = new Schema(
    {
       date: Date,
       restaurants: [
@@ -77,9 +77,9 @@ const FinalOrdersPerDaySchema = new Schema(
 
 const Order = mongoose.model('Order', OrderSchema)
 const OrdersPerDay = mongoose.model('OrdersPerDay', OrdersPerDaySchema)
-const FinalOrdersPerDay = mongoose.model(
-   'FinalOrdersPerDay',
-   FinalOrdersPerDaySchema
+const OrdersPerRestaurant = mongoose.model(
+   'OrdersPerRestaurant',
+   OrdersPerRestaurantSchema
 )
 
-module.exports = { Order, OrdersPerDay, FinalOrdersPerDay }
+module.exports = { Order, OrdersPerDay, OrdersPerRestaurant }
