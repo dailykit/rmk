@@ -40,6 +40,33 @@ module.exports = {
          return res.json({ success: false, error: error.message })
       }
    },
+   update: async (req, res) => {
+      try {
+         const { id } = req.params
+         const order = await Order.findByIdAndUpdate(id, req.body, {
+            new: true,
+         })
+
+         const orderPerDay = await OrdersPerDay.findOne({ date: order.date })
+         if (order.status === 'SELECTED') {
+            orderPerDay.orders.selected.push(order._id)
+            orderPerDay.orders.pending.pull(order._id)
+            orderPerDay.save()
+         } else if (order.status === 'SKIPPED') {
+            orderPerDay.orders.selected.pull(order._id)
+            orderPerDay.orders.pending.pull(order._id)
+            orderPerDay.save()
+         }
+
+         return res.json({
+            data: order,
+            success: true,
+            message: 'Order updated succesfully',
+         })
+      } catch (error) {
+         return res.json({ success: false, error: error.message })
+      }
+   },
    order: async (req, res) => {
       try {
          const order = await Order.findOne(req.query)
