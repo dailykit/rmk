@@ -54,7 +54,10 @@ const OrderSchema = new Schema(
 const OrdersPerDaySchema = new Schema(
    {
       date: String,
-      orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+      orders: {
+         selected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+         pending: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+      },
    },
    { timestamps: true }
 )

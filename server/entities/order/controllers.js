@@ -3,15 +3,7 @@ const { User } = require('../user/model')
 
 module.exports = {
    create: async (req, res) => {
-      const {
-         date,
-         userId,
-         addressId,
-         restaurant,
-         productId,
-         lunch,
-         dinner,
-      } = req.body
+      const { date, userId, addressId, restaurant } = req.body
       try {
          // Create an order
          const order = await Order.create({
@@ -21,14 +13,6 @@ module.exports = {
             restaurant,
             info: [],
          })
-         order.status = 'SELECTED'
-         order.info = [
-            {
-               productId,
-               items: [lunch, dinner],
-            },
-         ]
-         await order.save()
 
          // Push order into user's orders list
          const userQuery = { userId }
@@ -38,10 +22,13 @@ module.exports = {
          // Push order into OrdersPerDay's order's list
          const orderPerDay = await OrdersPerDay.findOne({ date })
          if (orderPerDay) {
-            await orderPerDay.orders.push(order._id)
+            await orderPerDay.orders.pending.push(order._id)
             await orderPerDay.save()
          } else {
-            await OrdersPerDay.create({ date, orders: [order._id] })
+            await OrdersPerDay.create({
+               date,
+               orders: { pending: [order._id] },
+            })
          }
 
          return res.json({
