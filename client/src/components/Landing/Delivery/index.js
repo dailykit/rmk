@@ -4,7 +4,7 @@ import img from '../../../assets/img/delivery.webp'
 
 const Delivery = () => {
    return (
-      <section className="bg px-8 py-16 lg:py-32 lg:p-32 text-center">
+      <section className="delivery px-8 py-16 lg:py-32 lg:p-32 text-center">
          <h2 className="text-white font-bold text-3xl lg:text-5xl mb-8">
             Contactless delivery!
          </h2>
@@ -16,7 +16,7 @@ const Delivery = () => {
          </p>
          <style>
             {`
-                .bg {
+                .delivery {
                     background: url(${img});
                   //   background-attachment: fixed;
                     background-position: top;
