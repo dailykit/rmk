@@ -18,8 +18,8 @@ const Delivery = () => {
             {`
                 .bg {
                     background: url(${img});
-                    background-attachment: fixed;
-                    background-position: center;
+                  //   background-attachment: fixed;
+                    background-position: top;
                     background-size: cover;
                 }
              `}

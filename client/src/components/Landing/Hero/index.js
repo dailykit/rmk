@@ -1,7 +1,7 @@
 import React from 'react'
 
 import dailykit from '../../../assets/img/dailykit.png'
-import mockup from '../../../assets/img/mockup_3x.png'
+import mockup from '../../../assets/img/mockup3x.webp'
 import bg from '../../../assets/img/hero.svg'
 import Button from '../../Button'
 
