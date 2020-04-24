@@ -1,79 +1,51 @@
-const { fetchQuery } = require('../../utils')
+const { request } = require('graphql-request')
 
 const Restaurant = require('../restaurant/model')
 
-const GET_MENU = `query {
-   menu(name: "Restaurant Meal Kits") {
-     id
-     name
-     menuCollections {
-      availability
-      menuCollection {
-         id
+const GET_MENU = `
+   query MyQuery {
+      comboProducts(where: {name: {_eq: "Restaurant Meal Kit"}}) {
          name
-         categories {
-            title
-            products {
-               id
-               name
-               items {
-                  label
-                  defaultRecipe {
-                     id
-                     name
-                     assets {
-                        images {
-                          url
+         id
+         comboProductComponents {
+            customizableProduct {
+               customizableProductOptions {
+                  simpleRecipeProduct {
+                     simpleRecipe {
+                        simpleRecipeYields(where: {yield: {_contains: {serving: "4"}}}) {
+                           ingredientSachets {
+                              ingredientSachet {
+                                 ingredient {
+                                    name
+                                 }
+                                 ingredientProcessing {
+                                    processing {
+                                       name
+                                    }
+                                 }
+                              }
+                           }
                         }
                      }
                   }
-                  recipes {
-                     recipe {
-                     id
-                     name
-                     assets {
-                        images {
-                           url
-                        }
-                     }
-                     servings {
-                        size
-                        ingredients {
-                           ingredient {
-                              id
-                              name
-                           }
-                        processing {
-                           id
-                           name {
-                              id
-                              title
-                           }
-                        }
-                        sachet {
-                           id
-                           quantity {
-                              value
-                           }
-                        }
-                     }
-                   }
-                 }
                }
-             }
-           }
+            }
          }
-       }
-     }
+      }
    }
- }`
+`
 
 const menu = async (req, res) => {
    try {
       const { restaurantId } = req.params
+
       const { name, api_url } = await Restaurant.findById({ _id: restaurantId })
-      const { menu } = await fetchQuery(api_url, GET_MENU)
-      return res.status(200).json({ success: true, data: { name, menu } })
+      const { comboProducts } = await request(api_url, GET_MENU)
+
+      return res.status(200).json({
+         success: true,
+         data: { name, menu: comboProducts[0] },
+      })
    } catch (error) {
       return res.json({ success: false, error: error.message })
    }
