@@ -1,40 +1,29 @@
 const { Order, OrdersPerDay } = require('./model')
-const { User } = require('../user/model')
+const { createOrder, getDate } = require('../../utils')
 
 module.exports = {
    create: async (req, res) => {
-      const { date, userId, addressId, restaurant } = req.body
+      const { timestamp, userId } = req.body
       try {
-         // Create an order
-         const order = await Order.create({
-            date,
-            userId,
-            addressId,
-            restaurant,
-            info: [],
-         })
-
-         // Push order into user's orders list
-         const userQuery = { userId }
-         const userUpdate = { orders: { date, details: order._id } }
-         await User.findOneAndUpdate(userQuery, { $push: userUpdate })
-
-         // Push order into OrdersPerDay's order's list
-         const orderPerDay = await OrdersPerDay.findOne({ date })
-         if (orderPerDay) {
-            await orderPerDay.orders.pending.push(order._id)
-            await orderPerDay.save()
+         const dates = []
+         if (timestamp < 16) {
+            for (let i = 0; i <= 6; i++) {
+               dates.push(getDate(i, timestamp))
+            }
          } else {
-            await OrdersPerDay.create({
-               date,
-               orders: { pending: [order._id] },
-            })
+            for (let i = 1; i <= 7; i++) {
+               dates.push(getDate(i, timestamp))
+            }
          }
-
+         const orders = await Promise.all(
+            dates.map(date => {
+               return createOrder(date, userId)
+            })
+         )
          return res.json({
-            data: order,
+            data: orders,
             success: true,
-            message: 'Order create successfully!',
+            message: 'orders created successfully',
          })
       } catch (error) {
          return res.json({ success: false, error: error.message })
