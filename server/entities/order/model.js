@@ -5,8 +5,10 @@ const OrderSchema = new Schema(
    {
       date: String,
       userId: String,
+      cardId: String,
+      stripeId: String,
       addressId: String,
-      deliveryDate: Date,
+      deliveryDate: String,
       fulfillmentMode: String,
       restaurant: {
          id: String,
@@ -15,7 +17,14 @@ const OrderSchema = new Schema(
       status: {
          type: String,
          default: 'PENDING',
-         enum: ['PENDING', 'SELECTED', 'SKIPPED', 'CONFIRMED', 'PAYMENT_ERROR'],
+         enum: [
+            'PENDING',
+            'SELECTED',
+            'AUTO_SKIPPED',
+            'SKIPPED',
+            'ORDER_CONFIRMED',
+            'ORDER_FAILED',
+         ],
       },
       payment: {
          id: String,
@@ -25,8 +34,9 @@ const OrderSchema = new Schema(
             enum: ['SUCCESS', 'PENDING', 'ERROR'],
          },
       },
-      billingAmount: {
+      billing: {
          tax: Number,
+         total: Number,
          discount: [
             {
                type: String,
@@ -37,11 +47,11 @@ const OrderSchema = new Schema(
       },
       info: [
          {
-            productId: String,
+            simpleRecipeProductId: String,
             items: [
                {
                   label: String,
-                  recipeId: String,
+                  simpleRecipe: String,
                   serving: { type: Number },
                },
             ],
@@ -57,6 +67,7 @@ const OrdersPerDaySchema = new Schema(
       orders: {
          selected: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
          pending: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+         skipped: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
       },
    },
    { timestamps: true }
@@ -64,7 +75,7 @@ const OrdersPerDaySchema = new Schema(
 
 const OrdersPerRestaurantSchema = new Schema(
    {
-      date: Date,
+      date: String,
       restaurants: [
          {
             restaurant: {
@@ -78,11 +89,20 @@ const OrdersPerRestaurantSchema = new Schema(
    { timestamps: true }
 )
 
+const FailedOrderSchema = new Schema(
+   {
+      date: String,
+      orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+   },
+   { timestamps: true }
+)
+
 const Order = mongoose.model('Order', OrderSchema)
 const OrdersPerDay = mongoose.model('OrdersPerDay', OrdersPerDaySchema)
+const FailedOrder = mongoose.model('FailedOrder', FailedOrderSchema)
 const OrdersPerRestaurant = mongoose.model(
    'OrdersPerRestaurant',
    OrdersPerRestaurantSchema
 )
 
-module.exports = { Order, OrdersPerDay, OrdersPerRestaurant }
+module.exports = { Order, OrdersPerDay, FailedOrder, OrdersPerRestaurant }
