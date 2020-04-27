@@ -63,6 +63,7 @@ const Restaurant = () => {
          type: 'SELECT_FOR_TODAY',
          payload: { key: 'dinner', value: dinnerDefault },
       })
+      /*
       const { success, data } = await fetcher(
          `${process.env.REACT_APP_RMK_URI}/orders`,
          {
@@ -94,6 +95,7 @@ const Restaurant = () => {
             }),
          }
       )
+      */
    }
 
    return (

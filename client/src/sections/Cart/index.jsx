@@ -10,7 +10,7 @@ const statuses = ['SELECTED', 'CONFIRMED', 'PAYMENT_ERROR']
 const Cart = () => {
    const { user } = useAuth()
    const { state, dispatch } = React.useContext(MenuContext)
-
+   /*
    React.useEffect(() => {
       ;(async () => {
          const query = new URLSearchParams({
@@ -46,7 +46,7 @@ const Cart = () => {
          }
       })()
    }, [state.date])
-
+   */
    return (
       <div>
          <header className="flex items-center justify-between border-b pb-3">
@@ -68,19 +68,23 @@ const Cart = () => {
                </h3>
                <div className="border p-3">
                   <div className="mb-3 flex items-center justify-between">
-                     <h3 className="font-medium text-gray-700">Little Italy</h3>
+                     <h3 className="font-medium text-gray-700">
+                        {state.restaurant.name}
+                     </h3>
                      <span className="font-bold text-gray-700">$60</span>
                   </div>
-
                   <div className="bg-gray-200 px-4 pb-3">
                      <span className="inline-block mb-2 bg-orange-400 px-2 py-1 text-white text-sm">
                         Lunch: Serves 4 people
                      </span>
                      {Object.keys(state.selectedForToday.lunch).length > 0 && (
                         <RecipeCard
-                           title={state.selectedForToday.lunch.name}
+                           title={
+                              state.selectedForToday.lunch.simpleRecipe.name
+                           }
                            thumbnails={
-                              state.selectedForToday.lunch.assets.images
+                              state.selectedForToday.lunch.simpleRecipe.assets
+                                 .images
                            }
                         />
                      )}
@@ -90,9 +94,12 @@ const Cart = () => {
                      </span>
                      {Object.keys(state.selectedForToday.dinner).length > 0 && (
                         <RecipeCard
-                           title={state.selectedForToday.dinner.name}
+                           title={
+                              state.selectedForToday.dinner.simpleRecipe.name
+                           }
                            thumbnails={
-                              state.selectedForToday.dinner.assets.images
+                              state.selectedForToday.dinner.simpleRecipe.assets
+                                 .images
                            }
                         />
                      )}
