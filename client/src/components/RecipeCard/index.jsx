@@ -3,8 +3,9 @@ import React from 'react'
 import { MenuContext } from '../../context/menu'
 
 const RecipeCard = ({ selected, recipe, onClick }) => {
-   console.log('RecipeCard -> recipe', recipe)
    const { dispatch } = React.useContext(MenuContext)
+   const [images, setImages] = React.useState([])
+   const [name, setName] = React.useState('')
 
    const viewDetails = e => {
       e.stopPropagation()
@@ -14,6 +15,12 @@ const RecipeCard = ({ selected, recipe, onClick }) => {
          payload: recipe.simpleRecipeProduct.id,
       })
    }
+
+   React.useEffect(() => {
+      setName(recipe.simpleRecipeProduct.simpleRecipe.name)
+      setImages(recipe.simpleRecipeProduct.simpleRecipe.assets.images)
+   }, [recipe])
+
    return (
       <li
          onClick={() => onClick(recipe)}
@@ -22,27 +29,22 @@ const RecipeCard = ({ selected, recipe, onClick }) => {
          }`}
       >
          <div className="flex items-center justify-center h-48 bg-gray-200 mb-2 rounded overflow-hidden">
-            {recipe.simpleRecipeProduct.simpleRecipe.assets?.images[0]?.url ? (
+            {images.length > 0 && images[0].url ? (
                <img
+                  alt={name}
+                  title={name}
+                  src={images[0].url}
                   className="h-full w-full object-cover select-none"
-                  alt={recipe.simpleRecipeProduct.simpleRecipe.name}
-                  title={recipe.simpleRecipeProduct.simpleRecipe.name}
-                  src={
-                     recipe.simpleRecipeProduct.simpleRecipe.assets?.images[0]
-                        .url
-                  }
                />
             ) : (
                <span>No Photos</span>
             )}
          </div>
          <div className="flex items-center justify-between">
-            <h4 className="cursor-pointer select-none">
-               {recipe.simpleRecipeProduct.simpleRecipe.name}
-            </h4>
+            <h4 className="cursor-pointer select-none">{name}</h4>
             <button
-               className="text-sm uppercase font-medium tracking-wider border border-gray-300 rounded px-1 text-gray-500"
                onClick={viewDetails}
+               className="text-sm uppercase font-medium tracking-wider border border-gray-300 rounded px-1 text-gray-500"
             >
                View
             </button>

@@ -19,6 +19,7 @@ const GET_MENU = `
                      simpleRecipe {
                         id
                         name
+                        assets
                         simpleRecipeYields(where: {yield: {_contains: {serving: 4}}}) {
                            ingredientSachets {
                               ingredientSachet {
