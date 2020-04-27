@@ -9,24 +9,48 @@ import { fetcher, getToday } from '../../utils'
 
 const Restaurant = () => {
    const { user } = useAuth()
-   const [lunch, setLunch] = React.useState({})
+   const [lunch, setLunch] = React.useState([])
    const [lunchDefault, setLunchDefault] = React.useState({})
-   const [dinner, setDinner] = React.useState({})
-   const [product, setProduct] = React.useState('')
+   const [
+      lunchCustomizableProduct,
+      setLunchCustomizableProduct,
+   ] = React.useState(null)
+   const [dinner, setDinner] = React.useState([])
    const [dinnerDefault, setDinnerDefault] = React.useState({})
+   const [
+      dinnerCustomizableProduct,
+      setDinnerCustomizableProduct,
+   ] = React.useState(null)
    const { state, dispatch } = React.useContext(MenuContext)
 
    React.useEffect(() => {
       if (Object.keys(state.restaurant).length > 0) {
-         const product =
-            state.restaurant.menu.menuCollections[0].menuCollection[0]
-               .categories[0].products[0]
-         const menus = product.items
-         setProduct(product.id)
-         setLunch(menus[0] || {})
-         setLunchDefault(menus[0]?.defaultRecipe || {})
-         setDinner(menus[1] || {})
-         setDinnerDefault(menus[1]?.defaultRecipe || {})
+         const products = state.restaurant.products
+
+         const lunchProduct = products.find(
+            product => product.label === 'lunch'
+         ).customizableProduct
+         const defaultLunchRecipe = lunchProduct.customizableProductOptions.find(
+            option =>
+               option.simpleRecipeProduct.id ===
+               lunchProduct.default.simpleRecipeProductId
+         ).simpleRecipeProduct
+
+         const dinnerProduct = products.find(
+            product => product.label === 'dinner'
+         ).customizableProduct
+         const defaultDinnerRecipe = dinnerProduct.customizableProductOptions.find(
+            option =>
+               option.simpleRecipeProduct.id ===
+               dinnerProduct.default.simpleRecipeProductId
+         ).simpleRecipeProduct
+
+         setLunch(lunchProduct.customizableProductOptions || [])
+         setLunchDefault(defaultLunchRecipe || {})
+         setLunchCustomizableProduct(lunchProduct.id)
+         setDinner(dinnerProduct.customizableProductOptions || [])
+         setDinnerDefault(defaultDinnerRecipe || {})
+         setDinnerCustomizableProduct(dinnerProduct.id)
       }
    }, [state.restaurant])
 
@@ -57,16 +81,15 @@ const Restaurant = () => {
                restaurant: {
                   id: state.restaurant.id,
                },
-               productId: product,
                lunch: {
                   label: 'lunch',
-                  recipeId: lunchDefault.id,
-                  serving: 4,
+                  simpleRecipeProductId: lunchDefault.id,
+                  customizableProductId: lunchCustomizableProduct,
                },
                dinner: {
                   label: 'dinner',
-                  recipeId: dinnerDefault.id,
-                  serving: 4,
+                  simpleRecipeProductId: dinnerDefault.id,
+                  customizableProductId: dinnerCustomizableProduct,
                },
             }),
          }
@@ -89,18 +112,18 @@ const Restaurant = () => {
                Select
             </button>
          </header>
-         {lunch?.recipes?.length > 0 && (
+         {lunch.length > 0 && (
             <Section
                type="Lunch"
-               recipes={lunch.recipes}
+               recipes={lunch}
                defaultRecipe={lunchDefault}
                onClick={recipe => setLunchDefault(recipe)}
             />
          )}
-         {dinner?.recipes?.length > 0 && (
+         {dinner.length > 0 && (
             <Section
                type="Dinner"
-               recipes={dinner.recipes}
+               recipes={dinner}
                defaultRecipe={dinnerDefault}
                onClick={recipe => setDinnerDefault(recipe)}
             />

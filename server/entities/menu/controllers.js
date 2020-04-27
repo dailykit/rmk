@@ -8,11 +8,18 @@ const GET_MENU = `
          name
          id
          comboProductComponents {
+            id
+            label
             customizableProduct {
+               id
+               default
                customizableProductOptions {
                   simpleRecipeProduct {
+                     id
                      simpleRecipe {
-                        simpleRecipeYields(where: {yield: {_contains: {serving: "4"}}}) {
+                        id
+                        name
+                        simpleRecipeYields(where: {yield: {_contains: {serving: 4}}}) {
                            ingredientSachets {
                               ingredientSachet {
                                  ingredient {

@@ -17,13 +17,14 @@ const Section = ({ type, defaultRecipe, recipes, onClick }) => {
                {recipes.length} recipes available:
             </span>
          </header>
+
          <ul className="grid grid-cols-3 gap-4 overflow-x-auto">
-            {recipes.map(({ recipe }, index) => (
+            {recipes.map((recipe, index) => (
                <RecipeCard
-                  key={index}
                   recipe={recipe}
-                  onClick={() => onClick(recipe)}
-                  selected={defaultRecipe.id === recipe.id}
+                  key={recipe.simpleRecipeProduct.id}
+                  onClick={recipe => onClick(recipe.simpleRecipeProduct)}
+                  selected={defaultRecipe.id === recipe.simpleRecipeProduct.id}
                />
             ))}
          </ul>
