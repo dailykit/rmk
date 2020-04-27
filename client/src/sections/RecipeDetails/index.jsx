@@ -7,6 +7,7 @@ const RecipeDetails = () => {
    const params = useParams()
    const [recipe, setRecipe] = React.useState({})
    const [selectedImage, selectImage] = React.useState({})
+   const [serving, setServing] = React.useState({})
    const { state, dispatch } = React.useContext(MenuContext)
 
    React.useEffect(() => {
@@ -16,15 +17,12 @@ const RecipeDetails = () => {
          )
          const { success, data } = await response.json()
          if (success) {
-            setRecipe({
-               ...data,
-               servings: data.servings.find(serving => serving.size === 4),
-            })
+            setRecipe(data)
+            setServing(data.simpleRecipeYields[0])
             selectImage(data.assets.images[0] || {})
          }
       })()
    }, [state.recipeDetails])
-
    return (
       <div className="w-8/12 border-t shadow-md bg-white fixed mt-16 top-0 left-0 bottom-0">
          <header className="h-16 border-b px-3 flex items-center justify-between">
@@ -70,15 +68,19 @@ const RecipeDetails = () => {
                         Ingredients
                      </h2>
                      <ol className="list-decimal ml-6">
-                        {recipe.servings.ingredients.map(({ ingredient }) => (
-                           <li className="h-8 " key={ingredient.id}>
-                              {ingredient.name}
-                           </li>
-                        ))}
+                        {Object.keys(serving).length > 0 &&
+                           serving.ingredientSachets.map(
+                              ({ ingredientSachet: { ingredient } }) => (
+                                 <li className="h-8 " key={ingredient.id}>
+                                    {ingredient.name}
+                                 </li>
+                              )
+                           )}
                      </ol>
                      <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
                         Cooking Process
                      </h2>
+                     {/* 
                      <ol className="list-decimal ml-4">
                         {recipe.procedures.map(procedure => (
                            <li className="h-auto mb-4" key={procedure.name}>
@@ -103,6 +105,7 @@ const RecipeDetails = () => {
                            </li>
                         ))}
                      </ol>
+                      */}
                   </div>
                ) : (
                   <span>Loading...</span>

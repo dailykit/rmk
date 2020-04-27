@@ -12,7 +12,7 @@ const RecipeCard = ({ selected, recipe, onClick }) => {
       dispatch({ type: 'TOGGLE_TUNNEL' })
       dispatch({
          type: 'SELECT_RECIPE',
-         payload: recipe.simpleRecipeProduct.id,
+         payload: recipe.simpleRecipeProduct.simpleRecipe.id,
       })
    }
 

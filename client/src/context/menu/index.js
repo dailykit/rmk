@@ -4,7 +4,7 @@ export const MenuContext = React.createContext()
 
 const initialState = {
    restaurant: {},
-   recipeDetails: '',
+   recipeDetails: null,
    isTunnelOpen: false,
    date: '',
    selectedForToday: {

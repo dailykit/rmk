@@ -3,26 +3,28 @@ const { request } = require('graphql-request')
 const Restaurant = require('../restaurant/model')
 
 const GET_RECIPE = `
-   query simpleRecipe($id: Int) {
+   query simpleRecipe($id: Int!) {
       simpleRecipe(id:$id) {
-      id
-      name
-      author
-      cookingTime
-      cuisine
-      description
-      procedures
-      simpleRecipeYields(where: {yield: {_contains: {serving: 4}}}) {
          id
-         yield
-         ingredientSachets {
-            ingredientSachet {
-            ingredient {
-               name
-            }
+         name
+         author
+         cookingTime
+         cuisine
+         description
+         procedures
+         assets
+         simpleRecipeYields(where: {yield: {_contains: {serving: 4}}}) {
+            id
+            yield
+            ingredientSachets {
+               ingredientSachet {
+                  ingredient {
+                     id
+                     name
+                  }
+               }
             }
          }
-      }
       }
    }
 
