@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import {
    Hero,
@@ -22,9 +23,9 @@ const Landing = () => {
       <>
          <header>
             <nav className="top-0 fixed bg-white w-full h-16 flex flex-row items-center justify-between px-8 border-b z-10">
-               <span className="w-32">
+               <Link to="/" className="w-32">
                   <Logo />
-               </span>
+               </Link>
                <div>
                   <button
                      onClick={() => signup()}

@@ -18,9 +18,9 @@ const Header = () => {
    return (
       <header>
          <nav className="top-0 fixed bg-white w-full h-16 flex flex-row items-center justify-between px-8 border-b">
-            <span className="w-32">
+            <Link to="/restaurants" className="w-32">
                <Logo />
-            </span>
+            </Link>
             <ul className="list-none h-full flex items-center">
                <li className="text-primary mr-3 flex items-center">
                   <span className="mr-2">
