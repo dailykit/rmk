@@ -172,19 +172,23 @@ export default function DatePicker({ getSelectedDay, ...props }) {
                   : format(currentWeek, dateFormat)}
             </span>
             <div className={'w-full flex mt-3'}>
+               {/*
                <button
                   className={'Datepicker--button-prev px-2 bg-gray-200'}
                   onClick={prevWeek}
                >
                   <ChevronLeft />
                </button>
+               */}
                {renderDays()}
+               {/*
                <button
                   className={'Datepicker--button-next px-2 bg-gray-200'}
                   onClick={nextWeek}
                >
                   <ChevronRight />
                </button>
+               */}
             </div>
          </div>
       </div>
