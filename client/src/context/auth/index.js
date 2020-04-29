@@ -100,6 +100,14 @@ export const AuthProvider = ({ children }) => {
                      headers: { 'Content-Type': 'application/json' },
                      body: JSON.stringify({ id: newUser._id }),
                   })
+                  await fetcher(`${process.env.REACT_APP_RMK_URI}/orders`, {
+                     method: 'POST',
+                     headers: { 'Content-Type': 'application/json' },
+                     body: JSON.stringify({
+                        timestamp: Date.now(),
+                        userId: newUser._id,
+                     }),
+                  })
                   setIsAddressAdded(false)
                   setLoading(false)
                }
