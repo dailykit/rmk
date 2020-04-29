@@ -10,7 +10,7 @@ const statuses = ['SELECTED', 'CONFIRMED', 'PAYMENT_ERROR']
 const Cart = () => {
    const { user } = useAuth()
    const { state, dispatch } = React.useContext(MenuContext)
-   /*
+
    React.useEffect(() => {
       ;(async () => {
          const query = new URLSearchParams({
@@ -20,9 +20,10 @@ const Cart = () => {
          const { success: orderExists, data: orderData } = await fetcher(
             `${process.env.REACT_APP_RMK_URI}/orders?${query}`
          )
+         /* 
          if (orderExists && statuses.includes(orderData?.status)) {
-            const lunchId = orderData?.info[0].items[0].recipeId
-            const dinnerId = orderData?.info[0].items[1].recipeId
+            const lunchId = orderData?.products[0].items[0].recipeId
+            const dinnerId = orderData?.products[0].items[1].recipeId
             const restaurantId = orderData?.restaurant.id
 
             const { success: lunchExists, data: lunchData } = await fetcher(
@@ -44,9 +45,10 @@ const Cart = () => {
                })
             }
          }
+         */
       })()
    }, [state.date])
-   */
+
    return (
       <div>
          <header className="flex items-center justify-between border-b pb-3">
