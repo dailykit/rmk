@@ -26,6 +26,14 @@ const AddressModal = () => {
          }
       )
       if (success && window) {
+         await fetcher(`${process.env.REACT_APP_RMK_URI}/orders`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+               timestamp: Date.now(),
+               userId: user.id,
+            }),
+         })
          window.location.reload()
       }
    }
