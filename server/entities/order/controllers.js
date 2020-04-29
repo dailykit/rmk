@@ -6,13 +6,13 @@ module.exports = {
       const { timestamp, userId } = req.body
       try {
          const dates = []
-         if (timestamp < 16) {
-            for (let i = 0; i <= 6; i++) {
-               dates.push(getDate(i, timestamp))
+         if (new Date(timestamp).getHours() < 16) {
+            for (let i = 1; i <= 7; i++) {
+               dates.push(timestamp + 86400000 * i)
             }
          } else {
-            for (let i = 1; i <= 7; i++) {
-               dates.push(getDate(i, timestamp))
+            for (let i = 2; i <= 8; i++) {
+               dates.push(timestamp + 86400000 * i)
             }
          }
          const orders = await Promise.all(
