@@ -8,8 +8,15 @@ const OrderSchema = new Schema(
       cardId: String,
       stripeId: String,
       addressId: String,
-      deliveryDate: String,
-      fulfillmentMode: String,
+      fulfillment: {
+         mode: {
+            type: String,
+            default: 'DELIVERY',
+            enum: ['DELIVERY', 'PICK_UP'],
+         },
+         startTime: Date,
+         endTime: Date,
+      },
       restaurant: {
          id: String,
          stripeId: String,
@@ -45,16 +52,26 @@ const OrderSchema = new Schema(
          ],
          productCost: Number,
       },
-      info: [
+      products: [
          {
-            simpleRecipeProductId: String,
-            items: [
-               {
-                  label: String,
-                  simpleRecipe: String,
-                  serving: { type: Number },
+            comboProductId: Number,
+            simpleRecipeProductId: Number,
+            customizableProductId: Number,
+            comboProductComponentId: Number,
+            product: {
+               id: Number,
+               option: {
+                  id: Number,
+                  type: {
+                     type: String,
+                     default: 'Meal Kit',
+                  },
                },
-            ],
+               type: {
+                  type: String,
+                  default: 'Simple Recipe',
+               },
+            },
          },
       ],
    },
