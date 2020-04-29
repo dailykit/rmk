@@ -5,8 +5,6 @@ import { useAuth } from '../../context/auth'
 
 import { fetcher } from '../../utils'
 
-const statuses = ['SELECTED', 'CONFIRMED', 'PAYMENT_ERROR']
-
 const Cart = () => {
    const { user } = useAuth()
    const { state, dispatch } = React.useContext(MenuContext)
@@ -20,32 +18,49 @@ const Cart = () => {
          const { success: orderExists, data: orderData } = await fetcher(
             `${process.env.REACT_APP_RMK_URI}/orders?${query}`
          )
-         /* 
-         if (orderExists && statuses.includes(orderData?.status)) {
-            const lunchId = orderData?.products[0].items[0].recipeId
-            const dinnerId = orderData?.products[0].items[1].recipeId
-            const restaurantId = orderData?.restaurant.id
+         if (orderExists && orderData?.status) {
+            dispatch({
+               type: 'SELECT_FOR_TODAY',
+               payload: { key: 'id', value: orderData._id },
+            })
+            if (orderData?.products.length > 0) {
+               const lunch = orderData?.products.find(
+                  product => product.label === 'lunch'
+               )
+               const dinner = orderData?.products.find(
+                  product => product.label === 'dinner'
+               )
+               const restaurantId = orderData?.restaurant.id
 
-            const { success: lunchExists, data: lunchData } = await fetcher(
-               `${process.env.REACT_APP_RMK_URI}/recipe/${restaurantId}/${lunchId}`
-            )
-            const { success: dinnerExists, data: dinnerData } = await fetcher(
-               `${process.env.REACT_APP_RMK_URI}/recipe/${restaurantId}/${dinnerId}`
-            )
-            if (lunchExists) {
-               dispatch({
-                  type: 'SELECT_FOR_TODAY',
-                  payload: { key: 'lunch', value: lunchData },
-               })
-            }
-            if (dinnerExists) {
-               dispatch({
-                  type: 'SELECT_FOR_TODAY',
-                  payload: { key: 'dinner', value: dinnerData },
-               })
+               const { success: lunchExists, data: lunchData } = await fetcher(
+                  `${process.env.REACT_APP_RMK_URI}/recipe/${restaurantId}/${lunch.product.id}`
+               )
+               const {
+                  success: dinnerExists,
+                  data: dinnerData,
+               } = await fetcher(
+                  `${process.env.REACT_APP_RMK_URI}/recipe/${restaurantId}/${dinner.product.id}`
+               )
+               if (lunchExists) {
+                  dispatch({
+                     type: 'SELECT_FOR_TODAY',
+                     payload: {
+                        key: 'lunch',
+                        value: { simpleRecipe: lunchData },
+                     },
+                  })
+               }
+               if (dinnerExists) {
+                  dispatch({
+                     type: 'SELECT_FOR_TODAY',
+                     payload: {
+                        key: 'dinner',
+                        value: { simpleRecipe: dinnerData },
+                     },
+                  })
+               }
             }
          }
-         */
       })()
    }, [state.date])
 

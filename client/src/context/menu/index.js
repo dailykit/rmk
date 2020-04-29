@@ -8,6 +8,7 @@ const initialState = {
    isTunnelOpen: false,
    date: '',
    selectedForToday: {
+      id: '',
       lunch: '',
       dinner: '',
    },
