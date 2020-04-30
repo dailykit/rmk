@@ -23,8 +23,9 @@ const Restaurant = () => {
                type: 'SELECT_MENU',
                payload: {
                   name,
-                  products: menu.comboProductComponents,
                   id: params.id,
+                  comboProductId: menu.id,
+                  products: menu.comboProductComponents,
                },
             })
          } catch (error) {

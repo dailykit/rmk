@@ -7,62 +7,77 @@ import { useAuth } from '../../context/auth'
 
 import { fetcher, getToday } from '../../utils'
 
+import { initialState, reducers } from './state'
+
 const Restaurant = () => {
    const { user } = useAuth()
-   const [lunch, setLunch] = React.useState([])
-   const [lunchDefault, setLunchDefault] = React.useState({})
-   const [
-      lunchCustomizableProduct,
-      setLunchCustomizableProduct,
-   ] = React.useState(null)
-   const [dinner, setDinner] = React.useState([])
-   const [dinnerDefault, setDinnerDefault] = React.useState({})
-   const [
-      dinnerCustomizableProduct,
-      setDinnerCustomizableProduct,
-   ] = React.useState(null)
-   const { state, dispatch } = React.useContext(MenuContext)
+   const [state, dispatch] = React.useReducer(reducers, initialState)
+   const { state: menuState, dispatch: menuDispatch } = React.useContext(
+      MenuContext
+   )
+
+   const evaluate = type => {
+      const products = menuState.restaurant.products
+      const product = products.find(product => product.label === type)
+      const defaultRecipe = product.customizableProduct.customizableProductOptions.find(
+         option =>
+            option.simpleRecipeProduct.id ===
+            product.customizableProduct.default.simpleRecipeProductId
+      ).simpleRecipeProduct
+      return {
+         product,
+         defaultRecipe,
+         customizableProductId: product.customizableProductId,
+         meal: product.customizableProduct.customizableProductOptions,
+      }
+   }
 
    React.useEffect(() => {
-      if (Object.keys(state.restaurant).length > 0) {
-         const products = state.restaurant.products
+      if (Object.keys(menuState.restaurant).length > 0) {
+         const {
+            meal: lunch,
+            product: lunchProduct,
+            defaultRecipe: defaultLunchRecipe,
+            customizableProduct: lunchCustomizableProductId,
+         } = evaluate('lunch')
+         const {
+            meal: dinner,
+            product: dinnerProduct,
+            defaultRecipe: defaultDinnerRecipe,
+            customizableProduct: dinnerCustomizableProductId,
+         } = evaluate('dinner')
 
-         const lunchProduct = products.find(
-            product => product.label === 'lunch'
-         ).customizableProduct
-         const defaultLunchRecipe = lunchProduct.customizableProductOptions.find(
-            option =>
-               option.simpleRecipeProduct.id ===
-               lunchProduct.default.simpleRecipeProductId
-         ).simpleRecipeProduct
-
-         const dinnerProduct = products.find(
-            product => product.label === 'dinner'
-         ).customizableProduct
-         const defaultDinnerRecipe = dinnerProduct.customizableProductOptions.find(
-            option =>
-               option.simpleRecipeProduct.id ===
-               dinnerProduct.default.simpleRecipeProductId
-         ).simpleRecipeProduct
-
-         setLunch(lunchProduct.customizableProductOptions || [])
-         setLunchDefault(defaultLunchRecipe || {})
-         setLunchCustomizableProduct(lunchProduct.id)
-         setDinner(dinnerProduct.customizableProductOptions || [])
-         setDinnerDefault(defaultDinnerRecipe || {})
-         setDinnerCustomizableProduct(dinnerProduct.id)
+         dispatch({
+            type: 'SET_LUNCH',
+            payload: {
+               lunch,
+               lunchCustomizableProductId,
+               lunchDefault: defaultLunchRecipe,
+               lunchComboProductComponentId: lunchProduct.id,
+            },
+         })
+         dispatch({
+            type: 'SET_DINNER',
+            payload: {
+               dinner,
+               dinnerCustomizableProductId,
+               dinnerDefault: defaultDinnerRecipe,
+               dinnerComboProductComponentId: dinnerProduct.id,
+            },
+         })
       }
-   }, [state.restaurant])
+   }, [menuState.restaurant])
 
    const selectOrder = async () => {
-      dispatch({
+      menuDispatch({
          type: 'SELECT_FOR_TODAY',
-         payload: { key: 'lunch', value: lunchDefault },
+         payload: { key: 'lunch', value: state.lunchDefault },
       })
-      dispatch({
+      menuDispatch({
          type: 'SELECT_FOR_TODAY',
-         payload: { key: 'dinner', value: dinnerDefault },
+         payload: { key: 'dinner', value: state.dinnerDefault },
       })
+
       /*
       const { success, data } = await fetcher(
          `${process.env.REACT_APP_RMK_URI}/orders`,
@@ -80,17 +95,21 @@ const Restaurant = () => {
                userId: user.id,
                addressId: user.addresses.find(address => address.is_default).id,
                restaurant: {
-                  id: state.restaurant.id,
+                  id: menuState.restaurant.id,
                },
                lunch: {
                   label: 'lunch',
-                  simpleRecipeProductId: lunchDefault.id,
-                  customizableProductId: lunchCustomizableProduct,
+                  simpleRecipeProductId: state.lunchDefault.id,
+                  comboProductId: menuState.restaurant.comboProductId,
+                  customizableProductId: state.lunchCustomizableProductId,
+                  lunchComboProductComponentId: state.lunchComboProductComponentId
                },
                dinner: {
                   label: 'dinner',
-                  simpleRecipeProductId: dinnerDefault.id,
-                  customizableProductId: dinnerCustomizableProduct,
+                  simpleRecipeProductId: state.dinnerDefault.id,
+                  comboProductId: menuState.restaurant.comboProductId,
+                  customizableProductId: state.dinnerCustomizableProductId,
+                  dinnerComboProductComponentId: state.dinnerComboProductComponentId
                },
             }),
          }
@@ -102,7 +121,7 @@ const Restaurant = () => {
       <div>
          <header className="flex items-center justify-between">
             <div>
-               <h1 className="text-2xl">{state.restaurant.name}</h1>
+               <h1 className="text-2xl">{menuState.restaurant.name}</h1>
                <p className="text-gray-600">
                   Select your preferred recipes for Lunch and Dinner
                </p>
@@ -114,20 +133,24 @@ const Restaurant = () => {
                Select
             </button>
          </header>
-         {lunch.length > 0 && (
+         {state.lunch.length > 0 && (
             <Section
                type="Lunch"
-               recipes={lunch}
-               defaultRecipe={lunchDefault}
-               onClick={recipe => setLunchDefault(recipe)}
+               recipes={state.lunch}
+               defaultRecipe={state.lunchDefault}
+               onClick={recipe =>
+                  dispatch({ type: 'SET_LUNCH_DEFAULT', payload: recipe })
+               }
             />
          )}
-         {dinner.length > 0 && (
+         {state.dinner.length > 0 && (
             <Section
                type="Dinner"
-               recipes={dinner}
-               defaultRecipe={dinnerDefault}
-               onClick={recipe => setDinnerDefault(recipe)}
+               recipes={state.dinner}
+               defaultRecipe={state.dinnerDefault}
+               onClick={recipe =>
+                  dispatch({ type: 'SET_DINNER_DEFAULT', payload: recipe })
+               }
             />
          )}
       </div>

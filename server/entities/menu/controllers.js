@@ -5,8 +5,8 @@ const Restaurant = require('../restaurant/model')
 const GET_MENU = `
    query MyQuery {
       comboProducts(where: {name: {_eq: "Restaurant Meal Kit"}}) {
-         name
          id
+         name
          comboProductComponents {
             id
             label
