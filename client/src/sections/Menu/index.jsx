@@ -33,7 +33,6 @@ const Menu = () => {
          meal: product.customizableProduct.customizableProductOptions,
       }
    }
-
    React.useEffect(() => {
       if (Object.keys(menuState.restaurant).length > 0) {
          const {
@@ -83,43 +82,49 @@ const Menu = () => {
          type: 'SELECT_FOR_TODAY',
          payload: { key: 'dinner', value: state.dinnerDefault },
       })
-      /*
+
+      const lunch = {
+         label: 'lunch',
+         comboProductId: menuState.restaurant.comboProductId,
+         customizableProductId: state.lunchCustomizableProductId,
+         comboProductComponentId: state.lunchComboProductComponentId,
+         customizableProductOptionId: state.lunchCustomizableProductOptionId,
+         product: {
+            id: state.lunchDefault.id,
+            option: {
+               // id: ,
+            },
+         },
+      }
+      const dinner = {
+         label: 'dinner',
+         comboProductId: menuState.restaurant.comboProductId,
+         customizableProductId: state.dinnerCustomizableProductId,
+         comboProductComponentId: state.dinnerComboProductComponentId,
+         customizableProductOptionId: state.dinnerCustomizableProductOptionId,
+         product: {
+            id: state.dinnerDefault.id,
+            option: {
+               // id: ,
+            },
+         },
+      }
       const { success, data } = await fetcher(
-         `${process.env.REACT_APP_RMK_URI}/orders`,
+         `${process.env.REACT_APP_RMK_URI}/orders/${menuState.selectedForToday.id}`,
          {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-               date: new Intl.DateTimeFormat('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-               }).format(getToday()),
-               userId: user.id,
-               addressId: user.addresses.find(address => address.is_default).id,
+               status: 'SELECTED',
                restaurant: {
                   id: menuState.restaurant.id,
                },
-               lunch: {
-                  label: 'lunch',
-                  simpleRecipeProductId: state.lunchDefault.id,
-                  comboProductId: menuState.restaurant.comboProductId,
-                  customizableProductId: state.lunchCustomizableProductId,
-                  lunchComboProductComponentId: state.lunchComboProductComponentId
-               },
-               dinner: {
-                  label: 'dinner',
-                  simpleRecipeProductId: state.dinnerDefault.id,
-                  comboProductId: menuState.restaurant.comboProductId,
-                  customizableProductId: state.dinnerCustomizableProductId,
-                  dinnerComboProductComponentId: state.dinnerComboProductComponentId
-               },
+               products: [lunch, dinner],
             }),
          }
       )
-      */
    }
 
    return (

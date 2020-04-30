@@ -32,7 +32,11 @@ module.exports = {
    update: async (req, res) => {
       try {
          const { id } = req.params
-         const order = await Order.findByIdAndUpdate(id, req.body, {
+         const { restaurant, products, status } = req.body
+
+         const query = { _id: id }
+         const update = { status, restaurant, $set: { products } }
+         const order = await Order.findOneAndUpdate(query, update, {
             new: true,
          })
 
