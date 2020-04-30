@@ -21,20 +21,6 @@ const GET_MENU = `
                         id
                         name
                         assets
-                        simpleRecipeYields(where: {yield: {_contains: {serving: 4}}}) {
-                           ingredientSachets {
-                              ingredientSachet {
-                                 ingredient {
-                                    name
-                                 }
-                                 ingredientProcessing {
-                                    processing {
-                                       name
-                                    }
-                                 }
-                              }
-                           }
-                        }
                      }
                   }
                }
