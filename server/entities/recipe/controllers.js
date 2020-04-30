@@ -18,11 +18,10 @@ const GET_SIMPLE_RECIPE_PRODUCT = `
                id
                yield
                ingredientSachets {
+                  isVisible
+                  slipName
                   ingredientSachet {
-                     ingredient {
-                        id
-                        name
-                     }
+                     id
                   }
                }
             }

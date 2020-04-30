@@ -64,15 +64,24 @@ const RecipeDetails = () => {
                            </li>
                         ))}
                      </ul>
-                     <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
+                     <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500  text-lg font-normal">
                         Ingredients
                      </h2>
+                     <span className="text-sm text-gray-500 mb-3 block">
+                        *Some items may be hidden.
+                     </span>
                      <ol className="list-decimal ml-6">
                         {Object.keys(serving).length > 0 &&
                            serving.ingredientSachets.map(
-                              ({ ingredientSachet: { ingredient } }) => (
-                                 <li className="h-8 " key={ingredient.id}>
-                                    {ingredient.name}
+                              ({
+                                 isVisible,
+                                 slipName,
+                                 ingredientSachet: sachet,
+                              }) => (
+                                 <li key={sachet.id} className="h-8">
+                                    {isVisible
+                                       ? slipName
+                                       : 'Hidden by recipe author'}
                                  </li>
                               )
                            )}
@@ -80,9 +89,8 @@ const RecipeDetails = () => {
                      <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
                         Cooking Process
                      </h2>
-                     {/*                      
                      <ol className="list-decimal ml-4">
-                        {recipe.procedures.map(procedure => (
+                        {recipe?.procedures.map(procedure => (
                            <li className="h-auto mb-4" key={procedure.name}>
                               <ol className="list-decimal">
                                  <h2 className="text-lg font-normal text-gray-700">
@@ -105,7 +113,6 @@ const RecipeDetails = () => {
                            </li>
                         ))}
                      </ol>
-                       */}
                   </div>
                ) : (
                   <span>Loading...</span>
