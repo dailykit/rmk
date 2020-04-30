@@ -3,11 +3,13 @@ export const initialState = {
    lunchDefault: {},
    lunchCustomizableProductId: null,
    lunchComboProductComponentId: null,
+   lunchCustomizableProductOptionId: null,
 
    dinner: [],
    dinnerDefault: {},
    dinnerCustomizableProductId: null,
    dinnerComboProductComponentId: null,
+   dinnerCustomizableProductOptionId: null,
 }
 
 export const reducers = (state, { type, payload }) => {
@@ -19,6 +21,8 @@ export const reducers = (state, { type, payload }) => {
             lunchDefault: payload.lunchDefault || {},
             lunchCustomizableProductId: payload.lunchCustomizableProductId,
             lunchComboProductComponentId: payload.lunchComboProductComponentId,
+            lunchCustomizableProductOptionId:
+               payload.lunchCustomizableProductOptionId,
          }
       case 'SET_LUNCH_DEFAULT':
          return {
@@ -33,6 +37,8 @@ export const reducers = (state, { type, payload }) => {
             dinnerCustomizableProductId: payload.dinnerCustomizableProductId,
             dinnerComboProductComponentId:
                payload.dinnerComboProductComponentId,
+            dinnerCustomizableProductOptionId:
+               payload.dinnerCustomizableProductOptionId,
          }
       case 'SET_DINNER_DEFAULT':
          return {

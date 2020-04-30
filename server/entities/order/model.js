@@ -56,9 +56,9 @@ const OrderSchema = new Schema(
          {
             label: String,
             comboProductId: Number,
-            simpleRecipeProductId: Number,
             customizableProductId: Number,
             comboProductComponentId: Number,
+            customizableProductOptionId: Number,
             product: {
                id: Number,
                option: {

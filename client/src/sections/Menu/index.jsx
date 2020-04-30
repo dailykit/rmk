@@ -9,7 +9,7 @@ import { fetcher, getToday } from '../../utils'
 
 import { initialState, reducers } from './state'
 
-const Restaurant = () => {
+const Menu = () => {
    const { user } = useAuth()
    const [state, dispatch] = React.useReducer(reducers, initialState)
    const { state: menuState, dispatch: menuDispatch } = React.useContext(
@@ -18,16 +18,18 @@ const Restaurant = () => {
 
    const evaluate = type => {
       const products = menuState.restaurant.products
+
       const product = products.find(product => product.label === type)
       const defaultRecipe = product.customizableProduct.customizableProductOptions.find(
          option =>
             option.simpleRecipeProduct.id ===
             product.customizableProduct.default.simpleRecipeProductId
-      ).simpleRecipeProduct
+      )
       return {
          product,
-         defaultRecipe,
-         customizableProductId: product.customizableProductId,
+         customizableProductOptionId: defaultRecipe.id,
+         defaultRecipe: defaultRecipe.simpleRecipeProduct,
+         customizableProductId: product.customizableProduct.id,
          meal: product.customizableProduct.customizableProductOptions,
       }
    }
@@ -38,13 +40,15 @@ const Restaurant = () => {
             meal: lunch,
             product: lunchProduct,
             defaultRecipe: defaultLunchRecipe,
-            customizableProduct: lunchCustomizableProductId,
+            customizableProductId: lunchCustomizableProductId,
+            customizableProductOptionId: lunchCustomizableProductOptionId,
          } = evaluate('lunch')
          const {
             meal: dinner,
             product: dinnerProduct,
             defaultRecipe: defaultDinnerRecipe,
-            customizableProduct: dinnerCustomizableProductId,
+            customizableProductId: dinnerCustomizableProductId,
+            customizableProductOptionId: dinnerCustomizableProductOptionId,
          } = evaluate('dinner')
 
          dispatch({
@@ -52,6 +56,7 @@ const Restaurant = () => {
             payload: {
                lunch,
                lunchCustomizableProductId,
+               lunchCustomizableProductOptionId,
                lunchDefault: defaultLunchRecipe,
                lunchComboProductComponentId: lunchProduct.id,
             },
@@ -61,6 +66,7 @@ const Restaurant = () => {
             payload: {
                dinner,
                dinnerCustomizableProductId,
+               dinnerCustomizableProductOptionId,
                dinnerDefault: defaultDinnerRecipe,
                dinnerComboProductComponentId: dinnerProduct.id,
             },
@@ -77,7 +83,6 @@ const Restaurant = () => {
          type: 'SELECT_FOR_TODAY',
          payload: { key: 'dinner', value: state.dinnerDefault },
       })
-
       /*
       const { success, data } = await fetcher(
          `${process.env.REACT_APP_RMK_URI}/orders`,
@@ -157,4 +162,4 @@ const Restaurant = () => {
    )
 }
 
-export default Restaurant
+export default Menu

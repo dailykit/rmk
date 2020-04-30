@@ -14,6 +14,7 @@ const GET_MENU = `
                id
                default
                customizableProductOptions {
+                  id
                   simpleRecipeProduct {
                      id
                      simpleRecipe {
