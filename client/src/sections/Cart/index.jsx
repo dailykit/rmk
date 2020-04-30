@@ -46,7 +46,7 @@ const Cart = () => {
                      type: 'SELECT_FOR_TODAY',
                      payload: {
                         key: 'lunch',
-                        value: { simpleRecipe: lunchData },
+                        value: { simpleRecipe: lunchData.simpleRecipe },
                      },
                   })
                }
@@ -55,7 +55,7 @@ const Cart = () => {
                      type: 'SELECT_FOR_TODAY',
                      payload: {
                         key: 'dinner',
-                        value: { simpleRecipe: dinnerData },
+                        value: { simpleRecipe: dinnerData.simpleRecipe },
                      },
                   })
                }
