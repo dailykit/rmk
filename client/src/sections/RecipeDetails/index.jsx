@@ -16,10 +16,10 @@ const RecipeDetails = () => {
             `${process.env.REACT_APP_RMK_URI}/recipe/${params.id}/${state.recipeDetails}`
          )
          const { success, data } = await response.json()
-         if (success) {
-            setRecipe(data)
-            setServing(data.simpleRecipeYields[0])
-            selectImage(data.assets.images[0] || {})
+         if (success && data) {
+            setRecipe(data.simpleRecipe || {})
+            setServing(data.simpleRecipe?.simpleRecipeYields[0] || {})
+            selectImage(data.simpleRecipe?.assets?.images[0] || {})
          }
       })()
    }, [state.recipeDetails])
@@ -51,7 +51,7 @@ const RecipeDetails = () => {
                         />
                      </div>
                      <ul className="w-8/12 flex">
-                        {recipe.assets.images.map(image => (
+                        {recipe?.assets?.images.map(image => (
                            <li
                               key={image.url}
                               className="w-24 h-16 mr-2 cursor-pointer"
@@ -80,7 +80,7 @@ const RecipeDetails = () => {
                      <h2 className="pb-2 mt-4 border-b border-gray-300 text-gray-500 mb-3 text-lg font-medium">
                         Cooking Process
                      </h2>
-                     {/* 
+                     {/*                      
                      <ol className="list-decimal ml-4">
                         {recipe.procedures.map(procedure => (
                            <li className="h-auto mb-4" key={procedure.name}>
@@ -105,7 +105,7 @@ const RecipeDetails = () => {
                            </li>
                         ))}
                      </ol>
-                      */}
+                       */}
                   </div>
                ) : (
                   <span>Loading...</span>
