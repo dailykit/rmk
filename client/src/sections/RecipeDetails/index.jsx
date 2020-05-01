@@ -3,33 +3,87 @@ import { useParams } from 'react-router-dom'
 
 import { MenuContext } from '../../context/menu'
 
+const initialState = {
+   name: '',
+   yield: {},
+   author: '',
+   cuisine: '',
+   thumbnails: [],
+   procedures: [],
+   description: '',
+   cookingTime: '',
+   defaultThumb: {},
+   status: 'LOADING',
+}
+
+const reducers = (state, { type, payload }) => {
+   switch (type) {
+      case 'SET_RECIPE': {
+         const { simpleRecipe = {} } = payload
+         const { images: thumbnails } = simpleRecipe?.assets || []
+         const {
+            name = '',
+            author = '',
+            cuisine = '',
+            procedures = [],
+            description = '',
+            cookingTime = '',
+            simpleRecipeYields = [],
+         } = simpleRecipe
+
+         return {
+            ...state,
+            name,
+            author,
+            cuisine,
+            thumbnails,
+            procedures,
+            description,
+            cookingTime,
+            status: 'SUCCESS',
+            defaultThumb: thumbnails[0],
+            yield: simpleRecipeYields[0] || {},
+         }
+      }
+      case 'SET_DEFAULT_THUMB':
+         return { ...state, defaultThumb: payload }
+      case 'SET_STATUS':
+         return { ...state, status: payload }
+      default:
+         return state
+   }
+}
+
 const RecipeDetails = () => {
    const params = useParams()
    const [recipe, setRecipe] = React.useState({})
    const [selectedImage, selectImage] = React.useState({})
    const [serving, setServing] = React.useState({})
-   const { state, dispatch } = React.useContext(MenuContext)
+   const [state, dispatch] = React.useReducer(reducers, initialState)
+   const { state: menuState, dispatch: menuDispatch } = React.useContext(
+      MenuContext
+   )
 
    React.useEffect(() => {
       ;(async () => {
          const response = await fetch(
-            `${process.env.REACT_APP_RMK_URI}/recipe/${params.id}/${state.recipeDetails}`
+            `${process.env.REACT_APP_RMK_URI}/recipe/${params.id}/${menuState.recipeDetails}`
          )
          const { success, data } = await response.json()
          if (success && data) {
-            setRecipe(data.simpleRecipe || {})
-            setServing(data.simpleRecipe?.simpleRecipeYields[0] || {})
-            selectImage(data.simpleRecipe?.assets?.images[0] || {})
+            dispatch({ type: 'SET_RECIPE', payload: data })
+         } else {
+            dispatch({ type: 'SET_STATUS', payload: 'NO_DATA' })
          }
       })()
-   }, [state.recipeDetails])
+   }, [menuState.recipeDetails])
    return (
       <div className="w-8/12 border-t shadow-md bg-white fixed mt-16 top-0 left-0 bottom-0">
          <header className="h-16 border-b px-3 flex items-center justify-between">
             <h2 className="font-normal text-xl">Recipe Details</h2>
             <button
                className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-200"
-               onClick={() => dispatch({ type: 'TOGGLE_TUNNEL' })}
+               onClick={() => menuDispatch({ type: 'TOGGLE_TUNNEL' })}
             >
                <CloseIcon />
             </button>
@@ -39,23 +93,38 @@ const RecipeDetails = () => {
             style={{ height: 'calc(100% - 64px)' }}
          >
             <div className="bg-gray-200 p-6">
-               {Object.keys(recipe).length > 0 ? (
+               {state.status === 'LOADING' && (
+                  <div className="bg-white p-4">
+                     Fetching the recipe details for you.
+                  </div>
+               )}
+               {state.status === 'NO_DATA' && (
+                  <div className="bg-white p-4">
+                     No recipe details available
+                  </div>
+               )}
+               {state.status === 'SUCCESS' && (
                   <div className="bg-white p-4">
                      <h1 className="text-gray-800 mb-3 text-3xl font-medium">
-                        {recipe.name}
+                        {state.name}
                      </h1>
                      <div className="w-8/12 mb-2" style={{ height: '320px' }}>
                         <img
-                           src={selectedImage.url}
+                           src={state.defaultThumb.url}
                            className="w-full h-full border-gray-100 object-cover rounded-lg"
                         />
                      </div>
                      <ul className="w-8/12 flex">
-                        {recipe?.assets?.images.map(image => (
+                        {state.thumbnails.map(image => (
                            <li
                               key={image.url}
                               className="w-24 h-16 mr-2 cursor-pointer"
-                              onClick={() => selectImage(image)}
+                              onClick={() =>
+                                 dispatch({
+                                    type: 'SET_DEFAULT_THUMB',
+                                    payload: image,
+                                 })
+                              }
                            >
                               <img
                                  src={image.url}
@@ -71,8 +140,8 @@ const RecipeDetails = () => {
                         *Some items may be hidden.
                      </span>
                      <ol className="list-decimal ml-6">
-                        {Object.keys(serving).length > 0 &&
-                           serving.ingredientSachets.map(
+                        {Object.keys(state.yield).length > 0 &&
+                           state.yield.ingredientSachets.map(
                               ({
                                  isVisible,
                                  slipName,
@@ -90,7 +159,7 @@ const RecipeDetails = () => {
                         Cooking Process
                      </h2>
                      <ol className="list-decimal ml-4">
-                        {recipe?.procedures.map(procedure => (
+                        {state.procedures.map(procedure => (
                            <li className="h-auto mb-4" key={procedure.name}>
                               <ol className="list-decimal">
                                  <h2 className="text-lg font-normal text-gray-700">
@@ -114,8 +183,6 @@ const RecipeDetails = () => {
                         ))}
                      </ol>
                   </div>
-               ) : (
-                  <span>Loading...</span>
                )}
             </div>
          </main>
