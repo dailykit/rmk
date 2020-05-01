@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import { useAuth } from '../../context/auth'
 
@@ -7,6 +7,7 @@ import { Logo, LocationIcon } from '../../assets/icons'
 
 const Header = () => {
    const { user } = useAuth()
+   const history = useHistory()
    const [address] = React.useState(() => {
       const address = user.addresses?.find(address => address.is_default) || {}
       const result = `${address.line1}, ${address.line2}, ${address.city}, ${address.state}, ${address.zip}`
@@ -43,20 +44,35 @@ const Header = () => {
                         {user.firstName} {user.lastName}
                      </li>
                      <hr />
-                     <li className="px-3 py-2 hover:bg-gray-200">
-                        <Link to="/user/account">Account</Link>
+                     <li
+                        className="px-3 py-2 hover:bg-gray-200"
+                        onClick={() => history.push('/user/account')}
+                     >
+                        Account
                      </li>
-                     <li className="px-3 py-2 hover:bg-gray-200">
-                        <Link to="/user/orders">Orders</Link>
+                     <li
+                        className="px-3 py-2 hover:bg-gray-200"
+                        onClick={() => history.push('/user/orders')}
+                     >
+                        Orders
                      </li>
-                     <li className="px-3 py-2 hover:bg-gray-200">
-                        <Link to="/user/address">Delivery Addresses</Link>
+                     <li
+                        className="px-3 py-2 hover:bg-gray-200"
+                        onClick={() => history.push('/user/address')}
+                     >
+                        Delivery Addresses
                      </li>
-                     <li className="px-3 py-2 hover:bg-gray-200">
-                        <Link to="/user/payment">Payment</Link>
+                     <li
+                        className="px-3 py-2 hover:bg-gray-200"
+                        onClick={() => history.push('/user/payment')}
+                     >
+                        Payment
                      </li>
-                     <li className="px-3 py-2 hover:bg-gray-200">
-                        <Link to="/user/settings">Settings</Link>
+                     <li
+                        className="px-3 py-2 hover:bg-gray-200"
+                        onClick={() => history.push('/user/settings')}
+                     >
+                        Settings
                      </li>
                   </ul>
                </li>
