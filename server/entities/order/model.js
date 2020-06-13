@@ -4,10 +4,28 @@ const Schema = mongoose.Schema
 const OrderSchema = new Schema(
    {
       date: String,
-      userId: String,
-      cardId: String,
-      stripeId: String,
-      addressId: String,
+      userId: String, // moved to user
+      user: {
+         id: String,
+         name: String,
+         email: String,
+         payment: {
+            cardId: String,
+            stripeId: String,
+         },
+         address: {
+            id: String,
+            line1: String,
+            line2: String,
+            city: String,
+            state: String,
+            country: String,
+            zipcode: String,
+         },
+      },
+      cardId: String, // moved to user
+      stripeId: String, // moved to user
+      addressId: String, // moved to user
       fulfillment: {
          mode: {
             type: String,
@@ -19,6 +37,7 @@ const OrderSchema = new Schema(
       },
       restaurant: {
          id: String,
+         name: String,
          stripeId: String,
       },
       status: {
@@ -61,6 +80,8 @@ const OrderSchema = new Schema(
             customizableProductOptionId: Number,
             product: {
                id: Number,
+               name: String, // name of the recipe
+               thumbnail: String, // thumbnail of the recipe
                option: {
                   id: Number,
                   type: {

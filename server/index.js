@@ -5,6 +5,9 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 
+require('./cron')
+require('./tests')
+
 const {
    RestaurantRouter,
    MenuRouter,
