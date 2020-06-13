@@ -13,12 +13,12 @@ import {
    CTA,
 } from '../components'
 
-import { Logo } from '../assets/icons'
+import { Logo, CloseIcon } from '../assets/icons'
 
 import { useAuth } from '../context/auth'
 
 const Landing = () => {
-   const { login, signup } = useAuth()
+   const { keycloak, isIframeOpen, setIsIframeOpen, logout } = useAuth()
    return (
       <>
          <header>
@@ -27,18 +27,30 @@ const Landing = () => {
                   <Logo />
                </Link>
                <div>
-                  <button
-                     onClick={() => signup()}
-                     className="hidden lg:inline-block w-auto h-12 px-3 mr-4 bg-primary text-white rounded"
-                  >
-                     Signup
-                  </button>
-                  <button
-                     onClick={() => login()}
-                     className="w-auto h-12 px-3 bg-primary text-white rounded"
-                  >
-                     Login
-                  </button>
+                  {isIframeOpen && (
+                     <button
+                        onClick={() => setIsIframeOpen(false)}
+                        className="flex items-center justify-center w-10 h-10 px-3 border rounded"
+                     >
+                        <CloseIcon size={32} />
+                     </button>
+                  )}
+                  {!isIframeOpen && !keycloak.authenticated && (
+                     <button
+                        onClick={() => setIsIframeOpen(true)}
+                        className="w-auto h-10 px-3 bg-primary text-white rounded"
+                     >
+                        Login
+                     </button>
+                  )}
+                  {keycloak.authenticated && (
+                     <button
+                        onClick={() => logout()}
+                        className="w-auto h-10 px-3 bg-primary text-white rounded"
+                     >
+                        Logout
+                     </button>
+                  )}
                </div>
             </nav>
          </header>

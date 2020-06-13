@@ -1,7 +1,7 @@
 import React from 'react'
+import tw from 'tailwind.macro'
+import styled from '@emotion/styled'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
 
 import { MenuProvider } from './context/menu'
 import { useAuth } from './context/auth'
@@ -17,20 +17,19 @@ import Orders from './pages/user/orders'
 import Payment from './pages/user/payment'
 import Settings from './pages/user/settings'
 
-import { AddressModal } from './sections'
-
-const stripePromise = loadStripe('pk_test_tOKq1xJmx07XTTAKLfntMh7f00ltRB823g')
-
 const App = () => {
-   const { isAddressAdded, isLoading } = useAuth()
-   if (isLoading)
-      return (
-         <div className="fixed inset-0 flex items-center justify-center">
-            <img src="/img/loader.gif" alt="" className="h-16" />
-         </div>
-      )
+   const { isAuthenticated, loginUrl, isIframeOpen } = useAuth()
+
+   React.useEffect(() => {
+      if (isAuthenticated) {
+         if (window.location !== window.parent.location) {
+            window.parent.location.reload()
+         }
+      }
+   }, [isAuthenticated])
+
    return (
-      <Elements stripe={stripePromise}>
+      <>
          <Route path="/" exact component={Landing} />
          <Route path="/help-community" exact component={Community} />
          <MenuProvider>
@@ -42,8 +41,24 @@ const App = () => {
          <Route path="/user/orders" exact component={Orders} />
          <Route path="/user/payment" exact component={Payment} />
          <Route path="/user/settings" exact component={Settings} />
-         {!isAddressAdded && <AddressModal />}
-      </Elements>
+         {!isAuthenticated && isIframeOpen && (
+            <LoginFrame>
+               <iframe
+                  className="w-full h-full"
+                  src={loginUrl}
+                  frameBorder="0"
+               />
+            </LoginFrame>
+         )}
+      </>
    )
 }
 export default App
+
+const LoginFrame = styled.div`
+   position: fixed;
+   top: 64px;
+   left: 0;
+   right: 0;
+   bottom: 0;
+`

@@ -2,8 +2,6 @@ import React from 'react'
 import Keycloak from 'keycloak-js'
 import { useHistory } from 'react-router-dom'
 
-import { fetcher } from '../../utils'
-
 const keycloak = new Keycloak({
    realm: process.env.REACT_APP_KEYCLOAK_REALM,
    url: process.env.REACT_APP_KEYCLOAK_URL,
@@ -18,130 +16,49 @@ const keycloak = new Keycloak({
 
 const AuthContext = React.createContext()
 
-const excludeUrls = ['/', '/help-community']
-
 export const AuthProvider = ({ children }) => {
    const history = useHistory()
-   const [isAuthenticated, setIsAuthenticated] = React.useState(false)
    const [user, setUser] = React.useState({})
-   const [isAddressAdded, setIsAddressAdded] = React.useState(false)
    const [isInitialized, setIsInitialized] = React.useState(false)
-   const [isLoading, setLoading] = React.useState(true)
+   const [isAuthenticated, setIsAuthenticated] = React.useState(false)
+   const [loginUrl, setLoginUrl] = React.useState('')
+   const [isIframeOpen, setIsIframeOpen] = React.useState(false)
 
    const initialize = async () => {
-      let isLoggedIn = false
-      if (excludeUrls.includes(window.location.pathname)) {
-         const authenticated = await keycloak.init({
-            onLoad: 'check-sso',
-            promiseType: 'native',
-         })
-         if (authenticated) {
-            isLoggedIn = true
-            history.push('/restaurants')
-         } else {
-            setLoading(false)
-            setIsAddressAdded(true)
-         }
-      } else {
-         const authenticated = await keycloak.init({
-            onLoad: 'login-required',
-            promiseType: 'native',
-         })
-         if (authenticated) {
-            isLoggedIn = true
-         }
-      }
-      if (isLoggedIn) {
-         setIsInitialized(true)
-         setIsAuthenticated(true)
-         const user = await keycloak.loadUserProfile()
-         setUser(user)
+      const authenticated = await keycloak.init({
+         onLoad: 'check-sso',
+         promiseType: 'native',
+      })
+      setIsInitialized(true)
+      if (authenticated) {
+         setIsAuthenticated(authenticated)
+         const profile = await keycloak.loadUserInfo()
+         setUser(profile)
       }
    }
 
    React.useEffect(() => {
       initialize()
+      setLoginUrl(keycloak.createLoginUrl())
    }, [])
 
-   React.useEffect(() => {
-      if (isAuthenticated && user.email) {
-         ;(async () => {
-            const { success: userExists, data } = await fetcher(
-               `${process.env.REACT_APP_DAILYKEY}/api/users/${keycloak.subject}`
-            )
-            if (userExists) {
-               setUser(user => ({
-                  ...user,
-                  id: data.user._id,
-                  addresses: data.user.addresses,
-               }))
-               setIsAddressAdded(data.user.addresses.length > 0)
-               setLoading(false)
-            } else {
-               const { success: userCreated, data: newUser } = await fetcher(
-                  `${process.env.REACT_APP_DAILYKEY}/api/users/signup`,
-                  {
-                     method: 'POST',
-                     headers: {
-                        'Content-Type': 'application/json',
-                     },
-                     body: JSON.stringify({
-                        email: user.email,
-                        lastname: user.lastName,
-                        firstname: user.firstName,
-                        keycloak_id: keycloak.subject,
-                     }),
-                  }
-               )
-               if (userCreated) {
-                  setUser(user => ({ ...user, id: newUser._id }))
-                  await fetcher(`${process.env.REACT_APP_RMK_URI}/users`, {
-                     method: 'POST',
-                     headers: { 'Content-Type': 'application/json' },
-                     body: JSON.stringify({ id: newUser._id }),
-                  })
-                  setIsAddressAdded(false)
-                  setLoading(false)
-               }
-            }
-         })()
-      }
-   }, [isAuthenticated, user.email])
-
    const login = () => keycloak.login()
-   const signup = () => keycloak.register()
    const logout = () => keycloak.logout()
-   const isTokenExpired = () => keycloak.isTokenExpired()
-   const updateToken = () => keycloak.updateToken()
-   const clearToken = () => keycloak.clearToken()
-
-   keycloak.onTokenExpired = () => {
-      keycloak.updateToken(5).then(refreshed => {
-         if (refreshed) {
-            // keycloak.token
-         } else {
-            keycloak.login()
-         }
-      })
-   }
+   const register = () => keycloak.register()
 
    return (
       <AuthContext.Provider
          value={{
             user,
             login,
-            signup,
             logout,
-            setUser,
-            isLoading,
-            initialize,
-            clearToken,
-            updateToken,
+            keycloak,
+            register,
+            loginUrl,
+            isIframeOpen,
             isInitialized,
-            isTokenExpired,
-            isAddressAdded,
             isAuthenticated,
-            setIsAddressAdded,
+            setIsIframeOpen,
          }}
       >
          {children}
