@@ -18,7 +18,7 @@ import Payment from './pages/user/payment'
 import Settings from './pages/user/settings'
 
 const App = () => {
-   const { isAuthenticated, loginUrl, isIframeOpen } = useAuth()
+   const { isInitialized, isAuthenticated, loginUrl, isIframeOpen } = useAuth()
 
    React.useEffect(() => {
       if (isAuthenticated) {
@@ -28,6 +28,12 @@ const App = () => {
       }
    }, [isAuthenticated])
 
+   if (!isInitialized)
+      return (
+         <div className="fixed inset-0 flex items-center justify-center">
+            <img src="/img/loader.gif" alt="" className="h-16" />
+         </div>
+      )
    return (
       <>
          <Route path="/" exact component={Landing} />

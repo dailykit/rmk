@@ -6,10 +6,10 @@ import { useAuth } from '../../context/auth'
 import { Logo, LocationIcon } from '../../assets/icons'
 
 const Header = () => {
-   const { user } = useAuth()
+   const { user, isInitialized } = useAuth()
    const history = useHistory()
    const [address] = React.useState(() => {
-      const address = user.addresses?.find(address => address.is_default) || {}
+      const address = user?.addresses?.find(address => address.is_default) || {}
       const result = `${address.line1}, ${address.line2}, ${address.city}, ${address.state}, ${address.zip}`
       return result
    })
@@ -27,15 +27,17 @@ const Header = () => {
                   <span className="mr-2">
                      <LocationIcon className="stroke-current text-primary" />
                   </span>
-                  <p title={address}>{address.slice(0, 30)}</p>
+                  {address && <p title={address}>{address.slice(0, 30)}</p>}
                </li>
                <li
                   className="h-full flex items-center cursor-pointer font-normal relative"
                   onClick={() => setIsDropdownVisible(!isDropdownVisible)}
                >
-                  <span className="h-10 w-10 flex items-center justify-center bg-primary rounded-full text-white">
-                     {`${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}`}
-                  </span>
+                  {user?.firstName && (
+                     <span className="h-10 w-10 flex items-center justify-center bg-primary rounded-full text-white">
+                        {`${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}`}
+                     </span>
+                  )}
                   <ul
                      className="dropdown absolute list-none bg-white z-40 w-56 shadow-lg  rounded"
                      hidden={!isDropdownVisible}
