@@ -1,8 +1,7 @@
 import React from 'react'
 import Keycloak from 'keycloak-js'
-import { useHistory } from 'react-router-dom'
-import { useLazyQuery } from '@apollo/react-hooks'
-import { CUSTOMER } from '../../graphql'
+import { useLazyQuery, useMutation } from '@apollo/react-hooks'
+import { CUSTOMER, CREATE_CUSTOMER } from '../../graphql'
 
 const keycloak = new Keycloak({
    realm: process.env.REACT_APP_KEYCLOAK_REALM,
@@ -23,6 +22,7 @@ export const AuthProvider = ({ children }) => {
    const [isAuthenticated, setIsAuthenticated] = React.useState(false)
    const [loginUrl, setLoginUrl] = React.useState('')
    const [isIframeOpen, setIsIframeOpen] = React.useState(false)
+   const [createCustomer] = useMutation(CREATE_CUSTOMER)
    const [fetchCustomer, { data: { customer = {} } = {} }] = useLazyQuery(
       CUSTOMER
    )
@@ -36,6 +36,11 @@ export const AuthProvider = ({ children }) => {
       if (authenticated) {
          setIsAuthenticated(authenticated)
          const profile = await keycloak.loadUserInfo()
+         await createCustomer({
+            variables: {
+               object: { email: profile.email, keycloakId: profile.sub },
+            },
+         })
          await fetchCustomer({
             variables: { keycloakId: profile.sub },
          })

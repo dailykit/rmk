@@ -13,3 +13,15 @@ export const UPDATE_CUSTOMER = gql`
       }
    }
 `
+
+export const CREATE_CUSTOMER = gql`
+   mutation createCustomer($object: seller_customers_insert_input!) {
+      createCustomer: insert_seller_customers_one(
+         object: $object
+         on_conflict: { constraint: customers_pkey, update_columns: email }
+      ) {
+         email
+         keycloakId
+      }
+   }
+`
