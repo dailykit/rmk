@@ -1,6 +1,4 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/react-hooks'
 
 import Section from '../Section'
 
@@ -10,37 +8,28 @@ import { fetcher, getToday } from '../../utils'
 
 import { initialState, reducers } from './state'
 
-import { RESTAURANT } from '../../graphql'
-
 const Menu = () => {
-   const { id } = useParams()
    const [state, dispatch] = React.useReducer(reducers, initialState)
    const { state: menuState, dispatch: menuDispatch } = React.useContext(
       MenuContext
    )
-   const {
-      loading,
-      error,
-      data: { seller: restaurant = {} } = {},
-   } = useQuery(RESTAURANT, { variables: { id } })
 
    const evaluate = type => {
       const products = menuState.restaurant.products
 
       const product = products.find(product => product.label === type)
-      const defaultRecipe = product.customizableProduct.customizableProductOptions.find(
-         option =>
-            option.simpleRecipeProduct.id ===
-            product.customizableProduct.default.simpleRecipeProductId
+      const defaultRecipe = product?.customizableProduct?.customizableProductOptions.find(
+         option => option.id === product.customizableProduct.default
       )
       return {
          product,
-         customizableProductOptionId: defaultRecipe.id,
-         defaultRecipe: defaultRecipe.simpleRecipeProduct,
-         customizableProductId: product.customizableProduct.id,
-         meal: product.customizableProduct.customizableProductOptions,
+         customizableProductOptionId: defaultRecipe?.id,
+         defaultRecipe: defaultRecipe?.simpleRecipeProduct,
+         customizableProductId: product?.customizableProduct.id,
+         meal: product?.customizableProduct?.customizableProductOptions,
       }
    }
+
    React.useEffect(() => {
       if (Object.keys(menuState.restaurant).length > 0) {
          const {
@@ -65,7 +54,7 @@ const Menu = () => {
                lunchCustomizableProductId,
                lunchCustomizableProductOptionId,
                lunchDefault: defaultLunchRecipe,
-               lunchComboProductComponentId: lunchProduct.id,
+               lunchComboProductComponentId: lunchProduct?.id,
             },
          })
          dispatch({
@@ -75,7 +64,7 @@ const Menu = () => {
                dinnerCustomizableProductId,
                dinnerCustomizableProductOptionId,
                dinnerDefault: defaultDinnerRecipe,
-               dinnerComboProductComponentId: dinnerProduct.id,
+               dinnerComboProductComponentId: dinnerProduct?.id,
             },
          })
       }
@@ -135,19 +124,14 @@ const Menu = () => {
       )
    }
 
-   if (loading)
-      return (
-         <div className="fixed inset-0 flex items-center justify-center">
-            <img src="/img/loader.gif" alt="loading..." className="h-16" />
-         </div>
-      )
-   if (error) return <div>{error.message}</div>
    return (
       <div>
          <header className="flex items-center justify-between">
             <div>
-               <h1 className="text-2xl">{restaurant.brandName}</h1>
-               <p className="text-gray-600">{restaurant.description}</p>
+               <h1 className="text-2xl">{menuState.restaurant.brandName}</h1>
+               <p className="text-gray-600">
+                  {menuState.restaurant.description}
+               </p>
             </div>
             <button
                className="w-auto h-12 px-3 bg-primary text-white"

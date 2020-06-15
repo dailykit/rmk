@@ -1,4 +1,7 @@
 import React from 'react'
+import axios from 'axios'
+import { useQuery } from '@apollo/react-hooks'
+
 import { useParams } from 'react-router-dom'
 
 import { Layout } from '../sections'
@@ -7,32 +10,55 @@ import { MenuContext } from '../context/menu'
 
 import { Menu, RecipeDetails } from '../sections'
 
+import { RESTAURANT, COMBO_PRODUCTS } from '../graphql'
+
 const Restaurant = () => {
    const params = useParams()
    const { state, dispatch } = React.useContext(MenuContext)
+   const {
+      loading,
+      error,
+      data: { seller: restaurant = {} } = {},
+   } = useQuery(RESTAURANT, { variables: { id: params.id } })
+
    React.useEffect(() => {
-      ;(async () => {
-         try {
-            const response = await fetch(
-               `${process.env.REACT_APP_RMK_URI}/menu/${params.id}`
+      if (restaurant?.brandName) {
+         ;(async () => {
+            const { data } = await axios.post(
+               `${
+                  new URL(restaurant.organization.datahubUrl).origin
+               }/server/api/rmk-menu`,
+               {
+                  year: new Date(state.date).getFullYear(),
+                  month: new Date(state.date).getMonth(),
+                  day: new Date(state.date).getDate(),
+               }
             )
-            const {
-               data: { name, menu },
-            } = await response.json()
+
+            let parsed = await Promise.all(
+               data.map(async node => {
+                  const {
+                     data: { data: { comboProducts = [] } = {} } = {},
+                  } = await axios.post(restaurant.organization.datahubUrl, {
+                     query: COMBO_PRODUCTS,
+                     variables: { _in: node.comboProducts },
+                  })
+                  return { ...node, comboProducts }
+               })
+            )
+
             dispatch({
                type: 'SELECT_MENU',
                payload: {
-                  name,
-                  id: params.id,
-                  comboProductId: menu.id,
-                  products: menu.comboProductComponents,
+                  ...restaurant,
+                  comboProductId: parsed[0]?.comboProducts[0]?.id,
+                  products: parsed[0]?.comboProducts[0]?.comboProductComponents,
                },
             })
-         } catch (error) {
-            console.log(error.message)
-         }
-      })()
-   }, [params.id])
+         })()
+      }
+   }, [restaurant])
+
    return (
       <Layout>
          <Menu />

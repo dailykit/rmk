@@ -4,16 +4,7 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 
-require('./cron')
-require('./tests')
-
-const {
-   RestaurantRouter,
-   MenuRouter,
-   RecipeRouter,
-   UserRouter,
-   OrderRouter,
-} = require('./entities')
+const { OrderRouter } = require('./entities')
 
 const app = express()
 
@@ -28,10 +19,6 @@ app.use(express.static(path.join(__dirname, '/../client/build')))
 const PORT = process.env.PORT || 4000
 
 // Routes
-app.use('/api/restaurants', RestaurantRouter)
-app.use('/api/menu', MenuRouter)
-app.use('/api/recipe', RecipeRouter)
-app.use('/api/users', UserRouter)
 app.use('/api/orders', OrderRouter)
 
 app.get('*', (req, res) => {

@@ -12,13 +12,13 @@ const RecipeCard = ({ selected, recipe, onClick }) => {
       dispatch({ type: 'TOGGLE_TUNNEL' })
       dispatch({
          type: 'SELECT_RECIPE',
-         payload: recipe.simpleRecipeProduct.simpleRecipe.id,
+         payload: recipe.simpleRecipeProduct.id,
       })
    }
 
    React.useEffect(() => {
-      setName(recipe.simpleRecipeProduct.simpleRecipe.name)
-      setImages(recipe.simpleRecipeProduct.simpleRecipe.assets.images)
+      setName(recipe?.simpleRecipeProduct?.simpleRecipe?.name || '')
+      setImages(recipe?.simpleRecipeProduct?.simpleRecipe?.assets?.images || [])
    }, [recipe])
 
    return (

@@ -100,8 +100,8 @@ const Cart = () => {
                               state.selectedForToday.lunch.simpleRecipe.name
                            }
                            thumbnails={
-                              state.selectedForToday.lunch.simpleRecipe.assets
-                                 .images
+                              state?.selectedForToday?.lunch?.simpleRecipe
+                                 ?.assets?.images || []
                            }
                         />
                      )}
@@ -115,8 +115,8 @@ const Cart = () => {
                               state.selectedForToday.dinner.simpleRecipe.name
                            }
                            thumbnails={
-                              state.selectedForToday.dinner.simpleRecipe.assets
-                                 .images
+                              state?.selectedForToday?.dinner?.simpleRecipe
+                                 ?.assets?.images || []
                            }
                         />
                      )}

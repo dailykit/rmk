@@ -1,7 +1,9 @@
 import React from 'react'
+import axios from 'axios'
 import { useParams } from 'react-router-dom'
 
 import { MenuContext } from '../../context/menu'
+import { RECIPE } from '../../graphql/queries'
 
 const initialState = {
    name: '',
@@ -20,7 +22,7 @@ const reducers = (state, { type, payload }) => {
    switch (type) {
       case 'SET_RECIPE': {
          const { simpleRecipe = {} } = payload
-         const { images: thumbnails } = simpleRecipe?.assets || []
+         const { images: thumbnails = [] } = simpleRecipe?.assets || []
          const {
             name = '',
             author = '',
@@ -41,7 +43,7 @@ const reducers = (state, { type, payload }) => {
             description,
             cookingTime,
             status: 'SUCCESS',
-            defaultThumb: thumbnails[0],
+            defaultThumb: simpleRecipe.image,
             yield: simpleRecipeYields[0] || {},
          }
       }
@@ -66,19 +68,26 @@ const RecipeDetails = () => {
 
    React.useEffect(() => {
       ;(async () => {
-         const response = await fetch(
-            `${process.env.REACT_APP_RMK_URI}/recipe/${params.id}/${menuState.recipeDetails}`
-         )
-         const { success, data } = await response.json()
-         if (success && data) {
-            dispatch({ type: 'SET_RECIPE', payload: data })
+         const {
+            data: { data: { simpleRecipeProduct = {} } = {} } = {},
+         } = await axios.post(menuState.restaurant.organization.datahubUrl, {
+            query: RECIPE,
+            variables: {
+               id: menuState.recipeDetails,
+            },
+         })
+         if (simpleRecipeProduct?.simpleRecipe) {
+            dispatch({
+               type: 'SET_RECIPE',
+               payload: simpleRecipeProduct,
+            })
          } else {
             dispatch({ type: 'SET_STATUS', payload: 'NO_DATA' })
          }
       })()
    }, [menuState.recipeDetails])
    return (
-      <div className="w-8/12 border-t shadow-md bg-white fixed mt-16 top-0 left-0 bottom-0">
+      <div className="w-6/12 border-t shadow-md bg-white fixed mt-16 top-0 left-0 bottom-0">
          <header className="h-16 border-b px-3 flex items-center justify-between">
             <h2 className="font-normal text-xl">Recipe Details</h2>
             <button
@@ -108,12 +117,17 @@ const RecipeDetails = () => {
                      <h1 className="text-gray-800 mb-3 text-3xl font-medium">
                         {state.name}
                      </h1>
-                     <div className="w-8/12 mb-2" style={{ height: '320px' }}>
-                        <img
-                           src={state.defaultThumb.url}
-                           className="w-full h-full border-gray-100 object-cover rounded-lg"
-                        />
-                     </div>
+                     {state.defaultThumb && (
+                        <div
+                           className="w-6/12 mb-2 border rounded overflow-hidden"
+                           style={{ height: '240px' }}
+                        >
+                           <img
+                              src={state.defaultThumb}
+                              className="w-full h-full border-gray-100 object-contain rounded-lg"
+                           />
+                        </div>
+                     )}
                      <ul className="w-8/12 flex">
                         {state.thumbnails.map(image => (
                            <li
@@ -122,7 +136,7 @@ const RecipeDetails = () => {
                               onClick={() =>
                                  dispatch({
                                     type: 'SET_DEFAULT_THUMB',
-                                    payload: image,
+                                    payload: image.url,
                                  })
                               }
                            >
@@ -163,21 +177,32 @@ const RecipeDetails = () => {
                            <li className="h-auto mb-4" key={procedure.name}>
                               <ol className="list-decimal">
                                  <h2 className="text-lg font-normal text-gray-700">
-                                    {procedure.name}
+                                    {procedure.title}
                                  </h2>
-                                 {procedure.steps.map(step => (
-                                    <li
-                                       className="h-auto mb-4 ml-4 mt-2"
-                                       key={step.title}
-                                    >
-                                       <h3 className="text-gray-800">
-                                          {step.title}
-                                       </h3>
-                                       <p className="mt-1 text-gray-600">
-                                          {step.description}
-                                       </p>
-                                    </li>
-                                 ))}
+                                 {procedure.steps.map(step =>
+                                    step.isVisible ? (
+                                       <li
+                                          key={step.title}
+                                          className="h-auto mb-4 ml-4 mt-2"
+                                       >
+                                          <h3 className="text-gray-800">
+                                             {step.title}
+                                          </h3>
+                                          <p className="mt-1 text-gray-600">
+                                             {step.description}
+                                          </p>
+                                       </li>
+                                    ) : (
+                                       <li
+                                          key={step.title}
+                                          className="h-auto mb-4 ml-4 mt-2"
+                                       >
+                                          <h3 className="text-gray-800">
+                                             Hidden by recipe author
+                                          </h3>
+                                       </li>
+                                    )
+                                 )}
                               </ol>
                            </li>
                         ))}

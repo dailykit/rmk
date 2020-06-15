@@ -72,3 +72,62 @@ export const ADDRESSES = gql`
       }
    }
 `
+
+export const COMBO_PRODUCTS = `
+   query comboProducts($_in: [Int!]!) {
+      comboProducts(where: { id: { _in: $_in } }) {
+         id
+         name
+         comboProductComponents {
+            id
+            label
+            customizableProduct {
+               id
+               default
+               customizableProductOptions {
+                  id
+                  simpleRecipeProduct {
+                     id
+                     simpleRecipe {
+                        id
+                        name
+                        assets
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+`
+
+export const RECIPE = `
+   query simpleRecipeProduct($id: Int!) {
+      simpleRecipeProduct(id: $id) {
+         simpleRecipe {
+            id
+            name
+            author
+            cookingTime
+            cuisine
+            description
+            procedures
+            image
+            assets
+            simpleRecipeYields(
+               where: { yield: { _contains: { serving: "4" } } }
+            ) {
+               id
+               yield
+               ingredientSachets {
+                  isVisible
+                  slipName
+                  ingredientSachet {
+                     id
+                  }
+               }
+            }
+         }
+      }
+   }
+`
