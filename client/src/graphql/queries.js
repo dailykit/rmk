@@ -16,10 +16,8 @@ export const RESTAURANTS = gql`
             seller {
                id
                logo
+               brandName
                description
-               organization {
-                  organizationName
-               }
             }
          }
       }
@@ -31,10 +29,43 @@ export const RESTAURANT = gql`
       seller(id: $id) {
          id
          logo
-         organization {
-            organizationName
-         }
+         brandName
          description
+      }
+   }
+`
+
+export const CUSTOMER = gql`
+   query customer($keycloakId: String!) {
+      customer: platform_customer(keycloakId: $keycloakId) {
+         email
+         firstName
+         lastName
+         keycloakId
+         defaultCustomerAddressId
+         defaultPaymentMethodId
+         defaultCustomerAddress {
+            zipcode
+         }
+      }
+   }
+`
+
+export const ADDRESSES = gql`
+   query addresses($keycloakId: String!) {
+      addresses: platform_customerAddresses(
+         where: { keycloakId: { _eq: $keycloakId } }
+      ) {
+         id
+         line1
+         line2
+         city
+         state
+         country
+         zipcode
+         defaultAddress {
+            defaultCustomerAddressId
+         }
       }
    }
 `

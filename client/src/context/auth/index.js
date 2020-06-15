@@ -1,6 +1,8 @@
 import React from 'react'
 import Keycloak from 'keycloak-js'
 import { useHistory } from 'react-router-dom'
+import { useLazyQuery } from '@apollo/react-hooks'
+import { CUSTOMER } from '../../graphql'
 
 const keycloak = new Keycloak({
    realm: process.env.REACT_APP_KEYCLOAK_REALM,
@@ -17,12 +19,13 @@ const keycloak = new Keycloak({
 const AuthContext = React.createContext()
 
 export const AuthProvider = ({ children }) => {
-   const history = useHistory()
-   const [user, setUser] = React.useState({})
    const [isInitialized, setIsInitialized] = React.useState(false)
    const [isAuthenticated, setIsAuthenticated] = React.useState(false)
    const [loginUrl, setLoginUrl] = React.useState('')
    const [isIframeOpen, setIsIframeOpen] = React.useState(false)
+   const [fetchCustomer, { data: { customer = {} } = {} }] = useLazyQuery(
+      CUSTOMER
+   )
 
    const initialize = async () => {
       const authenticated = await keycloak.init({
@@ -33,7 +36,9 @@ export const AuthProvider = ({ children }) => {
       if (authenticated) {
          setIsAuthenticated(authenticated)
          const profile = await keycloak.loadUserInfo()
-         setUser(profile)
+         await fetchCustomer({
+            variables: { keycloakId: profile.sub },
+         })
       }
    }
 
@@ -49,10 +54,10 @@ export const AuthProvider = ({ children }) => {
    return (
       <AuthContext.Provider
          value={{
-            user,
             login,
             logout,
             keycloak,
+            customer,
             register,
             loginUrl,
             isIframeOpen,

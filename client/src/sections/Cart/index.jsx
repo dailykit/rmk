@@ -6,13 +6,13 @@ import { useAuth } from '../../context/auth'
 import { fetcher } from '../../utils'
 
 const Cart = () => {
-   const { user } = useAuth()
+   const { customer } = useAuth()
    const { state, dispatch } = React.useContext(MenuContext)
 
    React.useEffect(() => {
       ;(async () => {
          const query = new URLSearchParams({
-            userId: user.id,
+            userId: customer.keycloakId,
             date: state.date,
          }).toString()
          const { success: orderExists, data: orderData } = await fetcher(

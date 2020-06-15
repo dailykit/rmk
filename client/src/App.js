@@ -1,5 +1,4 @@
 import React from 'react'
-import tw from 'tailwind.macro'
 import styled from '@emotion/styled'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 

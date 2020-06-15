@@ -146,9 +146,7 @@ const Menu = () => {
       <div>
          <header className="flex items-center justify-between">
             <div>
-               <h1 className="text-2xl">
-                  {restaurant.organization.organizationName}
-               </h1>
+               <h1 className="text-2xl">{restaurant.brandName}</h1>
                <p className="text-gray-600">{restaurant.description}</p>
             </div>
             <button

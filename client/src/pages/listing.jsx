@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLazyQuery } from '@apollo/react-hooks'
+import { useLazyQuery, useSubscription } from '@apollo/react-hooks'
 import { useHistory } from 'react-router-dom'
 
 import { Layout } from '../sections'
@@ -7,12 +7,23 @@ import { useAuth } from '../context/auth'
 import { RESTAURANTS } from '../graphql'
 
 const Listing = () => {
+   const { customer } = useAuth()
    const history = useHistory()
    const [zipcode, setZipcode] = React.useState('')
-   const [
-      fetch,
-      { error, loading, data: { restaurants = {} } = {} },
-   ] = useLazyQuery(RESTAURANTS)
+   const { error, loading, data: { restaurants = {} } = {} } = useSubscription(
+      RESTAURANTS,
+      {
+         variables: {
+            zipcode,
+         },
+      }
+   )
+
+   React.useEffect(() => {
+      if (customer?.defaultCustomerAddress?.zipcode) {
+         setZipcode(customer?.defaultCustomerAddress?.zipcode)
+      }
+   }, [customer])
 
    const getInitials = (title = '') => {
       const length = title.split(' ').length
@@ -24,13 +35,6 @@ const Listing = () => {
    const selectRestaurant = restaurant => {
       history.push(`/restaurants/${restaurant.id}`)
    }
-
-   const fetchRestaurants = () =>
-      fetch({
-         variables: {
-            zipcode,
-         },
-      })
 
    if (loading)
       return (
@@ -50,10 +54,8 @@ const Listing = () => {
                type="text"
                value={zipcode}
                placeholder="enter your zipcode"
-               onBlur={e => fetchRestaurants()}
                onChange={e => setZipcode(e.target.value)}
                className="border h-8 px-2 rounded text-sm"
-               onKeyPress={e => e.charCode === 13 && fetchRestaurants()}
             />
          </header>
          <ul>
@@ -69,18 +71,16 @@ const Listing = () => {
                               <img
                                  className="h-full object-cover"
                                  src={restaurant.logo}
-                                 alt={restaurant.organization.organizationName}
+                                 alt={restaurant.brandName}
                               />
                            ) : (
                               <span className="text-2xl">
-                                 {getInitials(
-                                    restaurant.organization.organizationName
-                                 )}
+                                 {getInitials(restaurant.brandName)}
                               </span>
                            )}
                         </span>
                         <h2 className="text-2xl text-blue-900 ml-3">
-                           {restaurant.organization.organizationName}
+                           {restaurant.brandName}
                         </h2>
                      </div>
                      <button

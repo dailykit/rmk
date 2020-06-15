@@ -27,12 +27,12 @@ const ProfileLayout = ({ children }) => {
    ])
    return (
       <div className="flex" style={{ height: 'calc(100vh - 64px' }}>
-         <aside className="border-r flex flex-col w-64 bg-gray-100">
+         <aside className="h-full border-r flex flex-col w-64 bg-gray-100">
             {pages.map(page => (
                <ListItem key={page.path} path={page.path} title={page.title} />
             ))}
          </aside>
-         <main className="py-12 px-24 flex-1">{children}</main>
+         <main className="py-12 px-24 flex-1 overflow-y-auto">{children}</main>
       </div>
    )
 }

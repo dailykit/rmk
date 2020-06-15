@@ -1,41 +1,65 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import styled from '@emotion/styled'
+import { useLazyQuery, useMutation } from '@apollo/react-hooks'
 
 import { Header } from '../../sections'
-import { ProfileLayout, Label } from '../../components'
+import { ProfileLayout } from '../../components'
 
 import { useAuth } from '../../context/auth'
 
-import { PlusIcon } from '../../assets/icons'
+import { PlusIcon, CloseIcon } from '../../assets/icons'
 
-import { fetcher } from '../../utils'
+import { ADDRESSES, UPDATE_CUSTOMER } from '../../graphql'
 
 const Addresses = () => {
-   const { user } = useAuth()
+   const { customer } = useAuth()
+   const [
+      fetchAddresses,
+      { error, loading, data: { addresses = [] } = {} },
+   ] = useLazyQuery(ADDRESSES)
+   const [updateCustomer] = useMutation(UPDATE_CUSTOMER, {
+      refetchQueries: ['addresses'],
+   })
    const [isFormVisible, setFormVisibility] = React.useState(false)
 
-   const changeDefault = async addressId => {
-      const { success } = await fetcher(
-         `${process.env.REACT_APP_DAILYKEY}/api/addresses/default`,
-         {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ addressId, userId: user.id }),
-         }
-      )
-      if (success && window) {
-         window.location.reload()
+   React.useEffect(() => {
+      if (customer.keycloakId) {
+         fetchAddresses({
+            variables: { keycloakId: customer.keycloakId },
+         })
       }
+   }, [customer])
+
+   const changeDefault = id => {
+      updateCustomer({
+         variables: {
+            keycloakId: customer.keycloakId,
+            _set: {
+               defaultCustomerAddressId: id,
+            },
+         },
+      })
    }
+
+   const closeFrame = () => {
+      setFormVisibility(false)
+      window.location.reload()
+   }
+
+   if (loading)
+      return (
+         <div className="fixed inset-0 flex items-center justify-center">
+            <img src="/img/loader.gif" alt="loading..." className="h-16" />
+         </div>
+      )
+   if (error) return <div>{error.message}</div>
    return (
       <div>
          <Header />
          <ProfileLayout>
             <h1 className="flex items-center text-2xl text-gray-700">
                Addresses
-               {/* <span
+               <span
                   onClick={() => setFormVisibility(!isFormVisible)}
                   className="flex items-center justify-center ml-2 h-8 w-8 border border-gray-300 rounded-full bg-gray-200 cursor-pointer"
                >
@@ -43,28 +67,36 @@ const Addresses = () => {
                      size={20}
                      className="stroke-current text-gray-800"
                   />
-               </span> */}
+               </span>
             </h1>
-            <div className="grid grid-cols-2 gap-4 mt-3">
-               {user.addresses.map(address => (
+            <div className="grid grid-cols-3 gap-4 mt-3">
+               {addresses?.map(address => (
                   <div
-                     key={address._id}
+                     key={address.id}
                      className="border rounded-lg h-auto p-4"
                   >
                      <header>
-                        {address.is_default ? (
+                        {address?.defaultAddress?.defaultCustomerAddressId ? (
                            <span className="mb-2 inline-block rounded border bg-teal-200 border-teal-300 px-2 text-teal-700">
                               Default
                            </span>
                         ) : (
                            <span
-                              onClick={() => changeDefault(address._id)}
+                              onClick={() => changeDefault(address.id)}
                               className="mb-2 inline-block cursor-pointer rounded border border-primary  px-2 text-teal-700 hover:bg-primary hover:text-white"
                            >
                               Make Default
                            </span>
                         )}
                      </header>
+                     {address.zipcode && (
+                        <p className="text-gray-800 mb-3">
+                           <span className="uppercase text-gray-600 tracking-wider font-medium">
+                              Zip Code:
+                           </span>{' '}
+                           {address.zipcode}
+                        </p>
+                     )}
                      {address.line1 && (
                         <p className="text-gray-800 mb-3">
                            <span className="uppercase text-gray-600 tracking-wider font-medium">
@@ -87,7 +119,7 @@ const Addresses = () => {
                               <span className="uppercase text-gray-600 tracking-wider font-medium">
                                  Zip Code:
                               </span>{' '}
-                              {address.zip}
+                              {address.zipcode}
                            </span>
                         )}
                         {address.city && (
@@ -111,7 +143,24 @@ const Addresses = () => {
                ))}
             </div>
             {isFormVisible && (
-               <AddressForm setFormVisibility={setFormVisibility} />
+               <Frame>
+                  <section className="border-l bg-white h-full float-right">
+                     <header className="h-12 flex items-center justify-between px-3">
+                        <h2>Add Address</h2>
+                        <button
+                           onClick={() => closeFrame()}
+                           className="flex items-center justify-center border rounded-full w-8 h-8"
+                        >
+                           <CloseIcon />
+                        </button>
+                     </header>
+                     <iframe
+                        frameBorder="0"
+                        className="w-full h-full"
+                        src="https://dailykey.netlify.app/address/create"
+                     />
+                  </section>
+               </Frame>
             )}
          </ProfileLayout>
       </div>
@@ -120,105 +169,14 @@ const Addresses = () => {
 
 export default Addresses
 
-const AddressForm = ({ setFormVisibility }) => {
-   const { user } = useAuth()
-   const addAddress = async e => {
-      e.preventDefault()
-      const data = new FormData(e.target)
-      const address = {}
-      for (var [key, value] of data.entries()) {
-         address[key] = value
-      }
-      const { success } = await fetcher(
-         `${process.env.REACT_APP_DAILYKEY}/api/addresses`,
-         {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ address, id: user.id }),
-         }
-      )
-      if (success) {
-         setFormVisibility(false)
-         if (window) {
-            window.location.reload()
-         }
-      }
+const Frame = styled.div`
+   left: 0;
+   right: 0;
+   top: 64px;
+   bottom: 0;
+   position: fixed;
+   background: rgba(48, 39, 39, 0.2);
+   section {
+      width: 480px;
    }
-   return (
-      <div className="fixed inset-0 bg-tint flex items-center justify-center">
-         <div
-            className="bg-white h-auto rounded-lg p-4 border"
-            style={{ width: '560px' }}
-         >
-            <h1 className="text-xl border-b pb-3 mb-3 text-gray-600">
-               Address
-            </h1>
-            <form onSubmit={e => addAddress(e)}>
-               <fieldset className="mb-4">
-                  <Label htmlFor="line1">Line 1</Label>
-                  <input
-                     type="text"
-                     name="line1"
-                     className="w-full h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
-                     placeholder="Enter address Line 1"
-                  />
-               </fieldset>
-               <fieldset className="mb-4">
-                  <Label htmlFor="line2">Line 2</Label>
-                  <input
-                     type="text"
-                     name="line2"
-                     className="w-full h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
-                     placeholder="Enter address Line 2"
-                  />
-               </fieldset>
-               <div className="flex">
-                  <fieldset className="mb-4 mr-4">
-                     <Label htmlFor="zip">Zip Code</Label>
-                     <input
-                        type="text"
-                        name="zip"
-                        placeholder="Enter zip code"
-                        className="w-40 h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
-                     />
-                  </fieldset>
-                  <fieldset className="mb-4 flex-1">
-                     <Label htmlFor="city">City</Label>
-                     <input
-                        type="text"
-                        name="city"
-                        placeholder="Enter city"
-                        className="w-full h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
-                     />
-                  </fieldset>
-               </div>
-               <fieldset className="">
-                  <Label htmlFor="state">State</Label>
-                  <input
-                     type="text"
-                     name="state"
-                     placeholder="Enter state"
-                     className="w-full h-8 block border-b border-gray-400 focus:border-gray-500 outline-none"
-                  />
-               </fieldset>
-               <div className="mt-3">
-                  <button
-                     type="submit"
-                     className="w-auto h-12 px-3 bg-primary text-white"
-                  >
-                     Save Address
-                  </button>
-                  <button
-                     onClick={() => setFormVisibility(false)}
-                     className="ml-2 w-auto h-12 px-3 border border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white"
-                  >
-                     Close
-                  </button>
-               </div>
-            </form>
-         </div>
-      </div>
-   )
-}
+`
