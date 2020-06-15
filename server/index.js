@@ -1,7 +1,6 @@
 require('dotenv').config()
 const path = require('path')
 const express = require('express')
-const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 
@@ -17,17 +16,6 @@ const {
 } = require('./entities')
 
 const app = express()
-
-// DB Connection
-mongoose
-   .connect(process.env.DB_URI, {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-   })
-   .then(() => console.log('Connected to DB...'))
-   .catch(e => console.log(e))
 
 // Middlewares
 app.use(cors())

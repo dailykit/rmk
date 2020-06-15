@@ -31,6 +31,9 @@ export const RESTAURANT = gql`
          logo
          brandName
          description
+         organization {
+            datahubUrl
+         }
       }
    }
 `
