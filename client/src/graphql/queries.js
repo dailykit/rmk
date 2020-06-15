@@ -25,3 +25,16 @@ export const RESTAURANTS = gql`
       }
    }
 `
+
+export const RESTAURANT = gql`
+   query seller($id: uuid!) {
+      seller(id: $id) {
+         id
+         logo
+         organization {
+            organizationName
+         }
+         description
+      }
+   }
+`

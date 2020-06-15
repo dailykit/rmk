@@ -1,20 +1,28 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/react-hooks'
 
 import Section from '../Section'
 
 import { MenuContext } from '../../context/menu'
-import { useAuth } from '../../context/auth'
 
 import { fetcher, getToday } from '../../utils'
 
 import { initialState, reducers } from './state'
 
+import { RESTAURANT } from '../../graphql'
+
 const Menu = () => {
-   const { user } = useAuth()
+   const { id } = useParams()
    const [state, dispatch] = React.useReducer(reducers, initialState)
    const { state: menuState, dispatch: menuDispatch } = React.useContext(
       MenuContext
    )
+   const {
+      loading,
+      error,
+      data: { seller: restaurant = {} } = {},
+   } = useQuery(RESTAURANT, { variables: { id } })
 
    const evaluate = type => {
       const products = menuState.restaurant.products
@@ -127,14 +135,21 @@ const Menu = () => {
       )
    }
 
+   if (loading)
+      return (
+         <div className="fixed inset-0 flex items-center justify-center">
+            <img src="/img/loader.gif" alt="loading..." className="h-16" />
+         </div>
+      )
+   if (error) return <div>{error.message}</div>
    return (
       <div>
          <header className="flex items-center justify-between">
             <div>
-               <h1 className="text-2xl">{menuState.restaurant.name}</h1>
-               <p className="text-gray-600">
-                  Select your preferred recipes for Lunch and Dinner
-               </p>
+               <h1 className="text-2xl">
+                  {restaurant.organization.organizationName}
+               </h1>
+               <p className="text-gray-600">{restaurant.description}</p>
             </div>
             <button
                className="w-auto h-12 px-3 bg-primary text-white"
