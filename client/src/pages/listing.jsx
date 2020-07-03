@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLazyQuery, useSubscription } from '@apollo/react-hooks'
+import { useSubscription } from '@apollo/react-hooks'
 import { useHistory } from 'react-router-dom'
 
 import { Layout } from '../sections'
@@ -10,6 +10,8 @@ const Listing = () => {
    const { customer } = useAuth()
    const history = useHistory()
    const [zipcode, setZipcode] = React.useState('')
+   const [input, setInput] = React.useState('')
+
    const { error, loading, data: { restaurants = {} } = {} } = useSubscription(
       RESTAURANTS,
       {
@@ -20,16 +22,30 @@ const Listing = () => {
    )
 
    React.useEffect(() => {
+      if (input.length === 5) {
+         setZipcode(input)
+      }
+   }, [input])
+
+   React.useEffect(() => {
       if (customer?.defaultCustomerAddress?.zipcode) {
          setZipcode(customer?.defaultCustomerAddress?.zipcode)
       }
    }, [customer])
 
-   const getInitials = (title = '') => {
-      const length = title.split(' ').length
-      const first = title.split(' ')[0][0]
-      const last = length > 1 ? title.split(' ')[length - 1][0] : ''
-      return `${first}${last}`
+   const getInitials = input => {
+      let title = input.trim()
+
+      if (!title) {
+         console.log('--- Error(Avatar): Provided title is empty! ---')
+         throw Error('Provided title is empty!')
+      }
+
+      const { length } = title.split(' ')
+
+      const [first] = title
+      const [last] = length > 1 ? title.split(' ')[length - 1] : ['']
+      return `${first}${last}`.toUpperCase()
    }
 
    const selectRestaurant = restaurant => {
@@ -52,9 +68,9 @@ const Listing = () => {
             </h1>
             <input
                type="text"
-               value={zipcode}
+               value={input}
                placeholder="enter your zipcode"
-               onChange={e => setZipcode(e.target.value)}
+               onChange={e => setInput(e.target.value)}
                className="border h-8 px-2 rounded text-sm"
             />
          </header>
